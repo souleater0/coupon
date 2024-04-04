@@ -1,3 +1,19 @@
+<style>
+      .report-container{
+        max-height: 600px;
+        overflow-y: scroll;
+        width: 100%;
+      }
+      .report-container table {
+        width: 100%;
+      }
+
+      .report-container thead {
+        position: sticky;
+        top: 0px;
+        background-color: white;
+      }
+</style>
 <div class="container">
 <div class="input-daterange row align-items-end">
    <div class="col-3">
@@ -31,6 +47,7 @@
    </div>
 </div>
 <h1 class="text-uppercase">Reports</h1>
+<div class="report-container">
 <table class="table table-hover">
         <thead>
             <tr> 
@@ -45,7 +62,8 @@
         <tbody id="tableReport">
                 
         </tbody>
-        </table>
+</table>
+</div>
 </div>
 <script>
 $(document).ready(function(){
