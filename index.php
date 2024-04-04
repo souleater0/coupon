@@ -37,7 +37,7 @@ include 'admin/time_zone.php';
         <label for="id">Scan Owner ID Barcode:</label>
         <input type="text" id="id" name="id">
         <br><br>
-        <button type="button" id="addBarcode" class="btn btn-primary">Submit</button>
+        <button type="button" style="display: none;" id="addBarcode" class="btn btn-primary">Submit</button>
     </form>
     <div class="container">
 <span class="w-50" id="basic-addon1">Search</span>
@@ -84,12 +84,18 @@ include 'admin/time_zone.php';
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-            // $('#addBarcode').keyup(function(event) {
-            //     if (event.which === 13) {
-            //         event.preventDefault();
-            //         alert("Enter key pressed");
-            //     }
-            // });
+            $('#coupon').keypress(function(event){
+                if (event.keyCode === 13) { // Check if Enter key is pressed
+                    event.preventDefault(); // Prevent form submission
+                    $('#id').focus(); // Focus on the second input
+                }
+            });
+            $('#id').keypress(function(event){
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    $('#addBarcode').click();
+                }
+            });
             $('#addBarcode').click(function(){
                 var formData = $('#barcode_scan').serialize();
                 $.ajax({
@@ -105,6 +111,9 @@ include 'admin/time_zone.php';
                             // }, 2000);
                         }else{
                             toastr.error(response.message);
+                            $('#coupon').val("");
+                            $('#id').val("");
+                            $('#coupon').focus();
                         }
                     }
                 });
