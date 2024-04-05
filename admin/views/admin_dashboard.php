@@ -17,29 +17,66 @@
 <div class="container">
 <div class="input-daterange row align-items-end">
    <div class="col-3">
-    From<input type="date" id="startDatePicker" name="fromDate" class="form-control" value="<?php echo $current_date ?>" />
+    <div class="col">
+        <div class="col">
+        From<input type="date" id="startDatePicker" name="fromDate" class="form-control" value="<?php echo $current_date ?>" />
+        </div>
+        <div class="col">
+        To<input type="date" id="endDatePicker" name="toDate" class="form-control" value="<?php echo $current_date ?>"/>
+        </div>
+    </div>
    </div>
    <div class="col-3">
-    To<input type="date" id="endDatePicker" name="toDate" class="form-control" value="<?php echo $current_date ?>"/>
+    <div class="col">
+        <div class="col">
+        From Time:<input type="time" id="timeIn" class="w-100 form-control">
+        </div>
+        <div class="col">
+        To Time:<input type="time" id="timeOut" class="w-100 form-control">
+        </div>
+    </div>
    </div>
    <div class="col-3">
-    Department
-   <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
+    <div class="col">
+        <div class="col">
+            Department
+            <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
+            <option value="" selected>All</option>
+            <?php 
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $sql = "SELECT * FROM department";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+            ?>
+            <option value="<?php echo $row["id"];?>"><?php echo $row["department_name"];?></option>
+            <?php
+            }}?>
+            </select>
+        </div>
+        <div class="col">
+            Person
+            <select class="form-select" id="selectPerson">
                 <option value="" selected>All</option>
                 <?php 
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-                $sql = "SELECT * FROM department";
-                $result = $conn->query($sql);
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                ?>
-                <option value="<?php echo $row["id"];?>"><?php echo $row["department_name"];?></option>
-                <?php
-                }}?>
-              </select>
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            $sql = "SELECT * FROM admin where role_id = '1'";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+            ?>
+            <option value="<?php echo $row["id"];?>"><?php echo $row["display_name"];?></option>
+            <?php
+            }}?>
+            </select>
+        </div>
+    </div>
    </div>
    <div class="col-3">
    <button type="button" id="generateReport" class="btn btn-primary px-2">Generate</button>
@@ -88,6 +125,10 @@ $(document).ready(function(){
         var start_date = $("#startDatePicker").val();
         var end_date = $("#endDatePicker").val();
         var department = $("#selectDepartment").val();
+        var time_In = $("#timeIn").val();
+        var time_Out = $("#timeOut").val();
+        var personID = $("#selectPerson").val();
+        
         $.ajax({
                 url: "../process/report_table.php",
                 type: "POST",
@@ -95,7 +136,10 @@ $(document).ready(function(){
                 data:{
                     start_date:start_date,
                     end_date: end_date,
-                    department: department
+                    department: department,
+                    time_In:time_In,
+                    time_Out:time_Out,
+                    personID: personID
                     },
                 success:function(data){
                     // alert(data);
