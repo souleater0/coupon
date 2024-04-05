@@ -16,8 +16,8 @@
         $time_OUT = $_POST['time_Out'];
         $personID = $_POST['personID'];
         //convert to military time
-        $m_time_IN = date("H:i:s", strtotime($time_IN));
-        $m_time_OUT = date("H:i:s", strtotime($time_OUT));
+        $m_time_IN = date("H:i:59", strtotime($time_IN));
+        $m_time_OUT = date("H:i:59", strtotime($time_OUT));
 
         $startDateTime = $start_date. ' '.$m_time_IN;
         $endDateTime = $end_date.' '.$m_time_OUT;
@@ -62,8 +62,8 @@
         $time_OUT = $_POST['time_Out'];
 
         //convert to military time
-        $m_time_IN = date("H:i:s", strtotime($time_IN));
-        $m_time_OUT = date("H:i:s", strtotime($time_OUT));
+        $m_time_IN = date("H:i:59", strtotime($time_IN));
+        $m_time_OUT = date("H:i:59", strtotime($time_OUT));
 
         $startDateTime = $start_date. ' '.$m_time_IN;
         $endDateTime = $end_date.' '.$m_time_OUT;
@@ -101,6 +101,7 @@
             <!-- <td><?php echo $row["claim_date"]; ?></td> -->
             <td><?php echo date("F j, Y h:i A", strtotime($row["claim_date"])); ?></td>
             <td><?php echo $row["remarks"]; ?></td>
+            <td><?php echo $row["display_name"]; ?></td>
         </tr>
 <?php 
     }

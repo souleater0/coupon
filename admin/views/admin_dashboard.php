@@ -94,6 +94,7 @@
             <th scope="col">Department Name</th>
             <th scope="col">Claimed Date</th>
             <th scope="col">Remarks</th>
+            <th scope="col">Clerk Name</th>
             </tr>
         </thead>
         <tbody id="tableReport">

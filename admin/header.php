@@ -1,6 +1,7 @@
 
 <?php
 include '../../db_connection.php';
+require '../process/session_restrict.php';
 include 'time_zone.php';
 ?>
 <!doctype html>
