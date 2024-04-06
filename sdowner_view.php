@@ -62,31 +62,36 @@ include 'admin/time_zone.php';
             if ($current_date >= $first_cut_start_date && $current_date <= $first_cut_end_date) {
               $start_date = $first_cut_start_date;
               $end_date = $first_cut_end_date;
+
+              $cutOFF = "1";
             } 
             // Check if the current date falls within the second cut-off period
             else if ($current_date >= $second_cut_start_date && $current_date <= $second_cut_end_date) {
                 $start_date = $second_cut_start_date;
                 $end_date = $second_cut_end_date;
+                $cutOFF = "2";
             }
-          
-
-
-            //Retrieve Deduction Data within the specified cut-off periods
+            $total_deduction = 0;
+            if(!empty($start_date) && !empty($end_date)){
+             //Retrieve Deduction Data within the specified cut-off periods
             $sql_compute_deduction = "SELECT amount_sd FROM balance_deducted WHERE DATE(created_at) BETWEEN '$start_date' AND '$end_date' AND void = '0' AND owner_id = '$staff_id' ";
             $result_compute_deduction = $conn->query($sql_compute_deduction);
-            $total_deduction_first_cut = 0;
-            while ($row = $result_compute_deduction->fetch_assoc()) {
-                $total_deduction_first_cut += $row['amount_sd'];
+            
+            if($result_compute_deduction ->num_rows > 0){
+              while ($row = $result_compute_deduction->fetch_assoc()) {
+                $total_deduction += $row['amount_sd'];
+              }
             }
             $query_Cut_Off_LOGS = "SELECT DISTINCT DATE(created_at) AS transaction_date 
             FROM balance_deducted
             WHERE owner_id = '$staff_id' 
             AND DATE(created_at) BETWEEN '$start_date' AND '$end_date'";
-            $result_Cut_Off_LOGS = mysqli_query($conn, $query_Cut_Off_LOGS);    
-        }
+            $result_Cut_Off_LOGS = mysqli_query($conn, $query_Cut_Off_LOGS);
+            }
     }else{
         echo "No Result Found";
     }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +117,7 @@ include 'admin/time_zone.php';
                     <li class="list-group-item text-uppercase">SD CODE: <span class="text-muted fw-semibold"><?php echo $owner_code;?></span></li>
                     <li class="list-group-item text-uppercase">OWNER NAME: <span class="text-muted fw-semibold"><?php echo $owner_name;?></span></li>
                     <li class="list-group-item text-uppercase">DEPARTMENT: <span class="text-muted fw-semibold"><?php echo $owner_department;?></span></li>
-                    <li class="list-group-item text-uppercase">Balance Remaining: <span class="text-muted fw-semibold"><?php echo $max_credits - $total_deduction_first_cut?></span></li>
+                    <li class="list-group-item text-uppercase">Balance Remaining: <span class="text-muted fw-semibold"><?php echo $max_credits - $total_deduction?></span></li>
                 </ul>
             </div>
         </div>
@@ -131,18 +136,22 @@ include 'admin/time_zone.php';
                               </tr>
                           </thead>
                           <tbody id="tableReport">
-                            <?php 
-                          if($result_Cut_Off_LOGS->num_rows >0){
-                            while($row_Transaction = $result_Cut_Off_LOGS->fetch_assoc()){
+                            <?php
+                            if(!empty($result_Cut_Off_LOGS)){
+                              if($result_Cut_Off_LOGS->num_rows >0){
+                                while($row_Transaction = $result_Cut_Off_LOGS->fetch_assoc()){
                             ?>
                             <tr>
                               <td><?php echo $row_Transaction['transaction_date'];?></td>
                               <td><button type="button" class="btn btn-primary viewTransaction" sd-code="<?php echo $owner_code;?>" date-selected='<?php echo $row_Transaction['transaction_date'];?>' data-toggle="modal" data-target="#view_transactionbtn">VIEW</button></td>
                             </tr>
                             <?php
-                            }  
+                                }
+                              }else{
+                                  echo "No Transaction Found";
+                              }  
                             }else{
-                                echo "No Transaction Found";
+                              echo "No Registered Cut-Off Start and End";
                             }
                             ?>
                           </tbody>
@@ -153,7 +162,22 @@ include 'admin/time_zone.php';
             <div class="col-12">
                 <div class="d-flex">
                   <div class="col">
-                  <span class="fw-bold text-uppercase">1st cut-off total deducted: <?php echo $total_deduction_first_cut?></span>
+                    <?php
+                  if($cutOFF=="1"){
+                    ?>
+                    <span class="fw-bold text-uppercase">1st cut-off total deducted: <?php echo $total_deduction?></span>
+                  <?php
+                  }else if($cutOFF=="2"){
+                    ?>
+                    <span class="fw-bold text-uppercase">2nd cut-off total deducted: <?php echo $total_deduction?></span>
+                  <?php
+                  }else{
+                    ?>
+                    <span class="fw-bold text-uppercase">No Cut-OFF Specified</span>
+                  <?php
+                  }
+                  ?>
+                  
                   </div>
                   <!-- <div class="col">
                   <span class="fw-bold ">2ND CUT-OFF TOTAL :</span>
