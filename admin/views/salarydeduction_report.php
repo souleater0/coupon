@@ -63,10 +63,14 @@
                         <option value="s_type1">Summary</option>
                         <option value="s_type2">Break-Down</option>
                     </select>
+                    <select id="select_SD">
+                        <option value="1">SD Only</option>
+                        <option value="2">With No SD</option>
+                    </select>
                     </div>
                     <div>
-                    <label for="selectPerson">Clerk:</label>
-                    <div class="w-full">
+                    <div class="w-full d-none" id="clerkSELECT">
+                    <label for="selectPerson">Clerk:</label><br>
                     <select class="form-select" id="selectPerson" name="selectPerson">
                         <option value="" selected>All</option>
                         <?php 
@@ -129,17 +133,30 @@
 </div>
 <script>
 $(document).ready(function(){
-    $(document).ready(function(){
         $('#s_type2').hide();
             // Handle dropdown change event
-            $('#select_TYPE').change(function(){
-                var selectedThead = $(this).val();
-                // Hide all thead sections first
-                $('thead').hide();
-                // Show the selected thead section
-                $('#' + selectedThead).show();
-            });
-    });
+        $('#select_cutOFF').change(function(){
+            $('#generateReport').click();
+        });
+        $('#select_SD').change(function(){
+            $('#generateReport').click();
+        });
+        $('#select_TYPE').change(function(){
+            $('#generateReport').click();
+            var selectedThead = $(this).val();
+            // Hide all thead sections first
+            $('thead').hide();
+            // Show the selected thead section
+            $('#' + selectedThead).show();
+
+            if(selectedThead == "s_type1"){
+                $("#clerkSELECT").addClass("d-none");
+                $("#select_SD").removeClass("d-none");
+            }else{
+                $("#select_SD").addClass("d-none");
+                $("#clerkSELECT").removeClass("d-none");
+            }
+        });
     toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -162,6 +179,7 @@ $(document).ready(function(){
         var dep_ID = $("#selectDepartment").val();
         var selectCutoff = $("#select_cutOFF").val();
         var selectType = $("#select_TYPE").val();
+        var selectSD = $("#select_SD").val();
         var clerk_ID = $("#selectPerson").val();
 
         $.ajax({
@@ -173,6 +191,7 @@ $(document).ready(function(){
                     dep_ID: dep_ID,
                     selectCutoff: selectCutoff,
                     selectType:selectType,
+                    selectSD: selectSD,
                     clerk_ID:clerk_ID,
                     action: 'reportGenerate'
                     },
@@ -187,27 +206,28 @@ $(document).ready(function(){
                 }
         });
     });
+    $('#generateReport').click();
     $('#generateCSV').click(function(){
-    var start_date = $("#startDatePicker").val();
-    var end_date = $("#endDatePicker").val();
-    var department = $("#selectDepartment").val();
-    var time_In = $("#timeIn").val();
-    var time_Out = $("#timeOut").val();
-    var personID = $("#selectPerson").val();
+        var MonthYear = $("#startMonth").val();
+        var dep_ID = $("#selectDepartment").val();
+        var selectCutoff = $("#select_cutOFF").val();
+        var selectType = $("#select_TYPE").val();
+        var selectSD = $("#select_SD").val();
+        var clerk_ID = $("#selectPerson").val();
     
     $.ajax({
-        url: "../process/csv_table.php",
+        url: "../process/sd_report_table.php",
         type: "POST",
         cache: false,
-        data: {
-            start_date: start_date,
-            end_date: end_date,
-            department: department,
-            time_In: time_In,
-            time_Out: time_Out,
-            personID: personID,
+        data:{
+            MonthYear:MonthYear,
+            dep_ID: dep_ID,
+            selectCutoff: selectCutoff,
+            selectType:selectType,
+            selectSD: selectSD,
+            clerk_ID:clerk_ID,
             action: 'csvGenerate'
-        },
+            },
         success: function(data){
             if (data.trim().startsWith("No Result Found")) {
                 toastr.error("No data available for the selected criteria.");
@@ -219,7 +239,7 @@ $(document).ready(function(){
             // Create a temporary link element
             var link = document.createElement('a');
             link.href = csvUrl;
-            link.setAttribute('download', 'ECSFOODSTAB_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
+            link.setAttribute('download', 'ECS-SD_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
             document.body.appendChild(link);
 
             // Trigger the download
