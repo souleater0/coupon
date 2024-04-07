@@ -112,6 +112,9 @@ include 'admin/time_zone.php';
 </head>
 <body>
   <div class="container">
+        <div class="mt-5">
+          <a href="/coupon" class="text-white btn btn-primary p-3">RETURN</a>
+        </div>
         <h1 class="text-center">SD CREDIT LOGS</h1><br><br>
         <div class="row">
             <div class="col-md-12">

@@ -112,16 +112,16 @@ if (!isset($_SESSION['admin_session_id'])) {
             <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                 oninput="moveToNextInput(this, 'id')">
             <br><br>
-            <label for="id">ID Barcode:</label>
+            <label for="s_id">ID Barcode:</label>
             <input type="text" id="s_id" name="s_id">
                                             <br><br>
-            <label for="id">AMOUNT SD:</label>
+            <label for="amount_sd">AMOUNT SD:</label>
             <input type="text" id="amount_sd" name="amount_sd">
                                             <br><br>
-            <label for="id">RECEIPT #:</label>
+            <label for="receipt_no">RECEIPT #:</label>
             <input type="text" id="receipt_no" name="receipt_no">
             <br><br>
-            <button type="button" id="addDeduction" class="btn btn-primary">Submit</button>
+            <button type="button" id="addDeduction" class="btn btn-primary mb-3">Submit</button>
         </form>
         <input type="text" class="form-control search" id="live_search2" autocomplete="off"
             placeholder="Type Stub Code" style="border:1px solid black;">
@@ -203,6 +203,30 @@ if (!isset($_SESSION['admin_session_id'])) {
                             if (event.keyCode === 13) {
                                 event.preventDefault();
                                 $('#addBarcode').click();
+                            }
+                        });
+                        $('#sd_coupon').keypress(function (event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                                $('#s_id').focus();
+                            }
+                        });
+                        $('#s_id').keypress(function (event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                                $('#amount_sd').focus();
+                            }
+                        });
+                        $('#amount_sd').keypress(function (event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                                $('#receipt_no').focus();
+                            }
+                        });
+                        $('#receipt_no').keypress(function (event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                                $('#addDeduction').click();
                             }
                         });
                         $('#addBarcode').click(function () {

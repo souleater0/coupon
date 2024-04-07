@@ -116,7 +116,6 @@
             <th scope="col" class="text-uppercase">SD CODE</th>
             <th scope="col" class="text-uppercase">SD Amount</th>
             <th scope="col" class="text-uppercase">Receipt No.</th>
-            <th scope="col" class="text-uppercase">Remarks</th>
             <th scope="col" class="text-uppercase">CUT-OFF</th>
             <th scope="col" class="text-uppercase">DATE</th>
             <th scope="col" class="text-uppercase">Clerk</th>
@@ -178,11 +177,12 @@ $(document).ready(function(){
                     action: 'reportGenerate'
                     },
                 success:function(data){
-                    // if (data.trim().startsWith("No Result Found")) {
-                    //     toastr.error("No Results Found!");
-                    // }else{
-                    //     toastr.success("Report Generated Successfully");
-                    // }
+                    if (data.trim().startsWith("No Result Found")) {
+                        toastr.error("No Results Found!");
+                    }else{
+                        toastr.success("Report Generated Successfully");
+                        
+                    }
                     $('#sdReport').html(data);
                 }
         });
