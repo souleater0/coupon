@@ -44,7 +44,7 @@
             INNER JOIN owners AS c ON a.owner_id = c.id 
             AND b.owner_id = c.id
             INNER JOIN department AS d ON c.owner_department = d.id
-            INNER JOIN admin AS e ON a.admin_id = e.id
+            INNER JOIN admins AS e ON a.admin_id = e.id
         WHERE
             ";
             if(empty($_POST['time_In']) && empty($_POST['time_Out'])){
@@ -90,7 +90,7 @@
             INNER JOIN owners AS c ON a.owner_id = c.id 
             AND b.owner_id = c.id
             INNER JOIN department AS d ON c.owner_department = d.id
-            INNER JOIN admin AS e ON a.admin_id = e.id
+            INNER JOIN admins AS e ON a.admin_id = e.id
         WHERE
             a.claim_date BETWEEN '$startDateTime'
             AND '$endDateTime'

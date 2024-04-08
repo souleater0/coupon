@@ -1,6 +1,6 @@
 <style>
       .report-container{
-        max-height: 600px;
+        max-height: 500px;
         overflow-y: scroll;
         width: 100%;
       }
@@ -66,7 +66,7 @@
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            $sql = "SELECT * FROM admin where role_id = '1'";
+            $sql = "SELECT * FROM admins where role_id = '1'";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
@@ -83,7 +83,8 @@
    <button type="button" id="generateCSV" class="btn btn-success px-2">Export CSV</button>
    </div>
 </div>
-<h1 class="text-uppercase">Reports</h1>
+</br></br>
+<h1 class="text-uppercase text-center">Food Stub Reports</h1></br></br>
 <div class="report-container">
 <table class="table table-hover">
         <thead>
@@ -94,7 +95,7 @@
             <th scope="col">Department Name</th>
             <th scope="col">Claimed Date</th>
             <th scope="col">Remarks</th>
-            <th scope="col">Clerk Name</th>
+            <th scope="col">Clerk</th>
             </tr>
         </thead>
         <tbody id="tableReport">

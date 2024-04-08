@@ -1,0 +1,3 @@
+<?php
+    echo "NOT AUTHORIZE TO ACCESS THIS PAGE";
+?>

@@ -1,12 +1,12 @@
 <?php
 include 'admin/time_zone.php';
 include 'db_connection.php';
+session_start();
 if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
     if(isset($_POST['coupon']) && !empty($_POST['coupon']) && isset($_POST['id']) && !empty($_POST['id'])) {
         $coupon = $_POST['coupon'];
         $owner_id = $_POST['id'];
         $dateNow = $current_date;
-        
         // Check if coupon exists 
         $coupon_query = "SELECT
         a.id,
@@ -48,7 +48,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                 else{
                     
                     // Record claim
-                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,remarks) VALUES (".$coupon_row['owner_id'].",".$coupon_row['id'].", 'claimed')";
+                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,remarks) VALUES (".$coupon_row['owner_id'].",".$coupon_row['id'].",".$_SESSION['admin_session_id'].", 'claimed')";
                     mysqli_query($conn, $claim_query);
                     $response = array(
                         'success' => true,
