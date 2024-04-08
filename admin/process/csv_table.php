@@ -2,7 +2,14 @@
     include '../../db_connection.php';
     include '../time_zone.php';
 
-    if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
+
+    $filename = "FoodStab_".$current_date.".csv";
+    $delimiter = ",";
+    $f = fopen('php://memory','w');
+    $fields = array('Coupon Code','Coupon Value','Full Name', 'Department Name','Claimed Date','Remarks','Clerk Name');
+    fputcsv($f, $fields, $delimiter);
+
+    if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
         if(isset($_POST['start_date']) && !empty($_POST['start_date']) 
         && isset($_POST['end_date']) && !empty($_POST['end_date']) 
         && isset($_POST['department'])
@@ -91,23 +98,20 @@
             $result = $conn->query($report);
         }
     }
-    if ($result->num_rows > 0 && !empty($_POST['action']) && $_POST['action'] == 'reportGenerate') {
+    if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-?>
-
-        <tr>
-            <td><?php echo $row["coupon_code"]; ?></td>
-            <td><?php echo $row["coupon_value"]; ?></td>
-            <td><?php echo $row["owner_name"]; ?></td>
-            <td><?php echo $row["department_name"]; ?></td>
-            <!-- <td><?php echo $row["claim_date"]; ?></td> -->
-            <td><?php echo date("F j, Y h:i A", strtotime($row["claim_date"])); ?></td>
-            <td><?php echo $row["remarks"]; ?></td>
-            <td><?php echo $row["display_name"]; ?></td>
-        </tr>
-<?php 
+            $lineData = array($row["coupon_code"],$row["coupon_value"],$row["owner_name"],$row["department_name"],$row["claim_date"],$row["remarks"],$row["display_name"]);
+            fputcsv($f, $lineData, $delimiter);
+        }
+        fseek($f,0);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="'.$filename.'";');
+        fpassthru($f);
+        exit();
     }
-    }else{
+    else{
         echo "No Result Found";
     }
+
+    
 ?>

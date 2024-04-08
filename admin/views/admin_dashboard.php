@@ -80,7 +80,7 @@
    </div>
    <div class="col-3">
    <button type="button" id="generateReport" class="btn btn-primary px-2">Generate</button>
-   <button type="button" id="addBarcode" class="btn btn-success px-2">Export CSV</button>
+   <button type="button" id="generateCSV" class="btn btn-success px-2">Export CSV</button>
    </div>
 </div>
 <h1 class="text-uppercase">Reports</h1>
@@ -140,7 +140,8 @@ $(document).ready(function(){
                     department: department,
                     time_In:time_In,
                     time_Out:time_Out,
-                    personID: personID
+                    personID: personID,
+                    action: 'reportGenerate'
                     },
                 success:function(data){
                     // alert(data);
@@ -149,6 +150,60 @@ $(document).ready(function(){
                 }
         });
     });
+    $('#generateCSV').click(function(){
+    var start_date = $("#startDatePicker").val();
+    var end_date = $("#endDatePicker").val();
+    var department = $("#selectDepartment").val();
+    var time_In = $("#timeIn").val();
+    var time_Out = $("#timeOut").val();
+    var personID = $("#selectPerson").val();
+    
+    $.ajax({
+        url: "../process/csv_table.php",
+        type: "POST",
+        cache: false,
+        data: {
+            start_date: start_date,
+            end_date: end_date,
+            department: department,
+            time_In: time_In,
+            time_Out: time_Out,
+            personID: personID,
+            action: 'csvGenerate'
+        },
+        success: function(data){
+            if (data.trim().startsWith("No Result Found")) {
+                toastr.error("No data available for the selected criteria.");
+            } else {
+            // Parse the CSV data
+            var csvData = new Blob([data], { type: 'text/csv' });
+            var csvUrl = window.URL.createObjectURL(csvData);
+
+            // Create a temporary link element
+            var link = document.createElement('a');
+            link.href = csvUrl;
+            link.setAttribute('download', 'ECSFOODSTAB_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
+            document.body.appendChild(link);
+
+            // Trigger the download
+            link.click();
+
+            // Cleanup
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(csvUrl);
+
+            toastr.success("CSV has been Regenerated!");
+            }
+
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            toastr.error("Failed to generate CSV!");
+        }
+    });
+});
+
+    
 });
     
 </script>
