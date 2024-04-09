@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2024 at 01:52 PM
+-- Generation Time: Apr 09, 2024 at 01:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Table structure for table `admins`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE `admins` (
   `id` int(11) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -39,10 +39,10 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `admin`
+-- Dumping data for table `admins`
 --
 
-INSERT INTO `admin` (`id`, `email`, `password`, `display_name`, `pin`, `role_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `admins` (`id`, `email`, `password`, `display_name`, `pin`, `role_id`, `created_at`, `updated_at`) VALUES
 (1, 'test', 'test', 'jerome', '1234', 1, NULL, NULL),
 (2, 'test2', 'test2', 'jhondoll', '1234', 1, NULL, NULL),
 (3, 'admin', 'admin', 'admin', '1111', 2, NULL, NULL);
@@ -407,7 +407,11 @@ INSERT INTO `claims` (`id`, `owner_id`, `coupon_id`, `admin_id`, `claim_date`, `
 (338, 234, 234, 2, '2024-04-05 05:34:26', 'claimed'),
 (339, 227, 227, 2, '2024-04-05 05:34:32', 'claimed'),
 (340, 213, 213, 2, '2024-04-05 05:34:38', 'claimed'),
-(341, 216, 216, 2, '2024-04-05 05:34:45', 'claimed');
+(341, 216, 216, 2, '2024-04-05 05:34:45', 'claimed'),
+(344, 337, 337, 1, '2024-04-08 10:16:47', 'claimed'),
+(345, 295, 295, 2, '2024-04-08 10:19:08', 'claimed'),
+(346, 138, 138, 1, '2024-04-09 03:55:36', 'claimed'),
+(347, 295, 295, 1, '2024-04-09 03:58:43', 'claimed');
 
 -- --------------------------------------------------------
 
@@ -1212,9 +1216,9 @@ INSERT INTO `role` (`id`, `role_name`) VALUES
 --
 
 --
--- Indexes for table `admin`
+-- Indexes for table `admins`
 --
-ALTER TABLE `admin`
+ALTER TABLE `admins`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_role` (`role_id`);
 
@@ -1262,7 +1266,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
 
 --
 -- AUTO_INCREMENT for table `coupons`
@@ -1293,9 +1297,9 @@ ALTER TABLE `role`
 --
 
 --
--- Constraints for table `admin`
+-- Constraints for table `admins`
 --
-ALTER TABLE `admin`
+ALTER TABLE `admins`
   ADD CONSTRAINT `admin_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 
 --
