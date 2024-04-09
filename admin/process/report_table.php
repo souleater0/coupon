@@ -91,7 +91,7 @@
             $result = $conn->query($report);
         }
     }
-    if ($result->num_rows > 0 && !empty($_POST['action']) && $_POST['action'] == 'reportGenerate') {
+    if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
 ?>
 

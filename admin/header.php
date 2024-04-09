@@ -57,8 +57,8 @@ require 'process/session_restrict.php';
   <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-2">
-        <div class="text-black border p-3">
-          <?php echo $day_name.', '.$current_date_format?>
+        <div class="text-black border">
+          <?php echo $day_name.', '.$current_date_format.'<br>'.$current_time_format?>
         </div>
       </div>
       <ul class="nav nav-pills col-8 mb-2 justify-content-center" id="headerNav">
@@ -74,6 +74,7 @@ require 'process/session_restrict.php';
         <li class="nav-item"><a href="index.php?route=manage_owner_SD" class="nav-link <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Manage SD Owner</a></li>
         <li class="nav-item"><a href="index.php?route=manage_department" class="nav-link <?php echo ($route == 'manage_department') ? 'active' : ''; ?>">Manage Department</a></li>
         <li class="nav-item"><a href="index.php?route=manage_clerk" class="nav-link <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">Manage Clerk</a></li>
+        <li class="nav-item"><a href="index.php?route=manage_device" class="nav-link <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a></li>
         <?php
         }?>
       </ul>

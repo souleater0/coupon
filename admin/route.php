@@ -1,9 +1,6 @@
 <?php
 $route = $_GET['route'] ?? 'home';
 switch ($route){
-    case "scanner":
-        require 'views/scanner.php';
-        break;
     case "dashboard":
         require 'views/admin_dashboard.php';
         break;
@@ -21,6 +18,9 @@ switch ($route){
             break;
     case "manage_clerk":
         require 'views/manage_clerk.php';
+        break;
+    case "manage_device":
+        require 'views/manage_device.php';
         break;
     default:
         // require 'home.php';

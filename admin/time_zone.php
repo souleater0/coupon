@@ -6,6 +6,7 @@ date_default_timezone_set('Asia/Manila');
 $current_time = date("H:i:s"); // Time in 24-hour format
 $current_date = date("Y-m-d"); // Date in YYYY-MM-DD format
 $current_date_format = date("F j, Y");
+$current_time_format = date("h:i A");
 $current_year = date("Y"); // Year
 $day_of_week = date("N"); // Numeric representation of the day of the week (1 for Monday through 7 for Sunday)
 // Define an array to map numeric representation of day to day name
