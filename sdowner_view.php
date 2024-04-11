@@ -101,10 +101,12 @@ include 'admin/time_zone.php';
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="icon" href="favicon.png">
+  <script src="assets/jquery.min.js"></script>
    <link href="assets/bootstrap533.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/toastr.min.css">
+    <script src="assets/toastr.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <script src="assets/jquery.min.js"></script>
+    
     <script src="assets/bootstrap.min.js"></script>
 
 </head>
@@ -225,7 +227,8 @@ include 'admin/time_zone.php';
                 </button>
               </div>
               <div class="modal-body">
-                <input type="password" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <input type="password" id="voidPin" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <button type="button" id="voidTransaction" style="display: none;" void-id="">Submit</button>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -256,13 +259,29 @@ include 'admin/time_zone.php';
     </div>
   </div>
 </div>
+
 <script>
   $(document).ready(function(){
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
     $(".viewTransaction").click(function(){
       var sd_Code = $(this).attr("sd-code");
       var date_selected = $(this).attr("date-selected");
-      console.log(sd_Code);
-      console.log(date_selected);
       $.ajax({
           url: "admin/process/fetchData.php",
           type: "POST",
@@ -279,6 +298,55 @@ include 'admin/time_zone.php';
           }
         });
     });
+    $('#voidPin').keypress(function (event) {
+      var recordID = $("#voidTransaction").attr("void-id");
+      var voidPin = $("#voidPin").val();
+          if (event.keyCode === 13) { // Check if Enter key is pressed
+            // alert(recordID);
+            $.ajax({
+              url: "admin/process/admin_action.php",
+              method: "POST",
+              data: {
+                recordID:recordID,
+                voidPin: voidPin,
+                action: "voidTransaction"},
+              dataType: "json",
+              success: function(response) {
+                  if(response.success==true){
+                      toastr.success(response.message);
+                      $("#void_inputmdl").modal("hide");
+                      $("#view_transactionbtn").modal("hide");
+                      $("#voidPin").val("");
+                  }else{
+                      toastr.error(response.message);
+                  }
+              }
+            });
+          }
+    });
+
+    //     var recordID = $(this).attr("void-id");
+    //     var voidPin = $("#voidPin").val();
+    //     alert(voidPin);
+    //     // $.ajax({
+    //     //     url: "../process/admin_action.php",
+    //     //     method: "POST",
+    //     //     data: {
+    //     //       recordID:recordID,
+    //     //       voidPin: voidPin,
+    //     //       action: "voidTransaction"},
+    //     //     dataType: "json",
+    //     //     success: function(response) {
+    //     //         if(response.success==true){
+    //     //             toastr.success(response.message);
+    //     //             $("#void_inputmdl").modal("show");
+                    
+    //     //         }else{
+    //     //             toastr.error(response.message);
+    //     //         }
+    //     //     }
+    //     // });
+    // });
   });
 </script>
 </body>

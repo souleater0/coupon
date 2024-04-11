@@ -479,6 +479,43 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'deleteDepartment'){
     
     header('Content-Type: application/json');
     echo json_encode($response);
+}else if(!empty($_POST['action']) && $_POST['action'] == 'voidTransaction'){
+    if(empty($_POST['recordID']) && isset($_POST['recordID']) ){
+        $response = array(
+            'success' => false,
+            'message' => 'No record ID!',
+        );
+    }else if(empty($_POST['recordID']) && isset($_POST['recordID']))
+        $response = array(
+            'success' => false,
+            'message' => 'Please scan void pin!',
+        );
+    else{
+        $recordID = mysqli_real_escape_string($conn, $_POST['recordID']);
+        $voidPin = mysqli_real_escape_string($conn, $_POST['voidPin']);
+        //check manager
+        $check_Manager ="SELECT * FROM admins WHERE role_id='3' AND pin='$voidPin'";
+        $result_Manager = mysqli_query($conn, $check_Manager);
+        if(mysqli_num_rows($result_Manager) > 0){
+            $voidTransaction = "UPDATE balance_deducted
+            SET
+            void = '1'
+            WHERE id ='$recordID'
+            ";
+            mysqli_query($conn, $voidTransaction);
+            $response = array(
+                'success' => true,
+                'message' => 'Transaction has been voided.',
+            );
+        }else{
+            $response = array(
+                'success' => false,
+                'message' => 'Invalid Void Pin!',
+            );
+        }
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);   
 }
 else{
     $response = array(

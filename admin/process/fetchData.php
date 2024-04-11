@@ -10,9 +10,11 @@ if(!empty($_POST['action']) && $_POST['action'] == 'fetchdate_Transaction') {
         $sd_code = $_POST['sd_code'];
 
         $query_DateTransacted ="SELECT
+        a.id,
         a.created_at,
         a.amount_sd,
-        a.receipt_no
+        a.receipt_no,
+        a.void
         FROM balance_deducted a WHERE DATE(created_at) = '$date' AND sd_code = '$sd_code'";
         $result_DateTransacted = mysqli_query($conn, $query_DateTransacted);
         $total_deduction = 0;
@@ -26,7 +28,17 @@ if(!empty($_POST['action']) && $_POST['action'] == 'fetchdate_Transaction') {
                 <td><?php echo $row_DateTransacted["created_at"];?></td>
                 <td><?php echo $row_DateTransacted["amount_sd"];?></td>
                 <td><?php echo $row_DateTransacted["receipt_no"];?></td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#void_inputmdl">VOID</button></td>
+                <?php
+                if($row_DateTransacted["void"]=="0"){
+                    ?>
+                    <td><button type="button" class="btn btn-primary voidTransac" data-toggle="modal" data-target="#void_inputmdl" void-id="<?php echo $row_DateTransacted["id"];?>">VOID</button></td>
+                    <?php
+                }else{
+                    ?>
+                    <td>VOID APPROVED</td>
+                    <?php
+                }
+                ?>
                 </tr>
                 <?php
             }
@@ -37,3 +49,11 @@ if(!empty($_POST['action']) && $_POST['action'] == 'fetchdate_Transaction') {
     }
 }
 ?>
+<script>
+        $(".voidTransac").click(function(){
+        var recordID = $(this).attr("void-id");
+        $("#voidTransaction").attr("void-id", recordID);
+        
+        // console.log(recordID);
+    });
+</script>
