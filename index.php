@@ -17,6 +17,12 @@ if (!isset($_SESSION['admin_session_id'])) {
         .opt-active{
             border-bottom: 3px solid black;
         }
+        a.state_select.nav-link.active{
+            border-top: solid transparent;
+            border-left: solid transparent;
+            border-right: solid transparent;
+            border-bottom: 2px solid black;
+        }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assetlibrary/css/style.css">
@@ -61,8 +67,8 @@ if (!isset($_SESSION['admin_session_id'])) {
   
 
   <ul class="nav nav-tabs justify-content-around">
-    <li><a data-toggle="tab" href="#food_stub_section" class="state_select" state="FS"><h3>FOOD STUB</h3></a></li>
-    <li><a data-toggle="tab" href="#sd_section" class="state_select" state="SD"><h3>SALARY DEDUCTION</h3></a></li>
+    <li><a data-toggle="tab" href="#food_stub_section" class="state_select nav-link" state="FS"><h3>FOOD STUB</h3></a></li>
+    <li><a data-toggle="tab" href="#sd_section" class="state_select nav-link" state="SD"><h3>SALARY DEDUCTION</h3></a></li>
   </ul>
 <br>
   <div class="tab-content">
