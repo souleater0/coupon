@@ -6,7 +6,7 @@
     </div>
     <div class="col">
   <div class="float-end mb-2">
-        <button type="button" id="addOwnerBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ownerModal">Add Owner</button>
+        <button type="button" id="addOwnerBtn" class="btn btn-primary" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
   </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
       <th scope="col">Department</th>
       <th scope="col">SD Code</th>
       <th scope="col">Credits</th>
-      <th scope="col" class="text-center">Time Shift</th>
+      <!-- <th scope="col" class="text-center">Time Shift</th> -->
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
@@ -37,7 +37,7 @@
         <form id="form_owner">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">SD Owner Details</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-2" style="height: 80vh; overflow-y:auto;">
             <div class="my-2">
@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="closeOwner" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
             <button type="button" id="updateOwner" update-id="" class="btn btn-primary">UPDATE</button>
           </div>

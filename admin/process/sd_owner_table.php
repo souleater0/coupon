@@ -22,7 +22,7 @@
         INNER JOIN salary_deduction B ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id
-        WHERE a.staff_id LIKE '%{$searchCode}%' OR b.coupon_code LIKE '%{$searchCode}%' OR a.owner_name LIKE '%{$searchCode}%'
+        WHERE a.staff_id LIKE '%{$searchCode}%' OR b.sd_code LIKE '%{$searchCode}%' OR a.owner_name LIKE '%{$searchCode}%'
     ORDER BY
         a.id ASC
         ";

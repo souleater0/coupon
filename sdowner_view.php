@@ -70,7 +70,7 @@ include 'admin/time_zone.php';
             $query_Cut_Off_LOGS = "SELECT DISTINCT DATE(created_at) AS transaction_date 
             FROM balance_deducted
             WHERE owner_id = '$staff_id' 
-            AND DATE(created_at) BETWEEN '$second_cut_start' AND '$second_cut_end'";
+            AND DATE(created_at) BETWEEN '$second_cut_start_date' AND '$second_cut_end_date'";
             $result_Cut_Off_LOGS = mysqli_query($conn, $query_Cut_Off_LOGS);    
         }        
 

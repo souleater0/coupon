@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2024 at 08:50 AM
+-- Generation Time: Apr 11, 2024 at 08:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -71,12 +71,14 @@ CREATE TABLE `balance_deducted` (
 INSERT INTO `balance_deducted` (`id`, `amount_sd`, `receipt_no`, `sd_code`, `owner_id`, `void`, `created_at`) VALUES
 (1, '200', '1', 'ECSTXSD2024006', '230629406', 0, '2024-04-09 08:46:29'),
 (2, '50', '2', 'ECSTXSD2024006', '230629406', 0, '2024-04-09 08:46:44'),
-(3, '600', '3', 'ECSTXSD2024006', '230629406', 0, '2024-04-12 08:47:02'),
-(4, '300', '4', 'ECSTXSD2024006', '230629406', 0, '2024-04-16 00:23:57'),
-(5, '600', '5', 'ECSTXSD2024006', '230629406', 0, '2024-04-18 00:24:11'),
-(6, '200', '6', 'ECSTXSD2024006', '230629406', 0, '2024-04-29 00:24:35'),
-(7, '300', '7', 'ECSTXSD2024006', '230629406', 0, '2024-04-30 00:24:50'),
-(8, '200', '8', 'ECSTXSD2024006', '230629406', 1, '2024-04-30 00:28:21');
+(3, '350', '3', 'ECSTXSD2024006', '230629406', 0, '2024-04-12 08:47:02'),
+(4, '100', '4', 'ECSTXSD2024006', '230629406', 0, '2024-04-15 00:23:57'),
+(5, '100', '5', 'ECSTXSD2024006', '230629406', 0, '2024-04-18 00:24:11'),
+(6, '200', '6', 'ECSTXSD2024006', '230629406', 0, '2024-04-26 00:24:35'),
+(7, '50', '7', 'ECSTXSD2024006', '230629406', 0, '2024-04-26 00:24:50'),
+(8, '200', '8', 'ECSTXSD2024006', '230629406', 0, '2024-04-30 00:28:21'),
+(9, '400', '9', 'ECSTXSD2024007', '230629440', 1, '2024-04-09 07:19:55'),
+(10, '500', '10', 'ECSTXSD2024007', '230629440', 0, '2024-04-11 07:20:25');
 
 -- --------------------------------------------------------
 
@@ -99,6 +101,7 @@ CREATE TABLE `claims` (
 --
 
 INSERT INTO `claims` (`id`, `owner_id`, `coupon_id`, `admin_id`, `claim_date`, `claim_end_date`, `remarks`) VALUES
+(0, NULL, NULL, NULL, '2024-04-14 13:33:17', NULL, NULL),
 (1, 9, 9, 1, '2024-04-04 06:22:37', NULL, 'claimed'),
 (2, 1, 1, 1, '2024-04-04 08:50:51', NULL, 'claimed'),
 (3, 159, 159, 1, '2024-04-04 08:55:32', NULL, 'claimed'),
@@ -443,9 +446,9 @@ INSERT INTO `claims` (`id`, `owner_id`, `coupon_id`, `admin_id`, `claim_date`, `
 (344, 337, 337, 1, '2024-04-08 10:16:47', NULL, 'claimed'),
 (345, 295, 295, 2, '2024-04-08 10:19:08', NULL, 'claimed'),
 (346, 138, 138, 1, '2024-04-09 03:55:36', NULL, 'claimed'),
-(347, 295, 295, 1, '2024-04-09 03:58:43', NULL, 'claimed'),
-(348, 227, 227, 3, '2024-04-12 05:49:15', NULL, 'claimed'),
-(351, 256, 256, 1, '2024-04-12 13:29:10', '2024-04-13 04:00:00', 'claimed');
+(396, 227, 227, 3, '2024-04-14 13:33:29', '2024-04-14 23:59:59', 'claimed'),
+(397, 43, 43, 1, '2024-04-14 13:01:28', '2024-04-15 04:00:00', 'claimed'),
+(398, 122, 122, 2, '2024-04-14 13:01:30', '2024-04-15 04:00:00', 'claimed');
 
 -- --------------------------------------------------------
 
@@ -844,11 +847,11 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`id`, `department_name`, `department_prefix`, `from_time`, `to_time`) VALUES
-(1, 'MAT\'S DONUT', 'MATSFNB', '09:00:00', '23:59:59'),
+(1, 'MAT\'S DONUT', 'MATSFNB', '03:00:00', '02:00:00'),
 (2, 'EC CAFE', 'ECCFFS', '09:00:00', '23:59:59'),
 (3, 'EC SOLUTIONS', 'ECSFS', '09:00:00', '23:59:59'),
 (4, 'ECSTATICX', 'ECSTXFS', '09:00:00', '23:59:59'),
-(5, 'ESKINA', 'FNBFS', '09:00:00', '23:59:59'),
+(5, 'ESKINA', 'FNBFS', '05:00:00', '23:59:59'),
 (6, 'ECXPERIENCE', 'ECXFS', '21:00:00', '04:00:00');
 
 -- --------------------------------------------------------
@@ -1708,13 +1711,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `balance_deducted`
 --
 ALTER TABLE `balance_deducted`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=399;
 
 --
 -- AUTO_INCREMENT for table `coupons`

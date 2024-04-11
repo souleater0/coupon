@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="width: 100% !important;">
   <div class="row mb-2">
     <div class="col">
     <span class="" id="basic-addon1">Search</span>
@@ -6,7 +6,7 @@
     </div>
     <div class="col">
   <div class="float-end mb-2">
-        <button type="button" id="addOwnerBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ownerModal">Add Owner</button>
+        <button type="button" id="addOwnerBtn" class="btn btn-primary" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
   </div>
     </div>
   </div>
@@ -39,7 +39,7 @@
         <form id="form_owner">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Food Stub Owner Details</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-2">
             <div class="my-2">
@@ -104,7 +104,7 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="closeOwner" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
             <button type="button" id="updateOwner" update-id="" class="btn btn-primary">UPDATE</button>
           </div>
