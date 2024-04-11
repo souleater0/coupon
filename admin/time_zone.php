@@ -5,6 +5,7 @@ date_default_timezone_set('Asia/Manila');
 // Get local time, date, year, and day of the week
 $current_time = date("H:i:s"); // Time in 24-hour format
 $current_date = date("Y-m-d"); // Date in YYYY-MM-DD format
+$current_MONTH_YEAR  = date("Y-m");
 $current_datetime = date("Y-m-d H:i:s");
 $current_date_format = date("F j, Y");
 $current_time_format = date("h:i A");
@@ -22,4 +23,6 @@ $day_names = array(
 );
 // Get the day name from the array
 $day_name = $day_names[$day_of_week];
+
+// echo $current_MONTH_YEAR;
 ?>

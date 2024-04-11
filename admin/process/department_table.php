@@ -28,7 +28,7 @@
     <td><?php echo $row["department_prefix"];?></td>
     <td><?php echo $row["from_time"];?></td>
     <td><?php echo $row["to_time"];?></td>
-    <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
+    <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editDepartment me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteDepartment">DELETE</button></td>
     </tr>
 <?php 
         }
@@ -37,52 +37,55 @@
     }
 ?>
 <script>
-    $('.editOwner').click(function(){
-        // $("#addDep").hide();
-        // $("#updateDep").show(); 
-        // var recordID = $(this).attr("record-id");
-        // // alert(recordID);
-        // $.ajax({
-        //     url: "../process/admin_action.php",
-        //     method: "POST",
-        //     data: {recordID:recordID, action: "fetchDepartment"},
-        //     dataType: "json",
-        //     success: function(response) {
-        //         if(response.success==true){
-        //             toastr.success(response.message);
-        //             $("#depModal").modal("show");
-                
-        //             $('#in_Department').val(response.data.dep_id);
-        //             $('#from_Time').val(response.data.staff_id);
-        //             $('#to_Time').val(response.data.owner_name);
+    $('.editDepartment').click(function(){
+        $("#updateDep").show();
+        $("#addDep").hide();
+        var recordID = $(this).attr("record-id");
+        // alert(recordID);
+        $.ajax({
+            url: "../process/admin_action.php",
+            method: "POST",
+            data: {recordID:recordID, action: "fetchDepartment"},
+            dataType: "json",
+            success: function(response) {
+                if(response.success==true){
+                    toastr.success(response.message);
+                    $("#depModal").modal("show");
+                    
+                    $('#in_Department').val(response.data.department_name);
+                    $('#in_Department_prefix').val(response.data.department_prefix);
+                    $('#from_Time').val(response.data.from_time);
+                    $('#to_Time').val(response.data.to_time);
 
-        //             $("#updateDep").attr("update-id", recordID);
-        //         }else{
-        //             toastr.error(response.message);
-        //         }
-        //     }
-        // });
+                    $("#updateDep").attr("update-id", recordID);
+                    LoadTable();
+                }
+                else{
+                    toastr.error(response.message);
+                }
+            }
+        });
     });
-    $('.deleteOwner').click(function(){
-        //   var recordID = $(this).attr("record-id");
-        //   // alert($(this).attr("id"));
-        //   if(confirm("Are you sure you want to delete this record?")) {
-        //     $.ajax({
-        //         url: "../process/admin_action.php",
-        //         method: "POST",
-        //         data: {recordID:recordID,action: "deleteOwner"},
-        //         dataType: "json",
-        //         success: function(response) {
-        //             if(response.success==true){
-        //                 toastr.success(response.message);
-        //                 // $("#closeOwner").click();
-        //             }else{
-        //                 toastr.error(response.message);
-        //             }
-        //         }
-        //     });
-        //   } else {
-        //       return false;
-        //   }
+    $('.deleteDepartment').click(function(){
+          var recordID = $(this).attr("record-id");
+          // alert($(this).attr("id"));
+          if(confirm("Are you sure you want to delete this record?")) {
+            $.ajax({
+                url: "../process/admin_action.php",
+                method: "POST",
+                data: {recordID:recordID,action: "deleteDepartment"},
+                dataType: "json",
+                success: function(response) {
+                    if(response.success==true){
+                        toastr.success(response.message);
+                    }else{
+                        toastr.error(response.message);
+                    }
+                }
+            });
+          } else {
+              return false;
+          }
+
     });
 </script>

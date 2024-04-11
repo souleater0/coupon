@@ -13,6 +13,11 @@ if (!isset($_SESSION['admin_session_id'])) {
     <title>EC FOOD STUB</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        .opt-active{
+            border-bottom: 3px solid black;
+        }
+    </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assetlibrary/css/style.css">
     <script src="assets/jquery.min.js"></script>
@@ -141,7 +146,6 @@ if (!isset($_SESSION['admin_session_id'])) {
                         function DisplayState(){
                             const stateNow = getOpt_LocalStorage('state');
                             if (stateNow === 'FS' || stateNow === 'SD') {
-                                $('.nav-tabs li').removeClass('active');
                                 $('.nav-tabs li a[state="' + stateNow + '"]').click();
                             }else{
                                 $('.nav-tabs li a[state="FS"]').click();

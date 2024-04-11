@@ -34,15 +34,19 @@
         <div class="modal-content">
         <form id="form_department">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Add Department</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Department Details</h1>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-2">
              <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Department</label>
+              <label for="in_Department" class="form-label">Department Name</label>
               <input type="text" class="form-control" id="in_Department" name="in_Department" placeholder="Ex. Marketing"style="border:0.5px solid black;">
             </div>
-            <div class="my-2 mx-2">
+            <div class="my-2">
+              <label for="in_Department" class="form-label">Department Prefix</label>
+              <input type="text" class="form-control" id="in_Department_prefix" name="in_prefix" placeholder="Ex. Marketing"style="border:0.5px solid black;">
+            </div>
+            <div class="my-2">
               <div class="row">
                 <div class="col-6">
                     From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control"style="border:0.5px solid black;">
@@ -126,18 +130,44 @@
                   dataType: "json",
                   success: function(response) {
                       if(response.success==true){
-                          toastr.success(response.message);
-                          LoadTable();
-                          $("#closeDep").click();
+                        $("#closeDep").click();
+                        toastr.success(response.message);
+                        LoadTable();
                       }else{
                           toastr.error(response.message);
                       }
                   }
               });
+            
           });
+          $('#updateDep').click(function(){
+              var recordID = $(this).attr("update-id");
+              // alert(recordID);
+              var formData = $('#form_department').serialize();
+              $.ajax({
+                    url: "../process/admin_action.php",
+                    method: "POST",
+                    data: formData+"&action=updateDepartment&updateId="+recordID,
+                    dataType: "json",
+                    success: function(response) {
+                        if(response.success==true){
+                            toastr.success(response.message);
+                            LoadTable();
+                            $("#closeDep").click();
+                        }else{
+                            toastr.error(response.message);
+                        }
+                    }
+                });
+            });
         $('#addDepartmentBtn').click(function(){
             $("#addDep").show();
-            $("#updateDep").hide();  
+            $("#updateDep").hide();
+
+            $('#in_Department').val("");
+            $('#in_Department_prefix').val("");
+            $('#from_Time').val("");
+            $('#to_Time').val("");
         });
     });
 </script>

@@ -85,7 +85,7 @@
       }
       ?></td>
       <td><?php echo date("h:i A", strtotime($row["from_time"])).' - '.date("h:i A", strtotime($row["to_time"]));?></td>
-      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
+      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
     </tr>
     <?php
 }}?>

@@ -343,14 +343,39 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'deleteClerk'){
     header('Content-Type: application/json');
     echo json_encode($response);
 }
-// else if(!empty($_POST['action']) && $_POST['action'] == 'fetchDepartment'){
-
-// }
+else if(!empty($_POST['action']) && $_POST['action'] == 'fetchDepartment'){
+        if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
+            $fetchDep_ID = $_POST['recordID'];
+            $fetchDep_DATA = "SELECT * FROM department WHERE id = '$fetchDep_ID'";
+            $result_Dep = mysqli_query($conn, $fetchDep_DATA);
+            if(mysqli_num_rows($result_Dep) > 0){
+                $data_Department = mysqli_fetch_assoc($result_Dep);
+                $response = array(
+                    'success' => true,
+                    'message' => "Record Retrieved",
+                    'data' => $data_Department,
+                );
+            }else{
+                $response = array(
+                    'success' => false,
+                    'message' => "Failed to retrieve department!",
+                );
+            }
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        }
+}
 else if(!empty($_POST['action']) && $_POST['action'] == 'addDepartment'){
     if(empty($_POST['in_Department']) && isset($_POST['in_Department'])){
         $response = array(
             'success' => false,
-            'message' => "Please Enter a Department!",
+            'message' => "Please enter a Department!",
+        );
+    }
+    else if(empty($_POST['in_prefix']) && isset($_POST['in_prefix'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please enter Department Prefix!",
         );
     }
     else if(empty($_POST['from_Time']) && isset($_POST['from_Time'])){
@@ -365,19 +390,96 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'addDepartment'){
             'message' => "Please select End Time!",
         );
     }else{
-        // $departmentName = "";
-        // $To_Time = "";
-        $sql_department ="SELECT * FROM department WHERE department_name = ''"; 
+        $departmentName = $_POST['in_Department'];
+        $dep_Prefix = $_POST['in_prefix'];
+        $From_Time = $_POST['from_Time'];
+        $To_Time = $_POST['to_Time'];
+        $sql_department ="SELECT * FROM department WHERE department_name = '$departmentName' OR department_prefix = '$dep_Prefix'";
+        $result_department = mysqli_query($conn, $sql_department);
+        if(mysqli_num_rows($result_department) > 0){
+            $response = array(
+                'success' => false,
+                'message' => "Department already existed!",
+            );
+        }else{
+            $sql_create_Department = "INSERT INTO department (department_name, department_prefix, from_time, to_time) VALUES ('$departmentName','$dep_Prefix', '$From_Time','$To_Time')";
+            mysqli_query($conn, $sql_create_Department);
+            $response = array(
+                'success' => true,
+                'message' => "Department has been created!",
+            );
+        }
     }
     header('Content-Type: application/json');
     echo json_encode($response);
 }
-// else if(!empty($_POST['action']) && $_POST['action'] == 'updateDepartment'){
+else if(!empty($_POST['action']) && $_POST['action'] == 'updateDepartment'){
+    if(empty($_POST['in_Department']) && isset($_POST['in_Department'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please enter a Department!",
+        );
+    }
+    else if(empty($_POST['in_prefix']) && isset($_POST['in_prefix'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please enter Department Prefix!",
+        );
+    }
+    else if(empty($_POST['from_Time']) && isset($_POST['from_Time'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please select Starting Time!",
+        );
+    }
+    else if(empty($_POST['to_Time']) && isset($_POST['to_Time'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please select End Time!",
+        );
+    }else{
+        $updateId = mysqli_real_escape_string($conn, $_POST['updateId']);
 
-// }
-// else if(!empty($_POST['action']) && $_POST['action'] == 'deleteDepartment'){
+        $departmentName = $_POST['in_Department'];
+        $dep_Prefix = $_POST['in_prefix'];
+        $From_Time = $_POST['from_Time'];
+        $To_Time = $_POST['to_Time'];
 
-// }
+        $sql_Update_Department = "UPDATE department
+        SET
+        department_name = '$departmentName',
+        department_prefix = '$dep_Prefix',
+        from_time = '$From_Time',
+        to_time = '$To_Time'
+        WHERE id = '$updateId'";
+        mysqli_query($conn, $sql_Update_Department);
+        $response = array(
+            'success' => true,
+            'message' => 'Department has been Updated',
+        );
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+else if(!empty($_POST['action']) && $_POST['action'] == 'deleteDepartment'){
+    if(empty($_POST['recordID']) && isset($_POST['recordID'])){
+        $response = array(
+            'success' => false,
+            'message' => "Department Does not Exist!",
+        );
+    }else{
+        $deleteDEP_ID = $_POST['recordID'];
+        $sql_delete_Department = "DELETE FROM department WHERE id = '$deleteDEP_ID'";
+        mysqli_query($conn, $sql_delete_Department);
+        $response = array(
+            'success' => true,
+            'message' => "Department has been deleted!",
+        );
+    }
+    
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
 else{
     $response = array(
         'success' => false,
