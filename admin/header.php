@@ -48,10 +48,10 @@ require 'process/session_restrict.php';
           outline: 0 none;
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
+    <link href="../../assets/bootstrap533.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/toastr.min.css">
+    <script src="../../assets/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css" />
   </head>
   <body>
   <div class="container">
@@ -80,9 +80,10 @@ require 'process/session_restrict.php';
       </ul>
 
       <div class="col-2 text-end">
-        <form action="../logout.php">
+        <!-- <form action="../logout.php">
           <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-        </form>
+        </form> -->
+        <a href="/coupon" class="btn btn-outline-primary me-2">Return</a>
       </div>
     </header>
   </div>

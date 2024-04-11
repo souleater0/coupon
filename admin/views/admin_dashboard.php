@@ -71,7 +71,7 @@
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
             ?>
-            <option value="<?php echo $row["id"];?>"><?php echo $row["display_name"];?></option>
+            <option value="<?php echo $row["id"];?>"><?php echo $row["display_name"].' - '.$row["location"];?></option>
             <?php
             }}?>
             </select>
@@ -146,7 +146,11 @@ $(document).ready(function(){
                     },
                 success:function(data){
                     // alert(data);
-                    toastr.success("Report Generated Successfully");
+                    if (data.trim().startsWith("No Result Found")) {
+                        toastr.error("No Results Found!");
+                    }else{
+                        toastr.success("Report Generated Successfully");
+                    }
                     $('#tableReport').html(data);
                 }
         });

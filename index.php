@@ -31,29 +31,42 @@ if (!isset($_SESSION['admin_session_id'])) {
             background-color: white;
         }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <script src="jquery.min.js"></script>
-    <script src="bootstrap.min.js"></script>
+    <link href="assets/bootstrap533.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/toastr.min.css">
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+    
+    <!-- -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
+    <div class="text-black border px-3 py-3">
+          <?php echo $day_name.', '.$current_date_format.'<br>'.$current_time_format?>
+        </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">   
+      <li class="nav-item">
+            <a class ="nav-link" href="admin/views/index.php?route=dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="float-end">Current User: <b><?php echo $_SESSION['admin_session_name']?></b>&nbsp;&nbsp;&nbsp;Location: <b><?php echo $_SESSION['admin_session_location']?></b></span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="admin/logout.php">LOG OUT</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
     <!--  -->
     <div class="container">
-        
-        <div class="float-end">
-        <span class="float-end">Current User: <b><?php echo $_SESSION['admin_session_name']?></b></span>
-        <a href="admin/views/index.php?route=dashboard">Dashboard</a>
-        <form action="admin/logout.php">
-          <button type="submit" class="me-2">Logout</button>
-        </form>
-        </div>
-      </div>
         <ul class="nav nav-tabs mt-5">
             <li class="active"><a data-toggle="tab" href="#food_stub">FOOD STUB</a></li>
             <li><a data-toggle="tab" href="#salary_deduction">SALARY DEDUCTION</a></li>

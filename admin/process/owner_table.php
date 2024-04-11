@@ -42,6 +42,8 @@
 }}?>
 <script>
     $('.editOwner').click(function(){
+        $("#updateOwner").show();
+        $("#addOwner").hide();
         var recordID = $(this).attr("record-id");
         // alert(recordID);
         $.ajax({
@@ -88,5 +90,5 @@
               } else {
                   return false;
               }
-            });
+    });
 </script>

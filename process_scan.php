@@ -46,7 +46,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                     );
                 }
                 else{
-                    
                     // Record claim
                     $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,remarks) VALUES (".$coupon_row['owner_id'].",".$coupon_row['id'].",".$_SESSION['admin_session_id'].", 'claimed')";
                     mysqli_query($conn, $claim_query);

@@ -84,7 +84,7 @@
           <div class="modal-footer">
             <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
-            <button type="button" id="updateOwner" update-id="" class="btn btn-primary">UPDATE</button>
+            <button type="button" id="updateOwner" class="btn btn-primary">UPDATE</button>
           </div>
         </form>
         </div>
@@ -129,12 +129,6 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-        //     autorefresh();
-        // function autorefresh(){
-        //  setInterval(function(){
-        //   LoadTable();
-        // },1000);
-        // }
         LoadTable();
         function LoadTable() {
           var search = $('#live_search').val();
@@ -173,26 +167,26 @@
             var search = $(this).val();
             LoadTable();
         });
-            $('#addOwner').click(function(){
-                $("#updateOwner").hide();
-                var formData = $('#form_owner').serialize();
-                // alert (formData);
-                $.ajax({
-                    url: "../process/admin_action.php",
-                    method: "POST",
-                    data: formData+"&action=addOwner",
-                    dataType: "json",
-                    success: function(response) {
-                        if(response.success==true){
-                            toastr.success(response.message);
-                            LoadTable();
-                            $("#closeOwner").click();
-                        }else{
-                            toastr.error(response.message);
-                        }
-                    }
-                });
-            });
+          $('#addOwner').click(function(){
+            $("#updateOwner").hide();
+              var formData = $('#form_owner').serialize();
+              // alert (formData);
+              $.ajax({
+                  url: "../process/admin_action.php",
+                  method: "POST",
+                  data: formData+"&action=addOwner",
+                  dataType: "json",
+                  success: function(response) {
+                      if(response.success==true){
+                          toastr.success(response.message);
+                          LoadTable();
+                          $("#closeOwner").click();
+                      }else{
+                          toastr.error(response.message);
+                      }
+                  }
+              });
+          });
             // $('.editOwner').click(function(){
             //   var recordID = $(this).attr("record-id");
             //   alert(recordID);

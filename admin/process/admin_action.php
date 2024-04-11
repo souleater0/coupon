@@ -145,6 +145,61 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
 
     header('Content-Type: application/json');
     echo json_encode($response);
+}elseif(!empty($_POST['action']) && $_POST['action'] == 'addClerk'){
+
+    if(
+        !empty($_POST['ownerEmail']) && isset($_POST['ownerEmail'])&&
+        !empty($_POST['in_Location']) && isset($_POST['in_Location'])
+        ){
+            if(!empty($_POST['in_Password']) && isset($_POST['in_Password']) && !empty($_POST['in_ConPassword']) && isset($_POST['in_ConPassword'])){
+                $clerkEmail = $_POST['ownerEmail'];
+                $clerkLocation = $_POST['in_Location'];
+                $password = $_POST['in_Password'];
+                $conpassword = $_POST['in_ConPassword'];
+                if($password == $conpassword){
+                    $clerk_check= "SELECT * FROM admins WHERE email = '$clerkEmail'";
+                    $result = mysqli_query($conn, $clerk_check);
+                    if(mysqli_num_rows($result) > 0){
+                        $response = array(
+                            'success' => false,
+                            'message' => 'Account Already Existed!',
+                        );
+                    }else{
+                        $sql_coupon = "INSERT INTO admins (email, password, role_id, location) 
+                        VALUES ('$clerkEmail','$conpassword','1','$clerkLocation')";
+                        mysqli_query($conn, $sql_coupon);
+                        $response = array(
+                            'success' => true,
+                            'message' => 'Clerk has been added!',
+                        );
+                    }
+                }else{
+                    $response = array(
+                        'success' => false,
+                        'message' => 'Password does not match!',
+                    );
+                }
+            }
+    }else{
+        $response = array(
+            'success' => false,
+            'message' => 'Please Fill up Email or Location!',
+        );
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}else if(!empty($_POST['action']) && $_POST['action'] == 'deleteClerk'){
+    $deleteClerkID = $_POST['recordID'];
+    $deleteRecord = "DELETE
+    FROM admins
+    WHERE id = '$deleteClerkID'";
+    mysqli_query($conn, $deleteRecord);
+    $response = array(
+        'success' => true,
+        'message' => "Record has been deleted Successfully",
+    );
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 else{
     $response = array(

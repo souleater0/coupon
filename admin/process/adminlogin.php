@@ -13,6 +13,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'loginProcess') {
             $_SESSION['admin_session_id']= $row['id'];
             $_SESSION['admin_session_name']= $row['display_name'];
             $_SESSION['admin_session_role']= $row['role_id'];
+            $_SESSION['admin_session_location']= $row['location'];
             $response = array(
                 'success' => true,
                 'message' => 'Login successful.',

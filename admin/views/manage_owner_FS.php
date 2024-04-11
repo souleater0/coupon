@@ -79,7 +79,12 @@
               <label for="exampleFormControlInput1" class="form-label">Coupon Value</label>
               <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60">
             </div>
-            
+            <div class="my-2">
+              <select class="form-select" aria-label="Default select example" name="" id="">
+                <option disabled selected>Select Time Base</option>
+                <option>Individual Time</option>
+                <option>Department Time</option>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -174,7 +179,7 @@
             LoadTable();
         });
             $('#addOwner').click(function(){
-                $("#updateOwner").hide();
+                
                 var formData = $('#form_owner').serialize();
                 // alert (formData);
                 $.ajax({
@@ -193,32 +198,6 @@
                     }
                 });
             });
-            // $('.editOwner').click(function(){
-            //   var recordID = $(this).attr("record-id");
-            //   alert(recordID);
-              // $.ajax({
-              //       url: "../process/admin_action.php",
-              //       method: "POST",
-              //       data: {recordID:recordID, action: "fetchOwner"},
-              //       dataType: "json",
-              //       success: function(response) {
-              //           if(response.success==true){
-              //               toastr.success(response.message);
-              //               $("#ownerModal").modal("show");
-                            
-              //               $('#selectDepartment').val(response.data.dep_id);
-              //               $('#in_ownerId').val(response.data.staff_id);
-              //               $('#in_ownerName').val(response.data.owner_name);
-              //               $('#in_ownerEmail').val(response.data.owner_email);
-              //               $('#couponCode').val(response.data.coupon_code);
-              //               $('#couponValue').val(response.data.coupon_value);
-              //               $("#updateOwner").attr("update-id", recordID);
-              //           }else{
-              //               toastr.error(response.message);
-              //           }
-              //       }
-              //   });
-            // });
             $('#updateOwner').click(function(){
               var recordID = $(this).attr("update-id");
               // alert(recordID);
@@ -239,5 +218,17 @@
                     }
                 });
             });
+            $('#addOwnerBtn').click(function(){
+              $("#addOwner").show();
+              $("#updateOwner").hide();
+              $('#selectDepartment option:eq(0)').prop('selected', true);
+              $('#in_ownerId').val("");
+              $('#in_ownerName').val("");
+              $('#in_ownerEmail').val("");
+              $('#couponCode').val("");
+              $('#couponValue').val("");
+              $("#updateOwner").attr("update-id", "");
+            });
+            
         });
 </script>
