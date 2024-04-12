@@ -17,12 +17,10 @@
       <th scope="col">#</th>
       <th scope="col">Owner ID</th>
       <th scope="col">Owner Name</th>
-      <!-- <th scope="col">Email</th> -->
       <th scope="col">Department</th>
-      <th scope="col">Coupon Code</th>
-      <th scope="col">Coupon Value</th>
-      <th scope="col">Time Base</th>
-      <th scope="col" class="text-center">Time Shift</th>
+      <th scope="col">SD Code</th>
+      <th scope="col">Credits</th>
+      <th scope="col" class="text-center">Resets</th>
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
