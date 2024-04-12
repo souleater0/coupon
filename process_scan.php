@@ -12,6 +12,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
         a.staff_id,
         a.owner_name,
         a.owner_email,
+        c.id AS dep_id,
         c.department_name,
         b.coupon_code,
         b.coupon_value,
@@ -41,49 +42,80 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
             if($coupon_row['staff_id'] == $owner_id) {
                 //Owner Match
                 if($coupon_row['base_time'] === "1"){ //if Department
-                    //get time from department
-                    $ownerStartDateTime=$current_date.' '.$coupon_row['from_time'];
-                    $ownerEndDateTime=$current_date.' '.$coupon_row['to_time'];
-                    $plusDate = date("Y-m-d H:i:s", strtotime('+1 day', strtotime($ownerEndDateTime)));
+                // Retrieve start and end times from the database
+                $start_time = $coupon_row['from_time'];
+                $end_time = $coupon_row['to_time'];
 
-                    if(
-                        $current_datetime>=strtotime($ownerStartDateTime) &&
-                        $current_datetime <= $plusDate
-                        ){
-                        
-                        $response = array(
-                            'success' => true,
-                            'message' => 'Food Stub can be claimed '.$ownerEndDateTime,
-                            // 'message' => ''.$ownerStartDateTime.'<br>date now '.$current_datetime,
-                        );
-                    }else{
-                        $response = array(
-                            'success' => true,
-                            'message' => 'Food Stub is not yet available at this time! '.$ownerEndDateTime.'<br>date now '.$current_datetime,
-                            // 'message' => 'It is not Valid '.$ownerStartDateTime.'<br>date now '.$current_datetime,
-                        );
-                    }
+                // Check if the end time is on the next day
+                if ($end_time >= $start_time) {
+                    // If the end time is on the same day
+                    if ($current_time >= $start_time && $current_time <= $end_time) {
 
-                }else{ //if Individual
-                    //get time from individual
-                    $ownerStartDateTime=$current_date.' '.$coupon_row['from_time'];
-                    $ownerEndDateTime=$current_date.' '.$coupon_row['to_time'];
-                    if(
-                        $current_datetime>=$ownerStartDateTime &&
-                        $current_datetime <= $ownerEndDateTime
-                        ){
-                        
                         $response = array(
                             'success' => true,
-                            'message' => 'Food Stub can be claimed',
-                            // 'message' => ''.$ownerStartDateTime.'<br>date now '.$current_datetime,
+                            'message' => 'Food Stub has been claimed.',
+                            // 'message' => 'Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
-                    }else{
+                    } else {
                         $response = array(
                             'success' => false,
                             'message' => 'Food Stub is not yet available at this time!',
-                            // 'message' => 'It is not Valid '.$ownerStartDateTime.'<br>date now '.$current_datetime,
+                            'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
+                    }
+                } else {
+                    // If the end time is on the next day
+                    if ($current_time >= $start_time || $current_time <= $end_time) {
+                        $response = array(
+                            'success' => true,
+                            'message' => 'Food Stub has been claimed.',
+                            // 'message' => 'Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                        );
+                    } else {
+                        $response = array(
+                            'success' => false,
+                            'message' => 'Food Stub is not yet available at this time!',
+                            // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                        );
+                    }
+                }
+                }else{ //if Individual
+                    //get time from individual
+                    // Retrieve start and end times from the database
+                    $start_time = $coupon_row['from_time'];
+                    $end_time = $coupon_row['to_time'];
+
+                    // Check if the end time is on the next day
+                    if ($end_time >= $start_time) {
+                        // If the end time is on the same day
+                        if ($current_time >= $start_time && $current_time <= $end_time) {
+                            $response = array(
+                                'success' => true,
+                                'message' => 'Food Stub has been claimed.',
+                                // 'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            );
+                        } else {
+                            $response = array(
+                                'success' => false,
+                                'message' => 'Food Stub is not yet available at this time!',
+                                // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            );
+                        }
+                    } else {
+                        // If the end time is on the next day
+                        if ($current_time >= $start_time || $current_time <= $end_time) {
+                            $response = array(
+                                'success' => true,
+                                'message' => 'Food Stub has been claimed.',
+                                // 'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            );
+                        } else {
+                            $response = array(
+                                'success' => false,
+                                'message' => 'Food Stub is not yet available at this time!',
+                                // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            );
+                        }
                     }
                 }
 

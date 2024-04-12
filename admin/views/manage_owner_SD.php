@@ -21,7 +21,8 @@
       <th scope="col">Department</th>
       <th scope="col">Coupon Code</th>
       <th scope="col">Coupon Value</th>
-      <th scope="col">Date Created</th>
+      <th scope="col">Time Base</th>
+      <th scope="col" class="text-center">Time Shift</th>
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
@@ -43,7 +44,7 @@
           <div class="modal-body mx-2">
             <div class="my-2">
               <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
-                <option disabled selected>Select Department</option>
+                <option disabled selected>Select Department*</option>
                 <?php 
                 // Check connection
                 if ($conn->connect_error) {
@@ -60,11 +61,11 @@
               </select>
             </div>
              <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Owner ID</label>
+              <label for="exampleFormControlInput1" class="form-label">Owner ID*</label>
               <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Full Name</label>
+              <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
               <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz">
             </div>
             <div class="my-2">
@@ -72,19 +73,40 @@
               <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Code</label>
+              <label for="exampleFormControlInput1" class="form-label">Coupon Code*</label>
               <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBFS2024001">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Value</label>
+              <label for="exampleFormControlInput1" class="form-label">Coupon Value*</label>
               <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60">
             </div>
-            
+            <div class="my-2">
+              <span class="fw-semibold text-uppercase ">Base Time:*</span>
+              <select class="form-select" aria-label="Default select example" name="ownerTimeBase" id="TimeBase" onchange="displayIndividualTime()">
+                <option disabled >Select Time Base</option>
+                <option value="1" selected>Department Time</option>
+                <option value="2">Individual Time</option>
+              </select>
+            </div>
+            <div class="my-2 d-none" id="time_holder">
+              <div class="row">
+                <div class="col-12 text-center ">
+                  <span class="fw-bold text-uppercase ">Individual Time</span>
+                </div>
+                <div class="col-6">
+                  From Time:<input type="time" name="from_Time" id="inf_Time" class="w-100 form-control">
+                </div>
+                <div class="col-6">
+                  To Time:<input type="time" name="to_Time" id="int_Time" class="w-100 form-control">
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="modal-footer">
             <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
-            <button type="button" id="updateOwner" class="btn btn-primary">UPDATE</button>
+            <button type="button" id="updateOwner" update-id="" class="btn btn-primary">UPDATE</button>
           </div>
         </form>
         </div>
@@ -93,6 +115,15 @@
   <!-- Modal End -->
   
 <script>
+  function displayIndividualTime(){
+    var timebase_opt = $("#TimeBase").val();
+    // alert(timebase_opt);
+    if (timebase_opt == "1") {
+        $("#time_holder").addClass('d-none'); // Hide individual time fields
+    } else {
+        $("#time_holder").removeClass('d-none'); // Show individual time fields
+    }
+  }
   function updateCouponPrefix(){
     var departmentSelect = document.getElementById("selectDepartment");
     var selectedOptionIndex = departmentSelect.selectedIndex;
@@ -129,6 +160,12 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+        //     autorefresh();
+        // function autorefresh(){
+        //  setInterval(function(){
+        //   LoadTable();
+        // },1000);
+        // }
         LoadTable();
         function LoadTable() {
           var search = $('#live_search').val();
@@ -167,52 +204,26 @@
             var search = $(this).val();
             LoadTable();
         });
-          $('#addOwner').click(function(){
-            $("#updateOwner").hide();
-              var formData = $('#form_owner').serialize();
-              // alert (formData);
-              $.ajax({
-                  url: "../process/admin_action.php",
-                  method: "POST",
-                  data: formData+"&action=addOwner",
-                  dataType: "json",
-                  success: function(response) {
-                      if(response.success==true){
-                          toastr.success(response.message);
-                          LoadTable();
-                          $("#closeOwner").click();
-                      }else{
-                          toastr.error(response.message);
-                      }
-                  }
-              });
-          });
-            // $('.editOwner').click(function(){
-            //   var recordID = $(this).attr("record-id");
-            //   alert(recordID);
-              // $.ajax({
-              //       url: "../process/admin_action.php",
-              //       method: "POST",
-              //       data: {recordID:recordID, action: "fetchOwner"},
-              //       dataType: "json",
-              //       success: function(response) {
-              //           if(response.success==true){
-              //               toastr.success(response.message);
-              //               $("#ownerModal").modal("show");
-                            
-              //               $('#selectDepartment').val(response.data.dep_id);
-              //               $('#in_ownerId').val(response.data.staff_id);
-              //               $('#in_ownerName').val(response.data.owner_name);
-              //               $('#in_ownerEmail').val(response.data.owner_email);
-              //               $('#couponCode').val(response.data.coupon_code);
-              //               $('#couponValue').val(response.data.coupon_value);
-              //               $("#updateOwner").attr("update-id", recordID);
-              //           }else{
-              //               toastr.error(response.message);
-              //           }
-              //       }
-              //   });
-            // });
+            $('#addOwner').click(function(){
+                
+                var formData = $('#form_owner').serialize();
+                // alert (formData);
+                $.ajax({
+                    url: "../process/admin_action.php",
+                    method: "POST",
+                    data: formData+"&action=addOwner",
+                    dataType: "json",
+                    success: function(response) {
+                        if(response.success==true){
+                            toastr.success(response.message);
+                            LoadTable();
+                            $("#closeOwner").click();
+                        }else{
+                            toastr.error(response.message);
+                        }
+                    }
+                });
+            });
             $('#updateOwner').click(function(){
               var recordID = $(this).attr("update-id");
               // alert(recordID);
@@ -233,5 +244,17 @@
                     }
                 });
             });
+            $('#addOwnerBtn').click(function(){
+              $("#addOwner").show();
+              $("#updateOwner").hide();
+              $('#selectDepartment option:eq(0)').prop('selected', true);
+              $('#in_ownerId').val("");
+              $('#in_ownerName').val("");
+              $('#in_ownerEmail').val("");
+              $('#couponCode').val("");
+              $('#couponValue').val("");
+              $("#updateOwner").attr("update-id", "");
+            });
+            
         });
 </script>

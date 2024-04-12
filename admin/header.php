@@ -70,8 +70,8 @@ require 'process/session_restrict.php';
         <?php
         if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
         ?>
-        <li class="nav-item"><a href="index.php?route=manage_owner_FS" class="nav-link <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">Manage FS Owner</a></li>
-        <li class="nav-item"><a href="index.php?route=manage_owner_SD" class="nav-link <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Manage SD Owner</a></li>
+        <li class="nav-item"><a href="index.php?route=manage_owner_FS" class="nav-link <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">Food Stub Owner</a></li>
+        <li class="nav-item"><a href="index.php?route=manage_owner_SD" class="nav-link <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Salary Deduct Owner</a></li>
         <li class="nav-item"><a href="index.php?route=manage_department" class="nav-link <?php echo ($route == 'manage_department') ? 'active' : ''; ?>">Manage Department</a></li>
         <li class="nav-item"><a href="index.php?route=manage_clerk" class="nav-link <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">Manage Clerk</a></li>
         <li class="nav-item"><a href="index.php?route=manage_device" class="nav-link <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a></li>
