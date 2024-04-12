@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2024 at 07:31 AM
+-- Generation Time: Apr 12, 2024 at 01:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -412,7 +412,8 @@ INSERT INTO `claims` (`id`, `owner_id`, `coupon_id`, `admin_id`, `claim_date`, `
 (344, 337, 337, 1, '2024-04-08 10:16:47', 'claimed'),
 (345, 295, 295, 2, '2024-04-08 10:19:08', 'claimed'),
 (346, 138, 138, 1, '2024-04-09 03:55:36', 'claimed'),
-(347, 295, 295, 1, '2024-04-09 03:58:43', 'claimed');
+(347, 295, 295, 1, '2024-04-09 03:58:43', 'claimed'),
+(348, 227, 227, 3, '2024-04-12 05:49:15', 'claimed');
 
 -- --------------------------------------------------------
 
@@ -811,11 +812,11 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`id`, `department_name`, `department_prefix`, `from_time`, `to_time`) VALUES
-(1, 'MAT\'S DONUT', 'MATSFNB', '09:00:00', '12:00:00'),
-(2, 'EC CAFE', 'ECCFFS', '09:00:00', '12:00:00'),
-(3, 'EC SOLUTIONS', 'ECSFS', '09:00:00', '12:00:00'),
-(4, 'ECSTATICX', 'ECSTXFS', '09:00:00', '12:00:00'),
-(5, 'ESKINA', 'FNBFS', '09:00:00', '12:00:00'),
+(1, 'MAT\'S DONUT', 'MATSFNB', '09:00:00', '23:59:59'),
+(2, 'EC CAFE', 'ECCFFS', '09:00:00', '23:59:59'),
+(3, 'EC SOLUTIONS', 'ECSFS', '09:00:00', '23:59:59'),
+(4, 'ECSTATICX', 'ECSTXFS', '09:00:00', '23:59:59'),
+(5, 'ESKINA', 'FNBFS', '09:00:00', '23:59:59'),
 (6, 'ECXPERIENCE', 'ECXFS', '21:00:00', '04:00:00');
 
 -- --------------------------------------------------------
@@ -1279,7 +1280,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=349;
 
 --
 -- AUTO_INCREMENT for table `coupons`
