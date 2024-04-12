@@ -3,60 +3,97 @@ session_start();
 include '../../db_connection.php';
 include '../time_zone.php';
 // Add Owner
-if(!empty($_POST['action']) && $_POST['action'] == 'addOwner' && !empty($_POST['departmentID']) && isset($_POST['departmentID']) && !empty($_POST['ownerId']) && isset($_POST['ownerId']) && !empty($_POST['ownerName']) && isset($_POST['ownerName']) && isset($_POST['ownerEmail']) && !empty($_POST['ownerCoupon']) && isset($_POST['ownerCoupon'])&& !empty($_POST['ownerCouponValue']) && isset($_POST['ownerCouponValue'])) {
-    $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
-    $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
-    $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
-    $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
-    $ownerCoupon = mysqli_real_escape_string($conn, $_POST['ownerCoupon']);
-    $ownerCouponValue = mysqli_real_escape_string($conn, $_POST['ownerCouponValue']);
-    
-    $queryOwners = "SELECT
-	owners.id, 
-	owners.staff_id, 
-	owners.owner_name, 
-	owners.owner_email, 
-	department.department_name, 
-	coupons.coupon_code, 
-	coupons.coupon_value
-    FROM
-	owners
-	INNER JOIN
-	coupons
-	ON 
-		owners.id = coupons.owner_id
-	INNER JOIN
-	department
-	ON 
-		owners.owner_department = department.id
-    WHERE owners.staff_id = '$ownerID' OR coupons.coupon_code='$ownerCoupon'";
-    $result = mysqli_query($conn, $queryOwners);
-    if(mysqli_num_rows($result) > 0){
-        $response = array(
-            'success' => false,
-            'message' => 'Owner Already Exist',
-        );
+if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
+    if(
+    !empty($_POST['departmentID']) && isset($_POST['departmentID']) 
+    // && !empty($_POST['ownerId']) && isset($_POST['ownerId']) 
+    // && !empty($_POST['ownerName']) && isset($_POST['ownerName']) 
+    // && isset($_POST['ownerEmail']) 
+    // && !empty($_POST['ownerCoupon']) && isset($_POST['ownerCoupon']) 
+    // && !empty($_POST['ownerCouponValue']) && isset($_POST['ownerCouponValue'])
+    &&!empty($_POST['ownerTimeBase']) && isset($_POST['ownerTimeBase'])
+    ){
+        $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
+        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
+        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
+        $ownerCoupon = mysqli_real_escape_string($conn, $_POST['ownerCoupon']);
+        $ownerCouponValue = mysqli_real_escape_string($conn, $_POST['ownerCouponValue']);
+        $TimeBase = mysqli_real_escape_string($conn, $_POST['ownerTimeBase']);
+
+        $queryOwners = "SELECT
+        owners.id, 
+        owners.staff_id, 
+        owners.owner_name, 
+        owners.owner_email, 
+        department.department_name, 
+        coupons.coupon_code, 
+        coupons.coupon_value
+        FROM
+        owners
+        INNER JOIN
+        coupons
+        ON 
+            owners.id = coupons.owner_id
+        INNER JOIN
+        department
+        ON 
+            owners.owner_department = department.id
+        WHERE owners.staff_id = '$ownerID' OR coupons.coupon_code='$ownerCoupon'";
+        $result = mysqli_query($conn, $queryOwners);
+        if(mysqli_num_rows($result) > 0){
+            $response = array(
+                'success' => false,
+                'message' => 'Owner Already Exist',
+            );
+        }else{
+            if($TimeBase === "1"){
+                    //insert baset time to owner
+                    $sql_owner = "INSERT INTO owners (staff_id,owner_name,base_time,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$TimeBase','$ownerEmail','$departmentID')";
+                    $query_sql_owner = mysqli_query($conn, $sql_owner);
+                    //get owner_ID
+                    $searchOwner = "SELECT * FROM owners where staff_id = '$ownerID'";
+                    $query_searchOwner = mysqli_query($conn, $searchOwner);
+                    $rowOwner = mysqli_fetch_assoc($query_searchOwner);
+                    $ownerSID = $rowOwner['id'];
+                    // INSERT COUPOn
+                    $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 
+                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerSID')";
+                    mysqli_query($conn, $sql_coupon);
+            
+                    $response = array(
+                        'success' => true,
+                        'message' => 'Added Owner Successful',
+                    );
+            }else{
+                if(!empty($_POST['from_Time']) && isset($_POST['from_Time']) && !empty($_POST['to_Time']) && isset($_POST['to_Time'])){
+                    $timebaseFROM_TIME = mysqli_real_escape_string($conn, $_POST['from_Time']);
+                    $timebaseTO_TIME = mysqli_real_escape_string($conn, $_POST['to_Time']);
+                    //insert baset time to owner
+                    $sql_owner = "INSERT INTO owners (staff_id,owner_name,base_time,owner_email,owner_department,from_time,to_time) VALUES ('$ownerID','$ownerName','$TimeBase','$ownerEmail','$departmentID','$timebaseFROM_TIME','$timebaseTO_TIME')";
+                    $query_sql_owner = mysqli_query($conn, $sql_owner);
+                    //get owner_ID
+                    $searchOwner = "SELECT * FROM owners where staff_id = '$ownerID'";
+                    $query_searchOwner = mysqli_query($conn, $searchOwner);
+                    $rowOwner = mysqli_fetch_assoc($query_searchOwner);
+                    $ownerSID = $rowOwner['id'];
+                    // INSERT COUPOn
+                    $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 
+                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerSID')";
+                    mysqli_query($conn, $sql_coupon);
+                    $response = array(
+                        'success' => true,
+                        'message' => 'Added Owner Successful',
+                    );
+                }
+            }
+        }
     }else{
-
-        $sql_owner = "INSERT INTO owners (staff_id,owner_name,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$ownerEmail','$departmentID')";
-        $query_sql_owner = mysqli_query($conn, $sql_owner);
-        //get owner_ID
-        $searchOwner = "SELECT * FROM owners where staff_id = '$ownerID'";
-        $query_searchOwner = mysqli_query($conn, $searchOwner);
-        $rowOwner = mysqli_fetch_assoc($query_searchOwner);
-        $ownerSID = $rowOwner['id'];
-        // INSERT COUPOn
-        $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 
-        VALUES ('$ownerCoupon','$ownerCouponValue','$ownerSID')";
-        mysqli_query($conn, $sql_coupon);
-
-        $response = array(
-            'success' => true,
-            'message' => 'Added Owner Successful',
-        );
+         $response = array(
+            'success' => false,
+            'message' => 'Fill up all required data',
+         );
     }
-
-
     header('Content-Type: application/json');
     echo json_encode($response);
 }

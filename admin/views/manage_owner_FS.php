@@ -21,7 +21,8 @@
       <th scope="col">Department</th>
       <th scope="col">Coupon Code</th>
       <th scope="col">Coupon Value</th>
-      <th scope="col">Date Created</th>
+      <th scope="col">Time Base</th>
+      <th scope="col" class="text-center">Time Shift</th>
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
@@ -43,7 +44,7 @@
           <div class="modal-body mx-2">
             <div class="my-2">
               <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
-                <option disabled selected>Select Department</option>
+                <option disabled selected>Select Department*</option>
                 <?php 
                 // Check connection
                 if ($conn->connect_error) {
@@ -60,11 +61,11 @@
               </select>
             </div>
              <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Owner ID</label>
+              <label for="exampleFormControlInput1" class="form-label">Owner ID*</label>
               <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Full Name</label>
+              <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
               <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz">
             </div>
             <div class="my-2">
@@ -72,20 +73,36 @@
               <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Code</label>
+              <label for="exampleFormControlInput1" class="form-label">Coupon Code*</label>
               <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBFS2024001">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Value</label>
+              <label for="exampleFormControlInput1" class="form-label">Coupon Value*</label>
               <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60">
             </div>
             <div class="my-2">
-              <select class="form-select" aria-label="Default select example" name="" id="">
-                <option disabled selected>Select Time Base</option>
-                <option>Individual Time</option>
-                <option>Department Time</option>
+              <span class="fw-semibold text-uppercase ">Base Time:*</span>
+              <select class="form-select" aria-label="Default select example" name="ownerTimeBase" id="TimeBase" onchange="displayIndividualTime()">
+                <option disabled >Select Time Base</option>
+                <option value="1" selected>Department Time</option>
+                <option value="2">Individual Time</option>
+              </select>
+            </div>
+            <div class="my-2 d-none" id="time_holder">
+              <div class="row">
+                <div class="col-12 text-center ">
+                  <span class="fw-bold text-uppercase ">Individual Time</span>
+                </div>
+                <div class="col-6">
+                  From Time:<input type="time" name="from_Time" id="inf_Time" class="w-100 form-control">
+                </div>
+                <div class="col-6">
+                  To Time:<input type="time" name="to_Time" id="int_Time" class="w-100 form-control">
+                </div>
+              </div>
             </div>
           </div>
+
           <div class="modal-footer">
             <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
@@ -98,6 +115,15 @@
   <!-- Modal End -->
   
 <script>
+  function displayIndividualTime(){
+    var timebase_opt = $("#TimeBase").val();
+    // alert(timebase_opt);
+    if (timebase_opt == "1") {
+        $("#time_holder").addClass('d-none'); // Hide individual time fields
+    } else {
+        $("#time_holder").removeClass('d-none'); // Show individual time fields
+    }
+  }
   function updateCouponPrefix(){
     var departmentSelect = document.getElementById("selectDepartment");
     var selectedOptionIndex = departmentSelect.selectedIndex;
