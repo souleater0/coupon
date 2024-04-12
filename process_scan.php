@@ -6,53 +6,72 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
     if(isset($_POST['coupon']) && !empty($_POST['coupon']) && isset($_POST['id']) && !empty($_POST['id'])) {
         $coupon = $_POST['coupon'];
         $owner_id = $_POST['id'];
-        $dateNow = $current_date;
         // Check if coupon exists 
         $coupon_query = "SELECT
         a.id,
-        b.id AS owner_id,
-        a.coupon_code, 
-        a.coupon_value, 
-        b.staff_id, 
-        b.owner_name, 
-        b.owner_email, 
-        b.owner_department
+        a.staff_id,
+        a.owner_name,
+        a.owner_email,
+        c.department_name,
+        b.coupon_code,
+        b.coupon_value,
+        a.base_time,
+        b.created_at,
+    CASE
+        WHEN a.base_time = 1 THEN c.from_time
+        WHEN a.base_time = 2 THEN a.from_time
+    END AS from_time,
+    CASE
+        WHEN a.base_time = 1 THEN c.to_time
+        WHEN a.base_time = 2 THEN a.to_time
+    END AS to_time
+    
     FROM
-        coupons AS a
-        INNER JOIN
-        owners AS b ON a.owner_id = b.id
-        WHERE coupon_code = '$coupon'";
+        owners a
+        INNER JOIN coupons b ON b.owner_id = a.id
+        INNER JOIN department c ON c.id = a.owner_department
+        AND a.owner_department = c.id
+				WHERE b.coupon_code = '$coupon'
+    ORDER BY
+        a.id ASC";
         $coupon_result = mysqli_query($conn, $coupon_query);
         if(mysqli_num_rows($coupon_result) > 0) {
             // Check if owner ID matches
             $coupon_row = mysqli_fetch_assoc($coupon_result);
             if($coupon_row['staff_id'] == $owner_id) {
-                // Get owner details
-            $owner_query = "SELECT
-                *
-            FROM
-                claims AS a
-                INNER JOIN
-                owners AS b
-                ON 
-                    a.owner_id = b.id
-            WHERE
-                Date(a.claim_date) = '$dateNow' AND b.staff_id = '$owner_id'";
-                $checkOwner = mysqli_query($conn, $owner_query);
-                if(mysqli_num_rows($checkOwner) > 0){
-                     $response = array(
-                        'success' => false,
-                        'message' => 'Data already Exist.',
-                    );
-                }
-                else{
-                    // Record claim
-                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,remarks) VALUES (".$coupon_row['owner_id'].",".$coupon_row['id'].",".$_SESSION['admin_session_id'].", 'claimed')";
-                    mysqli_query($conn, $claim_query);
-                    $response = array(
-                        'success' => true,
-                        'message' => 'Data has been Recorded.',
-                    );
+                //Owner Match
+                if($coupon_row['base_time'] === "1"){ //if Department
+                    //get time from department
+                    $ownerDateTime=$current_date.' '.$coupon_row['from_time'];
+                    if($current_datetime>=$ownerDateTime){
+                        
+                        $response = array(
+                            'success' => true,
+                            'message' => 'It is Valid '.$ownerDateTime ,
+                        );
+                    }else{
+                        $response = array(
+                            'success' => true,
+                            'message' => 'It is not Valid '.$ownerDateTime ,
+                        );
+                    }
+
+                }else{ //if Individual
+                    //get time from individual
+                    $ownerStartDateTime=$current_date.' '.$coupon_row['from_time'];
+                    $ownerEndDateTime=$current_date.' '.$coupon_row['to_time'];
+                    if($current_datetime >= $ownerStartDateTime && $current_datetime<= $ownerEndDateTime){
+                        
+                        $response = array(
+                            'success' => true,
+                            'message' => 'It is Valid '.$ownerStartDateTime,
+                        );
+                    }else{
+                        $response = array(
+                            'success' => true,
+                            'message' => 'It is not Valid '.$ownerStartDateTime,
+                        );
+                    }
                 }
 
             } else {
