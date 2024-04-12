@@ -42,17 +42,25 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                 //Owner Match
                 if($coupon_row['base_time'] === "1"){ //if Department
                     //get time from department
-                    $ownerDateTime=$current_date.' '.$coupon_row['from_time'];
-                    if($current_datetime>=$ownerDateTime){
+                    $ownerStartDateTime=$current_date.' '.$coupon_row['from_time'];
+                    $ownerEndDateTime=$current_date.' '.$coupon_row['to_time'];
+                    $plusDate = date("Y-m-d H:i:s", strtotime('+1 day', strtotime($ownerEndDateTime)));
+
+                    if(
+                        $current_datetime>=strtotime($ownerStartDateTime) &&
+                        $current_datetime <= $plusDate
+                        ){
                         
                         $response = array(
                             'success' => true,
-                            'message' => 'It is Valid '.$ownerDateTime ,
+                            'message' => 'Food Stub can be claimed '.$ownerEndDateTime,
+                            // 'message' => ''.$ownerStartDateTime.'<br>date now '.$current_datetime,
                         );
                     }else{
                         $response = array(
                             'success' => true,
-                            'message' => 'It is not Valid '.$ownerDateTime ,
+                            'message' => 'Food Stub is not yet available at this time! '.$ownerEndDateTime.'<br>date now '.$current_datetime,
+                            // 'message' => 'It is not Valid '.$ownerStartDateTime.'<br>date now '.$current_datetime,
                         );
                     }
 
@@ -60,16 +68,21 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                     //get time from individual
                     $ownerStartDateTime=$current_date.' '.$coupon_row['from_time'];
                     $ownerEndDateTime=$current_date.' '.$coupon_row['to_time'];
-                    if($current_datetime >= $ownerStartDateTime && $current_datetime<= $ownerEndDateTime){
+                    if(
+                        $current_datetime>=$ownerStartDateTime &&
+                        $current_datetime <= $ownerEndDateTime
+                        ){
                         
                         $response = array(
                             'success' => true,
-                            'message' => 'It is Valid '.$ownerStartDateTime,
+                            'message' => 'Food Stub can be claimed',
+                            // 'message' => ''.$ownerStartDateTime.'<br>date now '.$current_datetime,
                         );
                     }else{
                         $response = array(
-                            'success' => true,
-                            'message' => 'It is not Valid '.$ownerStartDateTime,
+                            'success' => false,
+                            'message' => 'Food Stub is not yet available at this time!',
+                            // 'message' => 'It is not Valid '.$ownerStartDateTime.'<br>date now '.$current_datetime,
                         );
                     }
                 }
