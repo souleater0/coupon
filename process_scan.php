@@ -46,36 +46,40 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                 $start_time = $coupon_row['from_time'];
                 $end_time = $coupon_row['to_time'];
 
+                $current_date_next_day = date("Y-m-d", strtotime($current_date . '+1 day'));
+                $start_datetime = $current_date . ' ' . $start_time;
+                $end_datetime = $current_date_next_day . ' ' . $end_time;
                 // Check if the end time is on the next day
                 if ($end_time >= $start_time) {
                     // If the end time is on the same day
                     if ($current_time >= $start_time && $current_time <= $end_time) {
-
+                        //Check if record is exist
                         $response = array(
                             'success' => true,
-                            'message' => 'Food Stub has been claimed.',
-                            // 'message' => 'Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            // 'message' => 'Food Stub has been claimed.',
+                            'message' => '1 Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
                     } else {
                         $response = array(
                             'success' => false,
-                            'message' => 'Food Stub is not yet available at this time!',
+                            // 'message' => 'Food Stub is not yet available at this time!',
                             'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
                     }
                 } else {
                     // If the end time is on the next day
                     if ($current_time >= $start_time || $current_time <= $end_time) {
+                        //check if claimed already
                         $response = array(
                             'success' => true,
-                            'message' => 'Food Stub has been claimed.',
-                            // 'message' => 'Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            // 'message' => 'Food Stub has been claimed.',
+                            'message' => '1 Food Stub can be claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
                     } else {
                         $response = array(
                             'success' => false,
-                            'message' => 'Food Stub is not yet available at this time!',
-                            // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                            // 'message' => 'Food Stub is not yet available at this time!',
+                            'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                         );
                     }
                 }
@@ -91,13 +95,13 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                         if ($current_time >= $start_time && $current_time <= $end_time) {
                             $response = array(
                                 'success' => true,
-                                'message' => 'Food Stub has been claimed.',
-                                // 'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                                // 'message' => 'Food Stub has been claimed.',
+                                'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         } else {
                             $response = array(
                                 'success' => false,
-                                'message' => 'Food Stub is not yet available at this time!',
+                                // 'message' => 'Food Stub is not yet available at this time!',
                                 // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         }
@@ -106,13 +110,13 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                         if ($current_time >= $start_time || $current_time <= $end_time) {
                             $response = array(
                                 'success' => true,
-                                'message' => 'Food Stub has been claimed.',
-                                // 'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                                // 'message' => 'Food Stub has been claimed.',
+                                'message' => 'Food Stub has been claimed. <br>From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         } else {
                             $response = array(
                                 'success' => false,
-                                'message' => 'Food Stub is not yet available at this time!',
+                                // 'message' => 'Food Stub is not yet available at this time!',
                                 // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         }

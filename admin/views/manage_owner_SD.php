@@ -20,7 +20,7 @@
       <th scope="col">Department</th>
       <th scope="col">SD Code</th>
       <th scope="col">Credits</th>
-      <th scope="col" class="text-center">Resets</th>
+      <th scope="col" class="text-center">Time Shift</th>
       <th scope="col" class="text-center">Action</th>
     </tr>
   </thead>
@@ -41,7 +41,7 @@
           </div>
           <div class="modal-body mx-2">
             <div class="my-2">
-              <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
+              <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment">
                 <option disabled selected>Select Department*</option>
                 <?php 
                 // Check connection
@@ -71,36 +71,14 @@
               <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Code*</label>
-              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBFS2024001">
+              <label for="exampleFormControlInput1" class="form-label">SD Code*</label>
+              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBSD1234">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Coupon Value*</label>
-              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60">
-            </div>
-            <div class="my-2">
-              <span class="fw-semibold text-uppercase ">Base Time:*</span>
-              <select class="form-select" aria-label="Default select example" name="ownerTimeBase" id="TimeBase" onchange="displayIndividualTime()">
-                <option disabled >Select Time Base</option>
-                <option value="1" selected>Department Time</option>
-                <option value="2">Individual Time</option>
-              </select>
-            </div>
-            <div class="my-2 d-none" id="time_holder">
-              <div class="row">
-                <div class="col-12 text-center ">
-                  <span class="fw-bold text-uppercase ">Individual Time</span>
-                </div>
-                <div class="col-6">
-                  From Time:<input type="time" name="from_Time" id="inf_Time" class="w-100 form-control">
-                </div>
-                <div class="col-6">
-                  To Time:<input type="time" name="to_Time" id="int_Time" class="w-100 form-control">
-                </div>
-              </div>
+              <label for="exampleFormControlInput1" class="form-label">Max SD Credits Per Cut-off*</label>
+              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱1000">
             </div>
           </div>
-
           <div class="modal-footer">
             <button type="button" id="closeOwner" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" id="addOwner" class="btn btn-primary">ADD</button>
@@ -113,33 +91,6 @@
   <!-- Modal End -->
   
 <script>
-  function displayIndividualTime(){
-    var timebase_opt = $("#TimeBase").val();
-    // alert(timebase_opt);
-    if (timebase_opt == "1") {
-        $("#time_holder").addClass('d-none'); // Hide individual time fields
-    } else {
-        $("#time_holder").removeClass('d-none'); // Show individual time fields
-    }
-  }
-  function updateCouponPrefix(){
-    var departmentSelect = document.getElementById("selectDepartment");
-    var selectedOptionIndex = departmentSelect.selectedIndex;
-    var selectedOptionValue = departmentSelect.value;
-    // var selectedOption = departmentSelect.options[departmentSelect.selectedIndex];
-        // AJAX request
-        $.ajax({
-        url: "../process/coupon_generator.php",
-        type: "GET",
-        data: { id: selectedOptionValue },
-        success: function(response) {
-            $("#couponCode").val(response.value);
-        },
-        error: function(xhr, status, error) {
-            console.error("AJAX Error:", status, error);
-        }
-    });
-  }
   $(document).ready(function(){
             toastr.options = {
                 "closeButton": true,
@@ -171,7 +122,7 @@
           if(search=="")
           {
               $.ajax({
-                  url: "../process/owner_table.php",
+                  url: "../process/sd_owner_table.php",
                   type: "POST",
                   cache: false,
                   data:{
@@ -185,7 +136,7 @@
                   });
           }else{
               $.ajax({
-                  url: "../process/owner_table.php",
+                  url: "../process/sd_owner_table.php",
                   type: "POST",
                   cache: false,
                   data:{
