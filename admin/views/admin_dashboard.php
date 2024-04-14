@@ -20,20 +20,20 @@
    <div class="col-3">
     <div class="col">
         <div class="col">
-        From<input type="date" id="startDatePicker" name="fromDate" class="form-control" value="<?php echo $current_date ?>" />
+        From<input type="date" id="startDatePicker" name="fromDate" class="form-control" value="<?php echo $current_date ?>" style="border: 1px solid black;" />
         </div>
         <div class="col">
-        To<input type="date" id="endDatePicker" name="toDate" class="form-control" value="<?php echo $current_date ?>"/>
+        To<input type="date" id="endDatePicker" name="toDate" class="form-control" value="<?php echo $current_date ?>" style="border: 1px solid black;"/>
         </div>
     </div>
    </div>
    <div class="col-3">
     <div class="col">
         <div class="col">
-        From Time:<input type="time" id="timeIn" class="w-100 form-control">
+        From Time:<input type="time" id="timeIn" class="w-100 form-control" style="border: 1px solid black;">
         </div>
         <div class="col">
-        To Time:<input type="time" id="timeOut" class="w-100 form-control">
+        To Time:<input type="time" id="timeOut" class="w-100 form-control" style="border: 1px solid black;">
         </div>
     </div>
    </div>
