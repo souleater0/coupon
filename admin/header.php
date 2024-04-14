@@ -14,10 +14,10 @@ require 'process/session_restrict.php';
       .table-container{
         max-height: 700px;
         overflow-y: scroll;
-        width: 100%;
+        width: auto !important;
       }
       .table-container table {
-        width: 100%;
+        width: 100% !important;
       }
 
       .table-container thead {
@@ -48,13 +48,69 @@ require 'process/session_restrict.php';
           outline: 0 none;
         }
     </style>
+    <!-- <link href="../../assets/bootstrap533.min.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="../../assets/toastr.min.css"> -->
+    <!-- <script src="../../assets/jquery.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css"> -->
+    <!--  -->
     <link href="../../assets/bootstrap533.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/toastr.min.css">
+    <link rel="stylesheet" href="../../assets/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css">
+    <!-- <script src="../../assets/bootstrap.min.js.map"></script> -->
     <script src="../../assets/jquery.min.js"></script>
-    <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css" />
+    <!-- <script src="../../../assets/bootstrap.bundle.min.js"></script> -->
+    <script src="../../assets/bootstrap.min.js"></script>
+<!--  -->
   </head>
   <body>
-  <div class="container">
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown"style="margin-left:10% !important;">
+     <?php
+        $route = $_GET['route'] ?? 'home';
+        ?>
+    <ul class="navbar-nav">
+      <li class="nav-item"><a href="index.php?route=dashboard" class="nav-link <?php echo ($route == 'dashboard') ? 'active' : ''; ?>">Food Stub Reports</a></li>
+        <li class="nav-item"><a href="index.php?route=report_SD" class="nav-link <?php echo ($route == 'report_SD') ? 'active' : ''; ?>">Salary Deduction Reports</a></li>
+
+      <!-- dropss -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          OWNER
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a href="index.php?route=manage_owner_FS" class="dropdown-item <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">Food Stub Owner</a>
+          <a href="index.php?route=manage_owner_SD" class="dropdown-item <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Salary Deduct Owner</a>
+        </div>
+      </li>
+      <?php
+        if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
+        ?>
+      <li class="nav-item dropdown" >
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          MANAGEMENT
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a href="index.php?route=manage_department" class="dropdown-item <?php echo ($route == 'manage_department') ? 'active' : ''; ?>">Manage Department</a>
+          <a href="index.php?route=manage_clerk" class="dropdown-item <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">Manage Clerk</a>
+          <a href="index.php?route=manage_device" class="dropdown-item <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a>
+        </div>
+      </li>
+        <?php
+        }?>
+
+        <li class="nav-item active">
+        <a class="nav-link" href="/ecscoupon">back to dashboard <span class="sr-only">(current)</span></a>
+        
+      </li>
+    </ul>
+</div>
+</nav> 
+    <!--  -->
+  <!-- <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-2">
         <div class="text-black border">
@@ -80,10 +136,7 @@ require 'process/session_restrict.php';
       </ul>
 
       <div class="col-2 text-end">
-        <!-- <form action="../logout.php">
-          <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-        </form> -->
         <a href="/coupon" class="btn btn-outline-primary me-2">Return</a>
       </div>
     </header>
-  </div>
+  </div> -->
