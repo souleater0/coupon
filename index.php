@@ -222,28 +222,28 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 }
                             });
                         });
-                        // $('#addDeduction').click(function () {
-                        //     var formData = $('#sd_scan').serialize();
-                        //     // alert(formData);
-                        //     $.ajax({
-                        //         url: "process_scan.php",
-                        //         method: "POST",
-                        //         data: formData +
-                        //             "&action=addDeduction",
-                        //         dataType: "json",
-                        //         success: function (response) {
-                        //             if (response.success == true) {
-                        //                 toastr.success(response.message);
-                        //             } else {
-                        //                 toastr.error(response.message);
-                        //                 // $('#coupon').val("");
-                        //                 // $('#id').val("");
-                        //                 // $('#coupon').focus();
-                        //             }
-                        //         }
-                        //     });
-                        //     // alert(formData);
-                        // });
+                        $('#addDeduction').click(function () {
+                            var formData = $('#sd_scan').serialize();
+                            // alert(formData);
+                            $.ajax({
+                                url: "process_scan.php",
+                                method: "POST",
+                                data: formData +
+                                    "&action=addDeduction",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.success == true) {
+                                        toastr.success(response.message);
+                                    } else {
+                                        toastr.error(response.message);
+                                        // $('#coupon').val("");
+                                        // $('#id').val("");
+                                        // $('#coupon').focus();
+                                    }
+                                }
+                            });
+                            // alert(formData);
+                        });
                         autorefresh();
 
                         function autorefresh() {
