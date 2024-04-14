@@ -36,10 +36,10 @@
         <div class="modal-content">
         <form id="form_owner">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Owner Details</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">SD Owner Details</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body mx-2">
+          <div class="modal-body mx-2" style="height: 80vh; overflow-y:auto;">
             <div class="my-2">
               <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment">
                 <option disabled selected>Select Department*</option>
@@ -77,6 +77,28 @@
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Max SD Credits Per Cut-off*</label>
               <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱1000">
+            </div>
+            <div class="my-2">
+                <span class="fw-bold text-uppercase">1ST Cut-Off Day*</span>
+              </div>
+            <div class="my-2">
+              <span class="fw-semibold">Day Start*</span>
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+            </div>
+            <div class="my-2">
+            <span class="fw-semibold">Day End*</span>
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+            </div>
+            <div class="my-2">
+              <span class="fw-bold text-uppercase">2nd Cut-Off Day*</span>
+            </div>
+            <div class="my-2">
+              <span class="fw-semibold">Day Start*</span>
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+            </div>
+            <div class="my-2">
+            <span class="fw-semibold">Day End*</span>
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
             </div>
           </div>
           <div class="modal-footer">

@@ -96,6 +96,8 @@ if (!isset($_SESSION['admin_session_id'])) {
                         </div>
                     </div>
                 </div>
+                <!-- -->
+
                 <!--  -->
                 <div class="container">
                     <!-- <span class="w-50" id="basic-addon1">Search</span> -->
@@ -122,10 +124,60 @@ if (!isset($_SESSION['admin_session_id'])) {
 
                 </div>
             </div>
+            <!-- SALARY DEDUCTION TAB -->
             <div id="salary_deduction" class="tab-pane fade">
-                <h3>Menu 1</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.</p>
+                <!--  -->
+                <div class="container col d-flex justify-content-center" style="margin-bottom: 2%;margin-top: 5%;">
+                    <div class="card w-50">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">SALARY DEDUCTION</h1>
+                            <form id="barcode_scan" class="text-center">
+                                <label for="coupon">SD Barcode:</label>
+                                <input type="text" id="coupon" name="coupon" autofocus
+                                    oninput="moveToNextInput(this, 'id')">
+                                <br><br>
+                                <label for="id">ID Barcode:</label>
+                                <input type="text" id="id" name="id">
+                                                                <br><br>
+                                <label for="id">AMOUNT SD:</label>
+                                <input type="text" id="id" name="id">
+                                                                <br><br>
+                                <label for="id">RECEIPT #:</label>
+                                <input type="text" id="id" name="id">
+                                <br><br>
+                                <button type="button" id="addBarcode"
+                                    class="btn btn-primary">Submit</button>
+                            </form>
+                            </br>
+                            <input type="text" class="form-control search" id="live_search" autocomplete="off"
+                                placeholder="Type Stub Code">
+                        </div>
+                    </div>
+                </div>
+                <!-- -->
+                
+<div class="report-container">
+<table class="table table-hover">
+        <thead>
+            <tr> 
+            <th scope="col">OWNER NAME</th>
+            <th scope="col">DEPARTMENT</th>
+            <th scope="col">SD CODE</th>
+            <th scope="col">CREDIT BALANCE</th>
+            <th scope="col">ACTION</th>
+            </tr>
+        </thead>
+        <tbody id="tableReport">
+                <td>dsa</td>
+                 <td>dsa</td>
+                  <td>ESKSD20240001</td>
+                  <td>1000</td>
+                   <td><a class="btn btn-primary" href="sdowner_view.php">view</a></td>
+        </tbody>
+</table>
+</div>
+<!-- SALARY DEDUCTION END -->
+                <!--  -->
             </div>
 
         </div>
