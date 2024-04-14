@@ -1,4 +1,3 @@
-
 <?php
 include '../../db_connection.php';
 include 'time_zone.php';
@@ -7,10 +6,20 @@ require 'process/session_restrict.php';
 <!doctype html>
 <html lang="en">
   <head>
+  	<title></title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EC Solution - Admin</title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../../assetlibrary/css/style.css">
+        <script src="../../assets/jquery.min.js"></script>
+        <script src="../../assetlibrary/js/bootstrap.min.js"></script>
+    <script src="../../assetlibrary/js/main.js"></script>
+    <link rel="stylesheet" href="../../assets/toastr.min.css">
+    <script src="../../assets/toastr.min.js"></script>
+<style>
       .table-container{
         max-height: 700px;
         overflow-y: scroll;
@@ -48,95 +57,68 @@ require 'process/session_restrict.php';
           outline: 0 none;
         }
     </style>
-    <!-- <link href="../../assets/bootstrap533.min.css" rel="stylesheet"> -->
-    <!-- <link rel="stylesheet" href="../../assets/toastr.min.css"> -->
-    <!-- <script src="../../assets/jquery.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css"> -->
-    <!--  -->
-    <link href="../../assets/bootstrap533.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/toastr.min.css">
-    <link rel="stylesheet" href="../../assets/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/bootstrap-datepicker.css">
-    <!-- <script src="../../assets/bootstrap.min.js.map"></script> -->
-    <script src="../../assets/jquery.min.js"></script>
-    <!-- <script src="../../../assets/bootstrap.bundle.min.js"></script> -->
-    <script src="../../assets/bootstrap.min.js"></script>
-<!--  -->
   </head>
   <body>
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown"style="margin-left:10% !important;">
-     <?php
+
+		  <div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+      
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	        </button>
+        </div>
+	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+	  			<div class="user-logo">
+	  				<div class="img" style="background-image: url(images/logo.jpg);"></div>
+	  				<h3>EC SOLUTIONS</h3>
+	  			</div>
+	  		</div>
+	  		<?php
         $route = $_GET['route'] ?? 'home';
         ?>
-    <ul class="navbar-nav">
-      <li class="nav-item"><a href="index.php?route=dashboard" class="nav-link <?php echo ($route == 'dashboard') ? 'active' : ''; ?>">Food Stub Reports</a></li>
-        <li class="nav-item"><a href="index.php?route=report_SD" class="nav-link <?php echo ($route == 'report_SD') ? 'active' : ''; ?>">Salary Deduction Reports</a></li>
-
-      <!-- dropss -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          OWNER
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a href="index.php?route=manage_owner_FS" class="dropdown-item <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">Food Stub Owner</a>
-          <a href="index.php?route=manage_owner_SD" class="dropdown-item <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Salary Deduct Owner</a>
-        </div>
-      </li>
-      <?php
+        <ul class="list-unstyled components mb-5">
+          <li class="active">
+            <a href="index.php?route=dashboard" <?php echo ($route == 'dashboard') ? 'active' : ''; ?>><span class="fa fa-gift mr-3"></span> food stub reports</a>
+          </li>
+          <li>
+              <a href="index.php?route=report_SD"  <?php echo ($route == 'report_SD') ? 'active' : ''; ?>>Salary Deduction Reports</a>
+          </li>
+          
+          <li>
+            <a href="index.php?route=manage_owner_FS"  <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>>Food Stub Owner</a>
+          </li>
+          <li>
+            <a href="index.php?route=manage_owner_SD" <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>>Salary Deduct Owner</a>
+          </li>
+          <!-- sseision role -->
+          <?php
         if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
         ?>
-      <li class="nav-item dropdown" >
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          MANAGEMENT
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a href="index.php?route=manage_department" class="dropdown-item <?php echo ($route == 'manage_department') ? 'active' : ''; ?>">Manage Department</a>
-          <a href="index.php?route=manage_clerk" class="dropdown-item <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">Manage Clerk</a>
-          <a href="index.php?route=manage_device" class="dropdown-item <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a>
-        </div>
-      </li>
-        <?php
+          <li>
+            <a href="index.php?route=manage_department" <?php echo ($route == 'manage_department') ? 'active' : ''; ?>>Manage Department</a>
+          </li>
+          <li>
+           <a href="index.php?route=manage_device" class="dropdown-item <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a>
+          </li>
+          <?php
         }?>
+          <li>
+            <a class="nav-link" href="/coupon">back to dashboard <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
 
-        <li class="nav-item active">
-        <a class="nav-link" href="/coupon">back to dashboard <span class="sr-only">(current)</span></a>
-        
-      </li>
-    </ul>
+    	</nav>
+       <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4"></h2>
+        <?php 
+    require '../route.php';
+?>
+      </div>
+
 </div>
-</nav> 
-    <!--  -->
-  <!-- <div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-      <div class="col-2">
-        <div class="text-black border">
-          <?php echo $day_name.', '.$current_date_format.'<br>'.$current_time_format?>
-        </div>
-      </div>
-      <ul class="nav nav-pills col-8 mb-2 justify-content-center" id="headerNav">
-        <?php
-        $route = $_GET['route'] ?? 'home';
-        ?>
-        <li class="nav-item"><a href="index.php?route=dashboard" class="nav-link <?php echo ($route == 'dashboard') ? 'active' : ''; ?>">Food Stub Reports</a></li>
-        <li class="nav-item"><a href="index.php?route=report_SD" class="nav-link <?php echo ($route == 'report_SD') ? 'active' : ''; ?>">Salary Deduction Reports</a></li>
-        <?php
-        if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
-        ?>
-        <li class="nav-item"><a href="index.php?route=manage_owner_FS" class="nav-link <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">Food Stub Owner</a></li>
-        <li class="nav-item"><a href="index.php?route=manage_owner_SD" class="nav-link <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">Salary Deduct Owner</a></li>
-        <li class="nav-item"><a href="index.php?route=manage_department" class="nav-link <?php echo ($route == 'manage_department') ? 'active' : ''; ?>">Manage Department</a></li>
-        <li class="nav-item"><a href="index.php?route=manage_clerk" class="nav-link <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">Manage Clerk</a></li>
-        <li class="nav-item"><a href="index.php?route=manage_device" class="nav-link <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a></li>
-        <?php
-        }?>
-      </ul>
+        <!-- Page Content  -->
+      
 
-      <div class="col-2 text-end">
-        <a href="/coupon" class="btn btn-outline-primary me-2">Return</a>
-      </div>
-    </header>
-  </div> -->
+
+ 
+ 

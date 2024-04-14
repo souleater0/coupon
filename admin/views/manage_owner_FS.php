@@ -1,12 +1,14 @@
-<div class="container" style="width: 100% !important;">
+<h2 class="modal-title text-center">FOOD STUB OWNER</h2><br><br>
+<div  style="width: 100% !important;">
   <div class="row mb-2">
     <div class="col">
     <span class="" id="basic-addon1">Search</span>
-    <input type="text" class="form-control search w-100" placeholder="Ex. Owner ID OR Coupon Code" id="live_search" autocomplete="off">
+    <input type="text" class="form-control search w-100" placeholder="Ex. Owner ID OR Coupon Code" id="live_search" autocomplete="off" style="border: 1px solid black;">
+   
     </div>
-    <div class="col">
-  <div class="float-end mb-2">
-        <button type="button" id="addOwnerBtn" class="btn btn-primary" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
+ <div class="col align-self-end">
+  <div class="float-right ">
+         <button type="button" id="addOwnerBtn" class="btn btn-primary float-end" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
   </div>
     </div>
   </div>
@@ -39,7 +41,7 @@
         <form id="form_owner">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Food Stub Owner Details</h1>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
           </div>
           <div class="modal-body mx-2">
             <div class="my-2">
@@ -62,23 +64,23 @@
             </div>
              <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Owner ID*</label>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234" style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
-              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz">
+              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com">
+              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Coupon Code*</label>
-              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBFS2024001">
+              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBFS2024001"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Coupon Value*</label>
-              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60">
+              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱60" style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <span class="fw-semibold text-uppercase ">Base Time:*</span>
@@ -94,10 +96,10 @@
                   <span class="fw-bold text-uppercase ">Individual Time</span>
                 </div>
                 <div class="col-6">
-                  From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control">
+                  From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control"style="border:0.5px solid black;">
                 </div>
                 <div class="col-6">
-                  To Time:<input type="time" name="to_Time" id="to_Time" class="w-100 form-control">
+                  To Time:<input type="time" name="to_Time" id="to_Time" class="w-100 form-control"style="border:0.5px solid black;">
                 </div>
               </div>
             </div>

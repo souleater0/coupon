@@ -1,12 +1,12 @@
-<div class="container">
+<h2 class="modal-title text-center">SALARY DEDUCTION OWNER</h2><br><br>
+<div  style="width: 100% !important;">
     <div class="row mb-2">
         <div class="col">
             <span class="" id="basic-addon1">Search</span>
-            <input type="text" class="form-control search w-100" placeholder="Ex. Department or Prefix" id="live_search"
-                autocomplete="off">
+            <input type="text" class="form-control search w-100" placeholder="Ex. Department or Prefix" id="live_search" autocomplete="off"style="border:0.5px solid black;">
         </div>
-        <div class="col">
-            <div class="float-end mb-2">
+        <div class="col align-self-end">
+            <div class="float-right">
                 <button type="button" id="addDepartmentBtn" class="btn btn-primary" data-toggle="modal"
                     data-target="#depModal">Add Department</button>
             </div>
@@ -40,15 +40,15 @@
           <div class="modal-body mx-2">
              <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Department</label>
-              <input type="text" class="form-control" id="in_Department" name="in_Department" placeholder="Ex. Marketing">
+              <input type="text" class="form-control" id="in_Department" name="in_Department" placeholder="Ex. Marketing"style="border:0.5px solid black;">
             </div>
             <div class="my-2 mx-2">
               <div class="row">
                 <div class="col-6">
-                    From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control">
+                    From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control"style="border:0.5px solid black;">
                   </div>
                   <div class="col-6">
-                    To Time:<input type="time" name="to_Time" id="to_Time" class="w-100 form-control">
+                    To Time:<input type="time" name="to_Time" id="to_Time" class="w-100 form-control"style="border:0.5px solid black;">
                   </div>
               </div>
             </div>

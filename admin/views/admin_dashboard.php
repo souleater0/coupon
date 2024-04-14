@@ -14,7 +14,8 @@
         background-color: white;
       }
 </style>
-<div class="container">
+<h2 class="modal-title text-center">FOOD STUB REPORTS</h2><br><br>
+<div style="width:100% !important;">
 <div class="input-daterange row align-items-end">
    <div class="col-3">
     <div class="col">
@@ -84,7 +85,6 @@
    </div>
 </div>
 </br></br>
-<h1 class="text-uppercase text-center">Food Stub Reports</h1></br></br>
 <div class="report-container">
 <table class="table table-hover">
         <thead>

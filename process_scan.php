@@ -233,6 +233,121 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
         );
     }
 }
+if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
+    if(isset($_POST['sd_coupon']) && empty($_POST['sd_coupon'])){
+        $response = array(
+            'success' => false,
+            'message' => 'Please Enter SD Code!',
+        );
+    }else if (isset($_POST['s_id']) && empty($_POST['s_id'])){
+        $response = array(
+            'success' => false,
+            'message' => 'Please Enter Owner ID!',
+        );
+    }else if (isset($_POST['amount_sd']) && empty($_POST['amount_sd'])){
+        $response = array(
+            'success' => false,
+            'message' => 'Please Enter Amount!',
+        );
+    }else if (isset($_POST['receipt_no']) && empty($_POST['receipt_no'])){
+        $response = array(
+            'success' => false,
+            'message' => 'Please Enter Receipt No. !',
+        );
+    }else{
+        $sd_Coupon = $_POST['sd_coupon'];
+        $ownerID = $_POST['s_id'];
+        $amount = $_POST['amount_sd'];
+        $receiptNo = $_POST['receipt_no'];
+
+        $check_Owner = "SELECT a.staff_id
+        FROM owners a 
+        INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
+        WHERE b.sd_code = '$sd_Coupon'";
+
+        $result_check_Owner = mysqli_query($conn, $check_Owner);
+        if($result_check_Owner->num_rows > 0){
+            $sd_row = mysqli_fetch_assoc($result_check_Owner);
+            //check owner if id matches
+            if($sd_row["staff_id"] == $ownerID){
+                //continue then validate amount
+                $query_sd_owners = "SELECT
+				a.staff_id,
+                a.owner_name,
+                b.department_name,
+                c.sd_code,
+                MAX(c.sd_credits) - IFNULL(SUM(d.amount_sd), 0) AS remaining_balance 
+            FROM
+                owners a
+                INNER JOIN department b ON b.id = a.owner_department
+                INNER JOIN salary_deduction c ON c.owner_id = a.staff_id
+                LEFT JOIN balance_deducted d ON d.sd_code = c.sd_code 
+                    AND d.owner_id = a.staff_id 
+                    AND (
+                        CASE 
+                            WHEN DAY(CURRENT_DATE()) BETWEEN c.first_cut_start AND c.first_cut_end THEN
+                                DAY(d.created_at) BETWEEN c.first_cut_start AND c.first_cut_end 
+                            WHEN DAY(CURRENT_DATE()) BETWEEN c.second_cut_start AND c.second_cut_end THEN
+                                DAY(d.created_at) BETWEEN c.second_cut_start AND c.second_cut_end 
+                        END
+                    )
+                    AND MONTH(d.created_at) = MONTH(CURRENT_DATE()) 
+                    AND YEAR(d.created_at) = YEAR(CURRENT_DATE()) 
+                    AND d.void = '0'
+                WHERE c.sd_code = '$sd_Coupon'
+            GROUP BY
+                a.owner_name,
+                b.department_name,
+                c.sd_code
+                ";
+            $result_owners = mysqli_query($conn, $query_sd_owners);
+                if($result_owners->num_rows > 0){
+                    $owner_ROW = mysqli_fetch_assoc($result_owners);
+                    //check amount
+                    $remaining_BALANCE = $owner_ROW["remaining_balance"];
+                    if($amount<=$remaining_BALANCE){
+                        $response = array(
+                            'success' => true,
+                            'message' => 'Balance has been deducted!',
+                        ); 
+                    }else{
+                        $response = array(
+                            'success' => false,
+                            'message' => 'Not enough balance to deduct',
+                        );
+                    }
+                }
+            }else{
+                $response = array(
+                    'success' => false,
+                    'message' => 'Owner does not match!',
+                );
+            }
+        }else{
+            $response = array(
+                'success' => false,
+                'message' => 'SD code does not exist!',
+            );
+        }
+    }
+    // $response = array(
+    //     'success' => true,
+    //     'message' => 'Balance has been deducted!',
+    // );
+    // $response = array(
+    //     'success' => false,
+    //     'message' => 'SD code does not exist!',
+    // );
+    // $response = array(
+    //     'success' => false,
+    //     'message' => 'Owner does not match!',
+    // );
+    // $response = array(
+    //     'success' => false,
+    //     'message' => 'Not enough balance to deduct',
+    // );
+
 header('Content-Type: application/json');
 echo json_encode($response);
+}
 ?>

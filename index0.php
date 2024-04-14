@@ -136,7 +136,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                     <div class="card w-50">
                         <div class="card-body">
                             <h1 class="card-title text-center">SALARY DEDUCTION</h1>
-                            <form id="barcode_scan" class="text-center">
+                            <form id="sd_scan" class="text-center">
                                 <label for="coupon">SD Barcode:</label>
                                 <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                                     oninput="moveToNextInput(this, 'id')">
@@ -150,8 +150,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 <label for="id">RECEIPT #:</label>
                                 <input type="text" id="receipt_no" name="receipt_no">
                                 <br><br>
-                                <button type="button" id="addBarcode"
-                                    class="btn btn-primary">Submit</button>
+                                <button type="button" id="addDeduction" class="btn btn-primary">Submit</button>
                             </form>
                             </br>
                             <input type="text" class="form-control search" id="live_search2" autocomplete="off"
@@ -245,6 +244,10 @@ if (!isset($_SESSION['admin_session_id'])) {
                                     }
                                 }
                             });
+                        });
+                        $('#addDeduction').click(function () {
+                            // var formData = $('#sd_scan').serialize();
+                            alert("test");
                         });
                         autorefresh();
 

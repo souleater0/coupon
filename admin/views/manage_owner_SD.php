@@ -1,11 +1,12 @@
-<div class="container">
+<h2 class="modal-title text-center">SALARY DEDUCTION OWNER</h2><br><br>
+<div  style="width: 100% !important;">
   <div class="row mb-2">
     <div class="col">
     <span class="" id="basic-addon1">Search</span>
-    <input type="text" class="form-control search w-100" placeholder="Ex. Owner ID OR Coupon Code" id="live_search" autocomplete="off">
+    <input type="text" class="form-control search w-100" placeholder="Ex. Owner ID OR Coupon Code" id="live_search" autocomplete="off" style="border:1px solid black;">
     </div>
-    <div class="col">
-  <div class="float-end mb-2">
+    <div class="col align-self-end">
+  <div class="float-right">
         <button type="button" id="addOwnerBtn" class="btn btn-primary" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
   </div>
     </div>
@@ -60,45 +61,45 @@
             </div>
              <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Owner ID*</label>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
-              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz">
+              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com">
+              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">SD Code*</label>
-              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBSD1234">
+              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBSD1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Max SD Credits Per Cut-off*</label>
-              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱1000">
+              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱1000"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
                 <span class="fw-bold text-uppercase">1ST Cut-Off Day*</span>
               </div>
             <div class="my-2">
               <span class="fw-semibold">Day Start*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
             <span class="fw-semibold">Day End*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <span class="fw-bold text-uppercase">2nd Cut-Off Day*</span>
             </div>
             <div class="my-2">
               <span class="fw-semibold">Day Start*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
             <span class="fw-semibold">Day End*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234">
+              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
           </div>
           <div class="modal-footer">

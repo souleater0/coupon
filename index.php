@@ -96,7 +96,7 @@ if (!isset($_SESSION['admin_session_id'])) {
     </div>
 
     <div id="sd_section" class="tab-pane fade">
-       <form id="barcode_scan" class="text-center">
+       <form id="sd_scan" class="text-center">
             <label for="coupon">SD Barcode:</label>
             <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                 oninput="moveToNextInput(this, 'id')">
@@ -110,8 +110,7 @@ if (!isset($_SESSION['admin_session_id'])) {
             <label for="id">RECEIPT #:</label>
             <input type="text" id="receipt_no" name="receipt_no">
             <br><br>
-            <button type="button" id="addBarcode"
-                class="btn btn-primary">Submit</button>
+            <button type="button" id="addDeduction" class="btn btn-primary">Submit</button>
         </form>
         <input type="text" class="form-control search" id="live_search2" autocomplete="off"
             placeholder="Type Stub Code" style="border:1px solid black;">
@@ -221,6 +220,28 @@ if (!isset($_SESSION['admin_session_id'])) {
                                     }
                                 }
                             });
+                        });
+                        $('#addDeduction').click(function () {
+                            var formData = $('#sd_scan').serialize();
+                            // alert(formData);
+                            $.ajax({
+                                url: "process_scan.php",
+                                method: "POST",
+                                data: formData +
+                                    "&action=addDeduction",
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response.success == true) {
+                                        toastr.success(response.message);
+                                    } else {
+                                        toastr.error(response.message);
+                                        // $('#coupon').val("");
+                                        // $('#id').val("");
+                                        // $('#coupon').focus();
+                                    }
+                                }
+                            });
+                            // alert(formData);
                         });
                         autorefresh();
 
