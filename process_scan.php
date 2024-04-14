@@ -3,6 +3,7 @@ include 'admin/time_zone.php';
 include 'db_connection.php';
 session_start();
 if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
+
     if(isset($_POST['coupon']) && !empty($_POST['coupon']) && isset($_POST['id']) && !empty($_POST['id'])) {
         $coupon = $_POST['coupon'];
         $owner_id = $_POST['id'];
@@ -232,6 +233,8 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
             'message' => 'Please Enter All Data First!',
         );
     }
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
     if(isset($_POST['sd_coupon']) && empty($_POST['sd_coupon'])){
@@ -306,6 +309,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
                     //check amount
                     $remaining_BALANCE = $owner_ROW["remaining_balance"];
                     if($amount<=$remaining_BALANCE){
+                        $insert_Deduction = "INSERT INTO balance_deducted (amount_sd,receipt_no,sd_code,owner_id)
+                        VALUES ('$amount','$receiptNo','$sd_Coupon','$ownerID')";
+                        mysqli_query($conn, $insert_Deduction);
                         $response = array(
                             'success' => true,
                             'message' => 'Balance has been deducted!',

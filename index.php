@@ -97,7 +97,7 @@ if (!isset($_SESSION['admin_session_id'])) {
 
     <div id="sd_section" class="tab-pane fade">
        <form id="sd_scan" class="text-center">
-            <label for="coupon">SD Barcode:</label>
+            <label for="sd_coupon">SD Barcode:</label>
             <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                 oninput="moveToNextInput(this, 'id')">
             <br><br>
@@ -196,7 +196,8 @@ if (!isset($_SESSION['admin_session_id'])) {
                             }
                         });
                         $('#addBarcode').click(function () {
-                            var formData = $('#barcode_scan').serialize()
+                            var formData = $('#barcode_scan').serialize();
+                            //alert(formData);
                             $.ajax({
                                 url: "process_scan.php",
                                 method: "POST",
@@ -221,28 +222,28 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 }
                             });
                         });
-                        $('#addDeduction').click(function () {
-                            var formData = $('#sd_scan').serialize();
-                            // alert(formData);
-                            $.ajax({
-                                url: "process_scan.php",
-                                method: "POST",
-                                data: formData +
-                                    "&action=addDeduction",
-                                dataType: "json",
-                                success: function (response) {
-                                    if (response.success == true) {
-                                        toastr.success(response.message);
-                                    } else {
-                                        toastr.error(response.message);
-                                        // $('#coupon').val("");
-                                        // $('#id').val("");
-                                        // $('#coupon').focus();
-                                    }
-                                }
-                            });
-                            // alert(formData);
-                        });
+                        // $('#addDeduction').click(function () {
+                        //     var formData = $('#sd_scan').serialize();
+                        //     // alert(formData);
+                        //     $.ajax({
+                        //         url: "process_scan.php",
+                        //         method: "POST",
+                        //         data: formData +
+                        //             "&action=addDeduction",
+                        //         dataType: "json",
+                        //         success: function (response) {
+                        //             if (response.success == true) {
+                        //                 toastr.success(response.message);
+                        //             } else {
+                        //                 toastr.error(response.message);
+                        //                 // $('#coupon').val("");
+                        //                 // $('#id').val("");
+                        //                 // $('#coupon').focus();
+                        //             }
+                        //         }
+                        //     });
+                        //     // alert(formData);
+                        // });
                         autorefresh();
 
                         function autorefresh() {
