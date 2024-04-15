@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2024 at 08:12 PM
+-- Generation Time: Apr 15, 2024 at 03:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -46,7 +46,8 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`id`, `email`, `password`, `display_name`, `pin`, `role_id`, `location`, `created_at`, `updated_at`) VALUES
 (1, 'test', 'test', 'jerome', '1234', 1, 'ESKINA', NULL, NULL),
 (2, 'test2', 'test2', 'jhondoll', '1234', 1, 'SNACK BAR', NULL, NULL),
-(3, 'admin', 'admin', 'admin', '1111', 2, NULL, NULL, NULL);
+(3, 'admin', 'admin', 'admin', '1111', 2, NULL, NULL, NULL),
+(11, 'test43', 'test3', 'test4', NULL, 1, 'secret', '2024-04-15 06:10:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -448,7 +449,9 @@ INSERT INTO `claims` (`id`, `owner_id`, `coupon_id`, `admin_id`, `claim_date`, `
 (346, 138, 138, 1, '2024-04-09 03:55:36', NULL, 'claimed'),
 (396, 227, 227, 3, '2024-04-14 13:33:29', '2024-04-14 23:59:59', 'claimed'),
 (397, 43, 43, 1, '2024-04-14 13:01:28', '2024-04-15 04:00:00', 'claimed'),
-(398, 122, 122, 2, '2024-04-14 13:01:30', '2024-04-15 04:00:00', 'claimed');
+(398, 122, 122, 2, '2024-04-14 13:01:30', '2024-04-15 04:00:00', 'claimed'),
+(399, 163, 163, 3, '2024-04-15 13:34:04', '2024-04-16 04:00:00', 'claimed'),
+(400, 159, 159, 3, '2024-04-15 13:35:31', '2024-04-16 04:00:00', 'claimed');
 
 -- --------------------------------------------------------
 
@@ -1101,7 +1104,7 @@ INSERT INTO `owners` (`id`, `staff_id`, `owner_name`, `base_time`, `from_time`, 
 (224, '21122001', 'IVANN JAMES IRRODESTAN', 1, NULL, NULL, '', 4),
 (225, '230629529', 'SHIRLEY SAYO', 1, NULL, NULL, '', 6),
 (226, '230629625', 'LENN MATTHEW VALDEZ', 1, NULL, NULL, '', 6),
-(227, '230629406', 'JEROME DE LARA', 2, '09:00:00', '23:59:59', '', 4),
+(227, '230629406', 'JEROME DE LARA', 1, '08:00:00', '23:59:59', '', 4),
 (228, '22053004', 'SWEDEN SAMBAJON', 1, NULL, NULL, '', 6),
 (229, '230629563', 'LHEANEAL VALMADRID', 1, NULL, NULL, '', 6),
 (230, '21093001', 'CORAZON HERRERA', 1, NULL, NULL, '', 6),
@@ -1705,7 +1708,7 @@ ALTER TABLE `salary_deduction`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `balance_deducted`
@@ -1717,7 +1720,7 @@ ALTER TABLE `balance_deducted`
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=399;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=401;
 
 --
 -- AUTO_INCREMENT for table `coupons`
