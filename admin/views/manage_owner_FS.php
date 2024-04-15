@@ -94,10 +94,10 @@
                   <span class="fw-bold text-uppercase ">Individual Time</span>
                 </div>
                 <div class="col-6">
-                  From Time:<input type="time" name="from_Time" id="inf_Time" class="w-100 form-control">
+                  From Time:<input type="time" name="from_Time" id="from_Time" class="w-100 form-control">
                 </div>
                 <div class="col-6">
-                  To Time:<input type="time" name="to_Time" id="int_Time" class="w-100 form-control">
+                  To Time:<input type="time" name="to_Time" id="to_Time" class="w-100 form-control">
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@
                       // toastr.success("Record Retrieve Successful");
                       $('#manageTable').html(data);
                   }
-                  });
+              });
           }else{
               $.ajax({
                   url: "../process/owner_table.php",

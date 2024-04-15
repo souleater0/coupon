@@ -7,8 +7,8 @@
         </div>
         <div class="col">
             <div class="float-end mb-2">
-                <button type="button" id="addClerkBtn" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#clerkModal">Add Clerk</button>
+                <button type="button" id="addClerkBtn" class="btn btn-primary" data-toggle="modal"
+                    data-target="#clerkModal">Add Clerk</button>
             </div>
         </div>
     </div>
@@ -35,9 +35,13 @@
         <form id="form_clerk">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Clerk Details</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-2">
+          <div class="my-2">
+              <label for="exampleFormControlInput1" class="form-label">Display Name</label>
+              <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Ex. juandelacruz" required>
+            </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Email</label>
               <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com" required>
@@ -45,14 +49,14 @@
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Password</label>
               <div class="d-flex">
-              <input type="password" class="form-control" id="in_Password" name="in_Password" placeholder="Ex. ₱60" required>
+              <input type="password" class="form-control" id="in_Password" name="in_Password" placeholder="Ex. *******" required>
               <button type="button" class="btn btn-info" id="show_Pass">SHOW</button>
               </div>
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Confirm Password</label>
               <div class="d-flex">
-              <input type="password" class="form-control" id="in_ConPassword" name="in_ConPassword" placeholder="Ex. ₱60" required>
+              <input type="password" class="form-control" id="in_ConPassword" name="in_ConPassword" placeholder="Ex. *******" required>
               <button type="button" class="btn btn-info" id="show_ConPass">SHOW</button>
               </div>
             </div>
@@ -61,7 +65,7 @@
               <input type="text" class="form-control" id="in_Location" name="in_Location" placeholder="Ex. ESKINA" required>
             </div>
           <div class="modal-footer">
-            <button type="button" id="closeClerk" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="closeClerk" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="addClerk" class="btn btn-primary">ADD</button>
             <button type="button" id="updateClerk" update-id="" class="btn btn-primary">UPDATE</button>
           </div>
@@ -161,16 +165,44 @@ $(document).ready(function(){
             if(response.success==true){
                 toastr.success(response.message);
                 LoadTable();
-                $("#closeOwner").click();
+                $("#closeClerk").click();
             }else{
                 toastr.error(response.message);
             }
         }
     });
   });
+  $('#updateClerk').click(function(){
+    var recordID = $(this).attr("update-id");
+    // alert(recordID);
+    var formData = $('#form_clerk').serialize();
+    $.ajax({
+          url: "../process/admin_action.php",
+          method: "POST",
+          data: formData+"&action=updateClerk&updateId="+recordID,
+          dataType: "json",
+          success: function(response) {
+              if(response.success==true){
+                  toastr.success(response.message);
+                  LoadTable();
+                  $("#closeClerk").click();
+              }else{
+                  toastr.error(response.message);
+              }
+          }
+      });
+  });
+
   $('#addClerkBtn').click(function(){
-        $("#addClerkBtn").show();
-        $("#updateClerk").hide();
+    $("#addClerk").show();
+    $("#updateClerk").hide();
+    $('#ownerName').val("");
+    $('#in_ownerEmail').val("");
+    $('#in_Password').val("");
+    $('#in_ConPassword').val("");
+    $('#in_Location').val("");
+    $("#updateClerk").attr("update-id", "");
+    LoadTable();
   });
 });
 </script>

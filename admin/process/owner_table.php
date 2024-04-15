@@ -111,7 +111,14 @@
                     $('#in_ownerEmail').val(response.data.owner_email);
                     $('#couponCode').val(response.data.coupon_code);
                     $('#couponValue').val(response.data.coupon_value);
-                    $("#updateOwner").attr("update-id", recordID);
+                    $('#TimeBase').val(response.data.base_time);
+                    if(response.data.base_time==2){
+                        $('#from_Time').val(response.data.from_time);
+                        $('#to_Time').val(response.data.to_time);
+                    }
+                    $("#updateClerk").attr("update-id", recordID);
+                    
+                    displayIndividualTime();
                 }else{
                     toastr.error(response.message);
                 }

@@ -36,10 +36,31 @@
 
 <script>
     $('.editClerk').click(function(){
-        // $("#updateOwner").show();
-        // $("#addOwner").hide();
-        // var recordID = $(this).attr("record-id");
-        $("#clerkModal").modal("show");
+        $("#updateClerk").show();
+        $("#addClerk").hide();
+        var recordID = $(this).attr("record-id");
+        $.ajax({
+            url: "../process/admin_action.php",
+            method: "POST",
+            data: {recordID:recordID, action: "fetchClerk"},
+            dataType: "json",
+            success: function(response) {
+                if(response.success==true){
+                    toastr.success(response.message);
+                    $("#clerkModal").modal("show");
+                    
+                    // console.log(response.data.display_name);
+                    $('#ownerName').val(response.data.display_name);
+                    $('#in_ownerEmail').val(response.data.email);
+                    $('#in_Password').val(response.data.password);
+                    $('#in_ConPassword').val(response.data.password);
+                    $('#in_Location').val(response.data.location);
+                    $("#updateClerk").attr("update-id", recordID);
+                }else{
+                    toastr.error(response.message);
+                }
+            }
+        });
     });
     $('.deleteClerk').click(function(){
         var recordID = $(this).attr("record-id");

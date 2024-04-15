@@ -103,7 +103,7 @@ require 'process/session_restrict.php';
         }?>
 
         <li class="nav-item active">
-        <a class="nav-link" href="/ecscoupon">back to dashboard <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/coupon">back to dashboard <span class="sr-only">(current)</span></a>
         
       </li>
     </ul>
