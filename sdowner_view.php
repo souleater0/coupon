@@ -61,7 +61,7 @@ include 'admin/time_zone.php';
             $second_cut_end_date = date('Y-m-d', strtotime("$current_year-$current_month-$second_cut_end"));
 
             //Retrieve Deduction Data within the specified cut-off periods
-            $sql_compute_deduction = "SELECT amount_sd FROM balance_deducted WHERE DATE(created_at) BETWEEN '$second_cut_start_date' AND '$second_cut_end_date' AND void = '0' AND owner_id = '$staff_id' ";
+            $sql_compute_deduction = "SELECT amount_sd FROM balance_deducted WHERE DATE(created_at) BETWEEN '$first_cut_start_date' AND '$first_cut_end_date' AND void = '0' AND owner_id = '$staff_id' ";
             $result_compute_deduction = $conn->query($sql_compute_deduction);
             $total_deduction_first_cut = 0;
             while ($row = $result_compute_deduction->fetch_assoc()) {
@@ -70,7 +70,7 @@ include 'admin/time_zone.php';
             $query_Cut_Off_LOGS = "SELECT DISTINCT DATE(created_at) AS transaction_date 
             FROM balance_deducted
             WHERE owner_id = '$staff_id' 
-            AND DATE(created_at) BETWEEN '$second_cut_start_date' AND '$second_cut_end_date'";
+            AND DATE(created_at) BETWEEN '$first_cut_start_date' AND '$first_cut_end_date'";
             $result_Cut_Off_LOGS = mysqli_query($conn, $query_Cut_Off_LOGS);    
         }        
 

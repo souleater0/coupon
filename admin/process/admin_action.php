@@ -343,6 +343,41 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'deleteClerk'){
     header('Content-Type: application/json');
     echo json_encode($response);
 }
+// else if(!empty($_POST['action']) && $_POST['action'] == 'fetchDepartment'){
+
+// }
+else if(!empty($_POST['action']) && $_POST['action'] == 'addDepartment'){
+    if(empty($_POST['in_Department']) && isset($_POST['in_Department'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please Enter a Department!",
+        );
+    }
+    else if(empty($_POST['from_Time']) && isset($_POST['from_Time'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please select Starting Time!",
+        );
+    }
+    else if(empty($_POST['to_Time']) && isset($_POST['to_Time'])){
+        $response = array(
+            'success' => false,
+            'message' => "Please select End Time!",
+        );
+    }else{
+        // $departmentName = "";
+        // $To_Time = "";
+        $sql_department ="SELECT * FROM department WHERE department_name = ''"; 
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+// else if(!empty($_POST['action']) && $_POST['action'] == 'updateDepartment'){
+
+// }
+// else if(!empty($_POST['action']) && $_POST['action'] == 'deleteDepartment'){
+
+// }
 else{
     $response = array(
         'success' => false,

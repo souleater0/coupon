@@ -35,7 +35,7 @@
     </style>
     <link href="../assets/bootstrap533.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/toastr.min.css">
-    <script src="../assets//jquery.min.js"></script>
+    <script src="../assets/jquery.min.js"></script>
   </head>
   <body>
         <div class="login-form">
