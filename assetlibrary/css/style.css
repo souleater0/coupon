@@ -59,6 +59,13 @@ body {
   text-align: left;
   background-color: #fff; }
 
+.search{
+  background: url("../img/search.svg") no-repeat left !important;
+  background-size: 20px !important;
+  padding-left: 30px !important;
+  /* background: red !important; */
+}
+  
 [tabindex="-1"]:focus {
   outline: 0 !important; }
 

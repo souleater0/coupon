@@ -15,7 +15,10 @@ if(isset($_POST['search']) && !empty($_POST['search'])){
     INNER JOIN coupons c ON a.coupon_id = c.id
     INNER JOIN department d ON b.owner_department = d.id
     INNER JOIN admins e ON a.admin_id = e.id
-    WHERE DATE(a.claim_date) = '$current_date' AND c.coupon_code LIKE '%{$searchCode}%' OR b.owner_name LIKE '%{$searchCode}%'  ORDER BY a.claim_date DESC";
+    WHERE DATE(a.claim_date) = '$current_date' 
+    AND c.coupon_code LIKE '%{$searchCode}%' 
+    OR DATE(a.claim_date) = '$current_date' AND b.owner_name LIKE '%{$searchCode}%'  
+    ORDER BY a.claim_date DESC";
 
     $result = $conn->query($sql);
 }else{

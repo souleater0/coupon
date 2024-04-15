@@ -72,7 +72,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                 <br><br>
                 <button type="button" style="display: none;" id="addBarcode" class="btn btn-primary">Submit</button>
         </form>
-        <input type="text" class="form-control search" id="live_search" autocomplete="off" placeholder="Type Stub Code" style="border:2px solid black;"></br>
+        <input type="text" placeholder="Type Stub Code" class="form-control search" id="live_search" autocomplete="off" style="border:1px solid black;"></br>
         <div class="table-container">
         <table class="table table-hover">
             <thead>
@@ -114,7 +114,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                 class="btn btn-primary">Submit</button>
         </form>
         <input type="text" class="form-control search" id="live_search2" autocomplete="off"
-            placeholder="Type Stub Code">
+            placeholder="Type Stub Code" style="border:1px solid black;">
             <br>
             <table class="table table-hover">
         <thead>
