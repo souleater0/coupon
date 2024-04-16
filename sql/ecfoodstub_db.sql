@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2024 at 03:34 AM
+-- Generation Time: Apr 16, 2024 at 08:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -58,6 +58,7 @@ CREATE TABLE `balance_deducted` (
   `id` int(11) NOT NULL,
   `amount_sd` varchar(255) DEFAULT NULL,
   `receipt_no` varchar(255) DEFAULT NULL,
+  `sd_code` varchar(255) DEFAULT NULL,
   `owner_id` varchar(255) DEFAULT NULL,
   `void` tinyint(1) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp()
@@ -67,15 +68,15 @@ CREATE TABLE `balance_deducted` (
 -- Dumping data for table `balance_deducted`
 --
 
-INSERT INTO `balance_deducted` (`id`, `amount_sd`, `receipt_no`, `owner_id`, `void`, `created_at`) VALUES
-(1, '200', '1', '230629406', 0, '2024-04-13 08:46:29'),
-(2, '500', '2', '230629406', 0, '2024-04-13 08:46:44'),
-(3, '900', '3', '230629406', 0, '2024-04-13 08:47:02'),
-(4, '300', '4', '230629406', 0, '2024-04-16 00:23:57'),
-(5, '600', '5', '230629406', 0, '2024-04-18 00:24:11'),
-(6, '200', '6', '230629406', 0, '2024-04-29 00:24:35'),
-(7, '300', '7', '230629406', 0, '2024-04-30 00:24:50'),
-(8, '200', '8', '230629406', 1, '2024-04-30 00:28:21');
+INSERT INTO `balance_deducted` (`id`, `amount_sd`, `receipt_no`, `sd_code`, `owner_id`, `void`, `created_at`) VALUES
+(1, '200', '1', 'ECSTXSD2024006', '230629406', 0, '2024-04-09 08:46:29'),
+(2, '50', '2', 'ECSTXSD2024006', '230629406', 0, '2024-04-09 08:46:44'),
+(3, '600', '3', 'ECSTXSD2024006', '230629406', 0, '2024-04-12 08:47:02'),
+(4, '300', '4', 'ECSTXSD2024006', '230629406', 0, '2024-04-16 00:23:57'),
+(5, '600', '5', 'ECSTXSD2024006', '230629406', 0, '2024-04-18 00:24:11'),
+(6, '200', '6', 'ECSTXSD2024006', '230629406', 0, '2024-04-29 00:24:35'),
+(7, '300', '7', 'ECSTXSD2024006', '230629406', 0, '2024-04-30 00:24:50'),
+(8, '200', '8', 'ECSTXSD2024006', '230629406', 1, '2024-04-30 00:28:21');
 
 -- --------------------------------------------------------
 
