@@ -172,7 +172,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                  <td>dsa</td>
                   <td>ESKSD20240001</td>
                   <td>1000</td>
-                   <td><a class="btn btn-primary" href="sdowner_view.php">view</a></td>
+                   <td><a class="btn btn-primary" href="sdowner_view.php?sd_code=ECSTXSD2024006">view</a></td>
         </tbody>
 </table>
 </div>
