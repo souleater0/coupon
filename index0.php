@@ -7,63 +7,84 @@ if (!isset($_SESSION['admin_session_id'])) {
     die();
 }
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Sidebar 09</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="assetlibrary/css/style.css">
-        <script src="assets/jquery.min.js"></script>
-        <script src="assetlibrary/js/bootstrap.min.js"></script>
-    <script src="assetlibrary/js/main.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC FOOD STUB</title>
+    <style>
+        .salarydeduc-container{
+            max-height: 300px;
+            overflow-y: scroll;
+            width: 100%;
+        }
+        .table-container {
+            max-height: 600px;
+            overflow-y: scroll;
+            width: 100%;
+        }
+
+        .table-container table, .salarydeduc-container table {
+            width: 100%;
+        }
+
+        .table-container thead,.salarydeduc-container thead {
+            position: sticky;
+            top: 0px;
+            background-color: white;
+        }
+    </style>
+    <link href="assets/bootstrap533.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/toastr.min.css">
-    <script src="assets/toastr.min.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/bootstrap.min.js"></script>
 
+</head>
 
-  </head>
-  <body>
-        
-        <div class="wrapper d-flex align-items-stretch">
-            <nav id="sidebar">
-                <div class="custom-menu">
-                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
-            </button>
-        </div>
-        <div class="text-black border px-3 py-4">
+<body>
+    
+    <!-- -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
+        <div class="text-black border px-3 py-3">
           <?php echo $day_name.', '.$current_date_format.'<br>'.$current_time_format?>
-          
-                    <span class="float-right">Current User: <b><?php echo $_SESSION['admin_session_name']?></b>&nbsp;&nbsp;&nbsp;Location: <b><?php echo $_SESSION['admin_session_location']?></b></span>
         </div>
-            
-        <ul class="list-unstyled components mb-5">
-          <li class="active">
-            <a href="admin/views/index.php?route=dashboard"><span class="fa fa-home mr-3"></span> Dashboard</a>
-          </li>
-          <li>
-            <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
-          </li>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">   
+      <li class="nav-item">
+            <a class ="nav-link" href="admin/views/index.php?route=dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="float-end">Current User: <b><?php echo $_SESSION['admin_session_name']?></b>&nbsp;&nbsp;&nbsp;Location: <b><?php echo $_SESSION['admin_session_location']?></b></span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="admin/logout.php">LOG OUT</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+    </nav>
+    <!--  -->
+    <div class="container">
+        <ul class="nav nav-tabs mt-5">
+            <li class="active"><a data-toggle="tab" href="#food_stub">FOOD STUB</a></li>
+            <li><a data-toggle="tab" href="#salary_deduction">SALARY DEDUCTION</a></li>
         </ul>
 
-        </nav>
-
-        <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5">
-        <!--  -->
-      <div class="container">
-  
-
-  <ul class="nav nav-tabs justify-content-around">
-    <li><a data-toggle="tab" href="#home"><h3>FOOD STUB</h3></a></li>
-    <li><a data-toggle="tab" href="#menu1"><h3>SALARY DEDUCTION</h3></a></li>
-  </ul>
-<br>
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-       <form id="barcode_scan" class="text-center">
+        <div class="tab-content">
+            <div id="food_stub" class="tab-pane fade in active">
+                <!--  -->
+                <div class="container col d-flex justify-content-center" style="margin-bottom: 2%;margin-top: 5%;">
+                    <div class="card w-50">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">EC FOOD STUB</h1>
+                            <form id="barcode_scan" class="text-center">
                                 <label for="coupon">Scan Coupon Barcode:</label>
                                 <input type="text" id="coupon" name="coupon" autofocus
                                     oninput="moveToNextInput(this, 'id')">
@@ -74,9 +95,19 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 <button type="button" style="display: none;" id="addBarcode"
                                     class="btn btn-primary">Submit</button>
                             </form>
-                            <input type="text" class="form-control search" id="live_search" autocomplete="off" placeholder="Type Stub Code" style="border:2px solid black;">
-</br>
-                                <div class="table-container">
+                            </br>
+                            <input type="text" class="form-control search" id="live_search" autocomplete="off"
+                                placeholder="Type Stub Code">
+                        </div>
+                    </div>
+                </div>
+                <!-- -->
+
+                <!--  -->
+                <div class="container">
+                    <!-- <span class="w-50" id="basic-addon1">Search</span> -->
+                    <!-- <input type="text" class="form-control search" id="live_search" autocomplete="off"> -->
+                    <div class="table-container">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -96,10 +127,16 @@ if (!isset($_SESSION['admin_session_id'])) {
                         </table>
                     </div>
 
-    </div>
-
-    <div id="menu1" class="tab-pane fade">
-       <form id="barcode_scan" class="text-center">
+                </div>
+            </div>
+            <!-- SALARY DEDUCTION TAB -->
+            <div id="salary_deduction" class="tab-pane fade">
+                <!--  -->
+                <div class="container col d-flex justify-content-center" style="margin-bottom: 2%;margin-top: 5%;">
+                    <div class="card w-50">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">SALARY DEDUCTION</h1>
+                            <form id="barcode_scan" class="text-center">
                                 <label for="coupon">SD Barcode:</label>
                                 <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                                     oninput="moveToNextInput(this, 'id')">
@@ -116,10 +153,16 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 <button type="button" id="addBarcode"
                                     class="btn btn-primary">Submit</button>
                             </form>
+                            </br>
                             <input type="text" class="form-control search" id="live_search2" autocomplete="off"
                                 placeholder="Type Stub Code">
-                                <br>
-                                <table class="table table-hover">
+                        </div>
+                    </div>
+                </div>
+                <!-- -->
+                
+<div class="salarydeduc-container">
+<table class="table table-hover">
         <thead>
             <tr> 
             <th scope="col">FULL NAME</th>
@@ -130,23 +173,16 @@ if (!isset($_SESSION['admin_session_id'])) {
             </tr>
         </thead>
         <tbody id="tableReport">
-                <!-- <td>dsa</td>
-                 <td>dsa</td>
-                  <td>ESKSD20240001</td>
-                  <td>1000</td>
-                   <td><a class="btn btn-primary" href="sdowner_view.php?sd_code=ECSTXSD2024006">view</a></td> -->
         </tbody>
 </table>
-
-    </div>
-  
-   
-  </div>
 </div>
-        <!--  -->
-           </div>
-       </div>
-       <script language="JavaScript" type="text/javascript">
+<!-- SALARY DEDUCTION END -->
+                <!--  -->
+            </div>
+
+        </div>
+    </div>
+                <script>
                     $(document).ready(function () {
                         $("#live_search").keyup(function () {
                             var search = $(this).val();
@@ -185,7 +221,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                             }
                         });
                         $('#addBarcode').click(function () {
-                            var formData = $('#barcode_scan').serialize()
+                            var formData = $('#barcode_scan').serialize();
                             $.ajax({
                                 url: "process_scan.php",
                                 method: "POST",
@@ -288,6 +324,10 @@ if (!isset($_SESSION['admin_session_id'])) {
                     // return false;
                     // }
                 </script>
-    
-  </body>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                    crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</body>
+
 </html>

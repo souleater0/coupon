@@ -21,9 +21,9 @@
             AND d.owner_id = a.staff_id 
             AND (
                 CASE 
-                    WHEN DAY(CURRENT_DATE()) BETWEEN 1 AND 15 THEN
+                    WHEN DAY(CURRENT_DATE()) BETWEEN c.first_cut_start AND c.first_cut_end THEN
                         DAY(d.created_at) BETWEEN c.first_cut_start AND c.first_cut_end 
-                    WHEN DAY(CURRENT_DATE()) BETWEEN 16 AND 31 THEN
+                    WHEN DAY(CURRENT_DATE()) BETWEEN c.second_cut_start AND c.second_cut_end THEN
                         DAY(d.created_at) BETWEEN c.second_cut_start AND c.second_cut_end 
                 END
             )
@@ -37,6 +37,7 @@
         c.sd_code";
             $result_salary_deduction = mysqli_query($conn, $query_salary_deduction);
     }else{
+        
         $query_salary_deduction = "SELECT
         a.owner_name,
         b.department_name,
@@ -50,9 +51,9 @@
             AND d.owner_id = a.staff_id 
             AND (
                 CASE 
-                    WHEN DAY(CURRENT_DATE()) BETWEEN 1 AND 15 THEN
+                    WHEN DAY(CURRENT_DATE()) BETWEEN c.first_cut_start AND c.first_cut_end THEN
                         DAY(d.created_at) BETWEEN c.first_cut_start AND c.first_cut_end 
-                    WHEN DAY(CURRENT_DATE()) BETWEEN 16 AND 31 THEN
+                    WHEN DAY(CURRENT_DATE()) BETWEEN c.second_cut_start AND c.second_cut_end THEN
                         DAY(d.created_at) BETWEEN c.second_cut_start AND c.second_cut_end 
                 END
             )

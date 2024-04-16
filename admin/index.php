@@ -68,6 +68,12 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+            $('#form_password').keypress(function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault(); 
+                    $('#submit_login').click();
+                }
+            });
             $('#submit_login').click(function(){
                 var formData = $('#form_login').serialize();
                 $.ajax({
