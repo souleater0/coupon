@@ -15,17 +15,22 @@ if (!isset($_SESSION['admin_session_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EC FOOD STUB</title>
     <style>
+        .salarydeduc-container{
+            max-height: 300px;
+            overflow-y: scroll;
+            width: 100%;
+        }
         .table-container {
             max-height: 600px;
             overflow-y: scroll;
             width: 100%;
         }
 
-        .table-container table {
+        .table-container table, .salarydeduc-container table {
             width: 100%;
         }
 
-        .table-container thead {
+        .table-container thead,.salarydeduc-container thead {
             position: sticky;
             top: 0px;
             background-color: white;
@@ -133,46 +138,46 @@ if (!isset($_SESSION['admin_session_id'])) {
                             <h1 class="card-title text-center">SALARY DEDUCTION</h1>
                             <form id="barcode_scan" class="text-center">
                                 <label for="coupon">SD Barcode:</label>
-                                <input type="text" id="coupon" name="coupon" autofocus
+                                <input type="text" id="sd_coupon" name="sd_coupon" autofocus
                                     oninput="moveToNextInput(this, 'id')">
                                 <br><br>
                                 <label for="id">ID Barcode:</label>
-                                <input type="text" id="id" name="id">
+                                <input type="text" id="s_id" name="s_id">
                                                                 <br><br>
                                 <label for="id">AMOUNT SD:</label>
-                                <input type="text" id="id" name="id">
+                                <input type="text" id="amount_sd" name="amount_sd">
                                                                 <br><br>
                                 <label for="id">RECEIPT #:</label>
-                                <input type="text" id="id" name="id">
+                                <input type="text" id="receipt_no" name="receipt_no">
                                 <br><br>
                                 <button type="button" id="addBarcode"
                                     class="btn btn-primary">Submit</button>
                             </form>
                             </br>
-                            <input type="text" class="form-control search" id="live_search" autocomplete="off"
+                            <input type="text" class="form-control search" id="live_search2" autocomplete="off"
                                 placeholder="Type Stub Code">
                         </div>
                     </div>
                 </div>
                 <!-- -->
                 
-<div class="report-container">
+<div class="salarydeduc-container">
 <table class="table table-hover">
         <thead>
             <tr> 
-            <th scope="col">OWNER NAME</th>
+            <th scope="col">FULL NAME</th>
             <th scope="col">DEPARTMENT</th>
             <th scope="col">SD CODE</th>
-            <th scope="col">CREDIT BALANCE</th>
+            <th scope="col">REMAINING BALANCE</th>
             <th scope="col">ACTION</th>
             </tr>
         </thead>
         <tbody id="tableReport">
-                <td>dsa</td>
+                <!-- <td>dsa</td>
                  <td>dsa</td>
                   <td>ESKSD20240001</td>
                   <td>1000</td>
-                   <td><a class="btn btn-primary" href="sdowner_view.php?sd_code=ECSTXSD2024006">view</a></td>
+                   <td><a class="btn btn-primary" href="sdowner_view.php?sd_code=ECSTXSD2024006">view</a></td> -->
         </tbody>
 </table>
 </div>
@@ -186,6 +191,10 @@ if (!isset($_SESSION['admin_session_id'])) {
                     $(document).ready(function () {
                         $("#live_search").keyup(function () {
                             var search = $(this).val();
+                        });
+                        $("#live_search2").keyup(function () {
+                            var search2 = $(this).val();
+                            // alert(search2);
                         });
                         toastr.options = {
                             "closeButton": true,
@@ -230,6 +239,9 @@ if (!isset($_SESSION['admin_session_id'])) {
                                         // setTimeout(() => {
                                         //     location.reload();
                                         // }, 2000);
+                                        $('#coupon').val("");
+                                        $('#id').val("");
+                                        $('#coupon').focus();
                                     } else {
                                         toastr.error(response.message);
                                         $('#coupon').val("");
@@ -244,6 +256,7 @@ if (!isset($_SESSION['admin_session_id'])) {
                         function autorefresh() {
                             setInterval(function () {
                                 LoadTable();
+                                LoadTable2();
                             }, 1000);
                         }
 
@@ -274,6 +287,39 @@ if (!isset($_SESSION['admin_session_id'])) {
                                     success: function (data) {
                                         // alert(data);
                                         $('#tableBody').html(data);
+                                    }
+                                });
+                            }
+                        }
+                        function LoadTable2() {
+                            var search2 = $('#live_search2').val();
+                            
+                            if (search2 == "") {
+                                $.ajax({
+                                    url: "admin/process/sd_table.php",
+                                    type: "POST",
+                                    cache: false,
+                                    data: {
+                                        search: search2
+                                    },
+                                    success: function (data) {
+                                        // alert(data);
+                                        // toastr.success("Record Retrieve Successful");
+                                        $('#tableReport').html(data);
+                                    }
+                                });
+                            } else {
+                                $.ajax({
+                                    url: "admin/process/sd_table.php",
+                                    type: "POST",
+                                    cache: false,
+                                    data: {
+                                        search: search2
+                                    },
+                                    success: function (data) {
+                                        // alert(data);
+                                        
+                                        $('#tableReport').html(data);
                                     }
                                 });
                             }
