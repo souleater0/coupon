@@ -4,7 +4,6 @@
     <div class="col">
     <span class="" id="basic-addon1">Search</span>
     <input type="text" class="form-control search w-100" placeholder="Ex. Owner ID OR Coupon Code" id="live_search" autocomplete="off" style="border: 1px solid black;">
-   
     </div>
  <div class="col align-self-end">
   <div class="float-right ">
@@ -68,11 +67,11 @@
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
-              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;" readonly>
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com"style="border:0.5px solid black;" readonly>
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Coupon Code*</label>
@@ -256,6 +255,37 @@
               $('#couponCode').val("");
               $('#couponValue').val("");
               $("#updateOwner").attr("update-id", "");
+            });
+
+            $('#in_ownerId').keyup(function(){
+              var recordID = $("#in_ownerId").val();
+              //alert(recordID);
+                $.ajax({
+                  url: "../process/admin_action.php",
+                  method: "POST",
+                  data: {recordID:recordID, action: "fetchEmployee"},
+                  dataType: "json",
+                  success: function(response) {
+                      if(response.success==true){
+                          toastr.success(response.message);
+                        
+                          $('#selectDepartment').val(response.data.dep_id);
+                          $('#in_ownerId').val(response.data.staff_id);
+                          $('#in_ownerName').val(response.data.owner_name);
+                          $('#in_ownerEmail').val(response.data.owner_email);
+
+                          $("#updateOwner").attr("update-id", recordID);
+                          updateCouponPrefix();
+
+                      }else{
+                          toastr.error(response.message);
+                          $('#selectDepartment').val("");
+                          $('#in_ownerId').val("");
+                          $('#in_ownerName').val("");
+                          $('#in_ownerEmail').val("");
+                      }
+                  }
+              });
             });
             
         });

@@ -34,8 +34,8 @@
         a.owner_name,
         a.owner_email,
         c.department_name,
-				b.sd_code,
-				b.sd_credits,
+        b.sd_code,
+        b.sd_credits,
         b.created_at
     FROM
         owners a
@@ -59,7 +59,7 @@
       <td><?php echo $row["sd_code"];?></td>
       
       <td class="text-center"><?php echo $row["sd_credits"];?></td>
-      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
+      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["sd_code"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
     </tr>
     <br>
     <?php

@@ -4,19 +4,32 @@ include '../../db_connection.php';
 include '../time_zone.php';
 // Add Owner
 if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
-    if(
-    !empty($_POST['departmentID']) && isset($_POST['departmentID']) 
-    // && !empty($_POST['ownerId']) && isset($_POST['ownerId']) 
-    // && !empty($_POST['ownerName']) && isset($_POST['ownerName']) 
-    // && isset($_POST['ownerEmail']) 
-    // && !empty($_POST['ownerCoupon']) && isset($_POST['ownerCoupon']) 
-    // && !empty($_POST['ownerCouponValue']) && isset($_POST['ownerCouponValue'])
-    &&!empty($_POST['ownerTimeBase']) && isset($_POST['ownerTimeBase'])
-    ){
+    if(empty($_POST['departmentID'])){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerCoupon'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Coupon Code!",
+        );
+    }
+    else if(empty($_POST['ownerCouponValue'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Coupon Value!",
+        );
+    }else{
         $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
         $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
-        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
-        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
         $ownerCoupon = mysqli_real_escape_string($conn, $_POST['ownerCoupon']);
         $ownerCouponValue = mysqli_real_escape_string($conn, $_POST['ownerCouponValue']);
         $TimeBase = mysqli_real_escape_string($conn, $_POST['ownerTimeBase']);
@@ -34,11 +47,11 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
         INNER JOIN
         coupons
         ON 
-            owners.id = coupons.owner_id
+                coupons.owner_id = owners.staff_id
         INNER JOIN
         department
         ON 
-            owners.owner_department = department.id
+                owners.owner_department = department.id
         WHERE owners.staff_id = '$ownerID' OR coupons.coupon_code='$ownerCoupon'";
         $result = mysqli_query($conn, $queryOwners);
         if(mysqli_num_rows($result) > 0){
@@ -48,19 +61,17 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
             );
         }else{
             if($TimeBase === "1"){
-                    //insert baset time to owner
-                    $sql_owner = "INSERT INTO owners (staff_id,owner_name,base_time,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$TimeBase','$ownerEmail','$departmentID')";
-                    $query_sql_owner = mysqli_query($conn, $sql_owner);
-                    //get owner_ID
-                    $searchOwner = "SELECT * FROM owners where staff_id = '$ownerID'";
-                    $query_searchOwner = mysqli_query($conn, $searchOwner);
-                    $rowOwner = mysqli_fetch_assoc($query_searchOwner);
-                    $ownerSID = $rowOwner['id'];
+                //insert baset time to owner
+                    $sql_updateOwner = "UPDATE owners
+                    SET
+                    base_time = '$TimeBase',
+                    owner_department = '$departmentID'
+                    WHERE staff_id = '$ownerID'";
+                    mysqli_query($conn, $sql_updateOwner);
                     // INSERT COUPOn
                     $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 
-                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerSID')";
+                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerID')";
                     mysqli_query($conn, $sql_coupon);
-            
                     $response = array(
                         'success' => true,
                         'message' => 'Added Owner Successful',
@@ -70,16 +81,19 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
                     $timebaseFROM_TIME = mysqli_real_escape_string($conn, $_POST['from_Time']);
                     $timebaseTO_TIME = mysqli_real_escape_string($conn, $_POST['to_Time']);
                     //insert baset time to owner
-                    $sql_owner = "INSERT INTO owners (staff_id,owner_name,base_time,owner_email,owner_department,from_time,to_time) VALUES ('$ownerID','$ownerName','$TimeBase','$ownerEmail','$departmentID','$timebaseFROM_TIME','$timebaseTO_TIME')";
-                    $query_sql_owner = mysqli_query($conn, $sql_owner);
-                    //get owner_ID
-                    $searchOwner = "SELECT * FROM owners where staff_id = '$ownerID'";
-                    $query_searchOwner = mysqli_query($conn, $searchOwner);
-                    $rowOwner = mysqli_fetch_assoc($query_searchOwner);
-                    $ownerSID = $rowOwner['id'];
+                    // $sql_owner = "INSERT INTO owners (staff_id,owner_name,base_time,owner_email,owner_department,from_time,to_time) VALUES ('$ownerID','$ownerName','$TimeBase','$ownerEmail','$departmentID','$timebaseFROM_TIME','$timebaseTO_TIME')";
+                    // $query_sql_owner = mysqli_query($conn, $sql_owner);
+                    $sql_updateOwner = "UPDATE owners
+                    SET
+                    base_time = '$TimeBase',
+                    owner_department = '$departmentID',
+                    from_time = '$timebaseFROM_TIME',
+                    to_time = '$timebaseTO_TIME'
+                    ";
+                    mysqli_query($conn, $sql_updateOwner);
                     // INSERT COUPOn
                     $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 
-                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerSID')";
+                    VALUES ('$ownerCoupon','$ownerCouponValue','$ownerID')";
                     mysqli_query($conn, $sql_coupon);
                     $response = array(
                         'success' => true,
@@ -88,11 +102,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
                 }
             }
         }
-    }else{
-         $response = array(
-            'success' => false,
-            'message' => 'Fill up all required data',
-         );
     }
     header('Content-Type: application/json');
     echo json_encode($response);
@@ -100,10 +109,8 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
 else if(!empty($_POST['action']) && $_POST['action'] == 'deleteOwner' && !empty($_POST['recordID']) && isset($_POST['recordID'])){
 
     $deleteOwnerID = $_POST['recordID'];
-    $deleteRecord = "DELETE coupons, owners
-    FROM coupons
-    JOIN owners ON coupons.owner_id = owners.id
-    WHERE owners.id = '$deleteOwnerID'";
+    $deleteRecord = "DELETE FROM coupons
+    WHERE coupons.coupon_code = '$deleteOwnerID'";
     mysqli_query($conn, $deleteRecord);
     $response = array(
         'success' => true,
@@ -126,7 +133,6 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'fetchOwner'){
         coupons.coupon_value,
         owners.base_time,
     CASE
-            
             WHEN owners.base_time = 1 THEN
             department.from_time 
             WHEN owners.base_time = 2 THEN
@@ -141,74 +147,124 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'fetchOwner'){
         END AS to_time 
     FROM
         owners
-        INNER JOIN coupons ON owners.id = coupons.owner_id
+        INNER JOIN coupons ON coupons.owner_id = owners.staff_id
         INNER JOIN department ON owners.owner_department = department.id 
     WHERE
-        owners.id = '$fetchOwnerID'
+        coupons.coupon_code = '$fetchOwnerID'
         ";
         $query_fetchOwnerData = mysqli_query($conn, $fetchOwnerData);
-        $row_fetchOwnerData = mysqli_fetch_assoc($query_fetchOwnerData);
-        $response = array(
-            'success' => true,
-            'message' => "Record Retrieved",
-            'data' => $row_fetchOwnerData,
-        );
+        if(mysqli_num_rows($query_fetchOwnerData) >0){
+            $row_fetchOwnerData = mysqli_fetch_assoc($query_fetchOwnerData);
+            $response = array(
+                'success' => true,
+                'message' => "Record Retrieved",
+                'data' => $row_fetchOwnerData,
+            );
+        }else{
+            $response = array(
+                'success' => false,
+                'message' => "No Record Retrieved",
+            );
+        }
     }
     header('Content-Type: application/json');
     echo json_encode($response);
 }
 else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
 {
-    if(
-        !empty($_POST['updateId']) && isset($_POST['updateId']) 
-        // && !empty($_POST['departmentID']) && isset($_POST['departmentID']) && !empty($_POST['ownerId']) && isset($_POST['ownerId']) && !empty($_POST['ownerName']) && isset($_POST['ownerName']) && isset($_POST['ownerEmail']) && !empty($_POST['ownerCoupon']) && isset($_POST['ownerCoupon'])&& !empty($_POST['ownerCouponValue']) && isset($_POST['ownerCouponValue'])
-        ){
-            $updateId = mysqli_real_escape_string($conn, $_POST['updateId']);
-            $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
-            $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
-            $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
-            $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
-            $ownerCoupon = mysqli_real_escape_string($conn, $_POST['ownerCoupon']);
-            $ownerCouponValue = mysqli_real_escape_string($conn, $_POST['ownerCouponValue']);
-            $baseTime = mysqli_real_escape_string($conn, $_POST['ownerTimeBase']);
-            $from_TIME = mysqli_real_escape_string($conn, $_POST['from_Time']);
-            $to_TIME = mysqli_real_escape_string($conn, $_POST['to_Time']);
+    if(empty($_POST['departmentID'])){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerCoupon'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Coupon Code!",
+        );
+    }
+    else if(empty($_POST['ownerCouponValue'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Coupon Value!",
+        );
+    }else{
+        $updateId = mysqli_real_escape_string($conn, $_POST['updateId']);
+        $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerCoupon = mysqli_real_escape_string($conn, $_POST['ownerCoupon']);
+        $ownerCouponValue = mysqli_real_escape_string($conn, $_POST['ownerCouponValue']);
+        $TimeBase = mysqli_real_escape_string($conn, $_POST['ownerTimeBase']);
 
-            // update owner details
-            $sql_updateOwner_Details ="UPDATE owners
+
+        //Get Owner ID
+        $check_OwnerID = "SELECT
+        a.owner_name,
+        a.staff_id,
+        c.coupon_code
+        FROM owners a
+        INNER JOIN department b ON b.id = a.owner_department
+        INNER JOIN coupons c ON c.owner_id = a.staff_id
+        WHERE c.coupon_code = '$updateId'";
+        $result_OwnerID = mysqli_query($conn, $check_OwnerID);
+        $row_OwnerID = mysqli_fetch_assoc($result_OwnerID);
+        $ownerID = $row_OwnerID["staff_id"];
+        if($TimeBase === "1"){
+            $sql_updateOwner = "UPDATE owners
             SET
-            staff_id = '$ownerID',
-            owner_name = '$ownerName',
-            owner_email = '$ownerEmail',
-            owner_department = '$departmentID',
-            base_time = '$baseTime'
-            ";
-            if($baseTime=="2"){
-                $sql_updateOwner_Details .=", from_time = '$from_TIME', to_time = '$to_TIME'";
-            }
-            $sql_updateOwner_Details.="
-            WHERE id = $updateId";
-            mysqli_query($conn, $sql_updateOwner_Details);
-            
-            // update coupon code
-            $sql_updateOwner_Coupon = "UPDATE coupons
+            base_time = '$TimeBase',
+            owner_department = '$departmentID'
+            WHERE staff_id = '$ownerID'";
+            mysqli_query($conn, $sql_updateOwner);
+
+            $sql_updateCoupon = "UPDATE coupons
             SET
             coupon_code = '$ownerCoupon',
             coupon_value = '$ownerCouponValue'
-            WHERE owner_id = $updateId";
-            mysqli_query($conn,$sql_updateOwner_Coupon);
-            
-        $response = array(
-            'success' => true,
-            'message' => "Record has been Updated!",
-        );
-    }
+            WHERE owner_id = '$ownerID'";
+            mysqli_query($conn, $sql_updateCoupon);
+            $response = array(
+                'success' => true,
+                'message' => 'Update Owner Successful',
+            );
+        }else{
+            if(!empty($_POST['from_Time']) && isset($_POST['from_Time']) && !empty($_POST['to_Time']) && isset($_POST['to_Time'])){
+                $timebaseFROM_TIME = mysqli_real_escape_string($conn, $_POST['from_Time']);
+                $timebaseTO_TIME = mysqli_real_escape_string($conn, $_POST['to_Time']);
 
+                $sql_updateOwner = "UPDATE owners
+                SET
+                base_time = '$TimeBase',
+                owner_department = '$departmentID',
+                from_time = '$timebaseFROM_TIME',
+                to_time = '$timebaseTO_TIME'
+                WHERE staff_id = '$ownerID'";
+                mysqli_query($conn, $sql_updateOwner);
+                // Update COUPOn
+                $sql_updateCoupon = "UPDATE coupons
+                SET
+                coupon_code = '$ownerCoupon',
+                coupon_value = '$ownerCouponValue'
+                WHERE owner_id = '$ownerID'";
+                mysqli_query($conn, $sql_updateCoupon);
+                $response = array(
+                    'success' => true,
+                    'message' => 'Update Owner Successful',
+                );
+            }
+        }
+    }
     header('Content-Type: application/json');
     echo json_encode($response);
 }elseif(!empty($_POST['action']) && $_POST['action'] == 'addSDOwner') { //ADD SD OWNER
 
-    if(empty($_POST['departmentID']) && $_POST['departmentID']){
+    if(empty($_POST['departmentID'])){
         $response = array(
             'success' => false,
             'message' => "Select a Department!",
@@ -435,7 +491,7 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
     $deleteRecord = "DELETE salary_deduction, owners
     FROM salary_deduction
     JOIN owners ON owners.staff_id = salary_deduction.owner_id
-    WHERE owners.id = '$deleteOwnerID'";
+    WHERE salary_deduction.sd_code = '$deleteOwnerID'";
     mysqli_query($conn, $deleteRecord);
     $response = array(
         'success' => true,
@@ -754,6 +810,138 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'deleteDepartment'){
     }
     header('Content-Type: application/json');
     echo json_encode($response);   
+}
+else if(!empty($_POST['action']) && $_POST['action'] == 'fetchEmployee'){
+    if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
+        $fetchEmployeeID = $_POST['recordID'];
+        $query_fetchEmployeeID = "SELECT
+        a.id,
+        a.staff_id,
+        a.owner_name,
+        a.owner_email,
+        b.id AS dep_id,
+        b.department_name
+        FROM owners a
+        INNER JOIN department b ON b.id = a.owner_department
+        WHERE a.staff_id ='$fetchEmployeeID'";
+
+        $result_Employee = mysqli_query($conn, $query_fetchEmployeeID);
+        if(mysqli_num_rows($result_Employee) > 0){
+            $row_Employee = mysqli_fetch_array($result_Employee);
+            $response = array(
+                'success' => true,
+                'message' => "Record Retrieved",
+                'data' => $row_Employee,
+            );
+        }else{
+            $response = array(
+                'success' => false,
+                'message' => "No Record Retrieved",
+            );
+        }
+
+
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+else if(!empty($_POST['action']) && $_POST['action'] == 'addEmployee'){
+    if(empty($_POST['departmentID'])){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerName'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Full Name!",
+        );
+    }else{
+        $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
+        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
+        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
+
+        //check owner id if exist
+        $sql_employee = "SELECT *
+        FROM owners
+        WHERE staff_id = '$ownerID' OR owner_name = '$ownerName'";
+        $result_employee = mysqli_query($conn, $sql_employee);
+        if(mysqli_num_rows($result_employee) > 0){
+            $response = array(
+                'success' => false,
+                'message' => "Owner Already Exist!",
+            );
+        }else{
+            //add employee
+            $sql_add_employee = "INSERT INTO owners (staff_id,owner_name,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$ownerEmail','$depID')";
+            mysqli_query($conn, $sql_add_employee);
+            $response = array(
+                'success' => true,
+                'message' => "Employee Added Successfully!",
+            );
+        }
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+else if(!empty($_POST['action']) && $_POST['action'] == 'updateEmployee'){
+    if(empty($_POST['departmentID'])){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerName'])){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Full Name!",
+        );
+    }else{
+        $fetchEmployeeID = mysqli_real_escape_string($conn, $_POST['updateId']);
+        $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
+        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
+        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
+
+        //add employee
+        $sql_add_employee = "UPDATE owners
+        SET
+        staff_id = '$ownerID',
+        owner_name = '$ownerName',
+        owner_email = '$ownerEmail',
+        owner_department= '$depID'
+        WHERE staff_id = '$fetchEmployeeID'";
+        mysqli_query($conn, $sql_add_employee);
+        $response = array(
+            'success' => true,
+            'message' => "Employee Update Successfully!",
+        );
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+else if(!empty($_POST['action']) && $_POST['action'] == 'deleteEmployee'){
+    // if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
+    //     $deleteEmployeeID = mysqli_real_escape_string($conn, $_POST['recordID']);
+
+
+    // }
+    // header('Content-Type: application/json');
+    // echo json_encode($response);
 }
 else{
     $response = array(

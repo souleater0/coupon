@@ -29,7 +29,7 @@
     
     FROM
         owners a
-        INNER JOIN coupons b ON b.owner_id = a.id
+        INNER JOIN coupons b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         WHERE a.staff_id LIKE '%{$searchCode}%' OR b.coupon_code LIKE '%{$searchCode}%' OR a.owner_name LIKE '%{$searchCode}%'
     ORDER BY
@@ -58,7 +58,7 @@
     
     FROM
         owners a
-        INNER JOIN coupons b ON b.owner_id = a.id
+        INNER JOIN coupons b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id 
     ORDER BY
@@ -85,10 +85,14 @@
       }
       ?></td>
       <td><?php echo date("h:i A", strtotime($row["from_time"])).' - '.date("h:i A", strtotime($row["to_time"]));?></td>
-      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
+      <td class="text-center"><button type="button" record-id="<?php echo $row["coupon_code"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["coupon_code"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
     </tr>
     <?php
-}}?>
+}}
+else{
+    echo "No Result Found!";
+}
+?>
 <script>
     $('.editOwner').click(function(){
         $("#updateOwner").show();
@@ -116,7 +120,7 @@
                         $('#from_Time').val(response.data.from_time);
                         $('#to_Time').val(response.data.to_time);
                     }
-                    $("#updateClerk").attr("update-id", recordID);
+                    $("#updateOwner").attr("update-id", recordID);
                     
                     displayIndividualTime();
                 }else{
@@ -137,6 +141,7 @@
                     success: function(response) {
                         if(response.success==true){
                             toastr.success(response.message);
+                            LoadTable();
                             // $("#closeOwner").click();
                         }else{
                             toastr.error(response.message);

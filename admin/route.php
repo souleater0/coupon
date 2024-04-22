@@ -19,8 +19,8 @@ switch ($route){
     case "manage_clerk":
         require 'views/manage_clerk.php';
         break;
-    case "manage_device":
-        require 'views/manage_device.php';
+    case "manage_owner":
+        require 'views/manage_owner.php';
         break;
     default:
         // require 'home.php';

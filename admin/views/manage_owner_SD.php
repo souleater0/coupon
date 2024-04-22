@@ -177,7 +177,6 @@
             LoadTable();
         });
             $('#addOwner').click(function(){
-                
                 var formData = $('#form_owner').serialize();
                 // alert (formData);
                 $.ajax({

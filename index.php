@@ -268,11 +268,18 @@ if (!isset($_SESSION['admin_session_id'])) {
                                 success: function (response) {
                                     if (response.success == true) {
                                         toastr.success(response.message);
+                                        $('#sd_coupon').val("");
+                                        $('#s_id').val("");
+                                        $('#amount_sd').val("");
+                                        $('#receipt_no').val("");
+                                        $('#sd_coupon').focus();
                                     } else {
                                         toastr.error(response.message);
-                                        // $('#coupon').val("");
-                                        // $('#id').val("");
-                                        // $('#coupon').focus();
+                                        $('#sd_coupon').val("");
+                                        $('#s_id').val("");
+                                        $('#amount_sd').val("");
+                                        $('#receipt_no').val("");
+                                        $('#sd_coupon').focus();
                                     }
                                 }
                             });

@@ -83,22 +83,21 @@ require 'process/session_restrict.php';
           <li>
               <a href="index.php?route=report_SD"  <?php echo ($route == 'report_SD') ? 'active' : ''; ?>>Salary Deduction Reports</a>
           </li>
-          
+          <!-- sseision role -->
+          <?php
+        if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
+        ?>
           <li>
             <a href="index.php?route=manage_owner_FS"  <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>>Food Stub Owner</a>
           </li>
           <li>
             <a href="index.php?route=manage_owner_SD" <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>>Salary Deduct Owner</a>
           </li>
-          <!-- sseision role -->
-          <?php
-        if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
-        ?>
           <li>
             <a href="index.php?route=manage_department" <?php echo ($route == 'manage_department') ? 'active' : ''; ?>>Manage Department</a>
           </li>
           <li>
-           <a href="index.php?route=manage_device" class="dropdown-item <?php echo ($route == 'manage_device') ? 'active' : ''; ?>">Manage Device</a>
+           <a href="index.php?route=manage_owner" class="dropdown-item <?php echo ($route == 'manage_owner') ? 'active' : ''; ?>">Manage Employee</a>
           </li>
           <?php
         }?>
