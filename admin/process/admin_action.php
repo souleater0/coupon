@@ -206,6 +206,244 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
 
     header('Content-Type: application/json');
     echo json_encode($response);
+}elseif(!empty($_POST['action']) && $_POST['action'] == 'addSDOwner') { //ADD SD OWNER
+
+    if(empty($_POST['departmentID']) && $_POST['departmentID']){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId']) && $_POST['ownerId']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerName']) && $_POST['ownerName']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Full Name!",
+        );
+    }
+    else if(empty($_POST['sdCode']) && $_POST['sdCode']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter a unique SD Code!",
+        );
+    }
+    else if(empty($_POST['maxSD']) && $_POST['maxSD']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter Max Credits per Cut-Off!",
+        );
+    }
+    else if(empty($_POST['first_Start']) && $_POST['first_Start']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the starting Day of 1st Cut-Off!",
+        );
+    }
+    else if(empty($_POST['first_End']) && $_POST['first_End']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the ending Day of 1st Cut-Off!",
+        );
+    }
+    else if(empty($_POST['second_Start']) && $_POST['second_Start']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the starting Day of 2nd Cut-Off!",
+        );
+    }
+    else if(empty($_POST['second_End']) && $_POST['second_End']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the ending Day of 2nd Cut-Off!",
+        );
+    }else{
+        $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
+        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
+        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
+        $sd_Code = mysqli_real_escape_string($conn, $_POST['sdCode']);
+        $maxSD = mysqli_real_escape_string($conn, $_POST['maxSD']);
+        $first_cut_start = mysqli_real_escape_string($conn, $_POST['first_Start']);
+        $first_cut_end = mysqli_real_escape_string($conn, $_POST['first_End']);
+        $second_cut_start = mysqli_real_escape_string($conn, $_POST['second_Start']);
+        $second_cut_end = mysqli_real_escape_string($conn, $_POST['second_End']);
+
+        $query_Owners = "SELECT 
+        a.owner_name,
+        b.owner_id,
+        b.sd_code
+        FROM owners a
+        INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
+        WHERE owner_id = '$ownerID' OR sd_code = '$sd_Code'";
+        $query_Owners = mysqli_query($conn, $query_Owners);
+
+        if(mysqli_num_rows($query_Owners) > 0){
+            $response = array(
+                'success' => false,
+                'message' => "Owner Already Exist!",
+            );
+        }else{
+            //insert owner
+            $sql_owner = "INSERT INTO owners (staff_id,owner_name,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$ownerEmail','$depID')";
+            mysqli_query($conn, $sql_owner);
+            //insert credits and cut off
+            $sql_owner_sd_details = "INSERT INTO salary_deduction (sd_code,sd_credits,owner_id,first_cut_start,first_cut_end,second_cut_start,second_cut_end) VALUES ('$sd_Code','$maxSD','$ownerID','$first_cut_start','$first_cut_end','$second_cut_start','$second_cut_end')";
+            mysqli_query($conn, $sql_owner_sd_details);
+            $response = array(
+                'success' => true,
+                'message' => "SD Owner has been Added Successfully!",
+            );
+        }
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}elseif(!empty($_POST['action']) && $_POST['action'] == 'fetchSDOwner'){
+    if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
+        $fetch_SDOwnerID = $_POST['recordID'];
+        $fetch_SDOwner_data = "SELECT
+        a.owner_department AS dep_id,
+        a.staff_id,
+        a.owner_name,
+        a.owner_email,
+        b.sd_code,
+        b.sd_credits,
+        b.first_cut_start,
+        b.first_cut_end,
+        b.second_cut_start,
+        b.second_cut_end
+        FROM owners a
+        INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
+        INNER JOIN department c ON c.id = a.owner_department
+        WHERE a.id = '$fetch_SDOwnerID'";
+        $result_SDOwner_data = mysqli_query($conn, $fetch_SDOwner_data);
+        $row_SDOwner_data = mysqli_fetch_assoc($result_SDOwner_data);
+        $response = array(
+            'success' => true,
+            'message' => "Record Retrieved",
+            'data' => $row_SDOwner_data,
+        );
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}
+elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
+    if(empty($_POST['departmentID']) && $_POST['departmentID']){
+        $response = array(
+            'success' => false,
+            'message' => "Select a Department!",
+        );
+    }
+    else if(empty($_POST['ownerId']) && $_POST['ownerId']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Owner ID!",
+        );
+    }
+    else if(empty($_POST['ownerName']) && $_POST['ownerName']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter your Full Name!",
+        );
+    }
+    else if(empty($_POST['sdCode']) && $_POST['sdCode']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter a unique SD Code!",
+        );
+    }
+    else if(empty($_POST['maxSD']) && $_POST['maxSD']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter Max Credits per Cut-Off!",
+        );
+    }
+    else if(empty($_POST['first_Start']) && $_POST['first_Start']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the starting Day of 1st Cut-Off!",
+        );
+    }
+    else if(empty($_POST['first_End']) && $_POST['first_End']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the ending Day of 1st Cut-Off!",
+        );
+    }
+    else if(empty($_POST['second_Start']) && $_POST['second_Start']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the starting Day of 2nd Cut-Off!",
+        );
+    }
+    else if(empty($_POST['second_End']) && $_POST['second_End']){
+        $response = array(
+            'success' => false,
+            'message' => "Enter the ending Day of 2nd Cut-Off!",
+        );
+    }else{
+        $updateId = mysqli_real_escape_string($conn, $_POST['updateId']);
+
+        $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
+        $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
+        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
+        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
+        $sd_Code = mysqli_real_escape_string($conn, $_POST['sdCode']);
+        $maxSD = mysqli_real_escape_string($conn, $_POST['maxSD']);
+        $first_cut_start = mysqli_real_escape_string($conn, $_POST['first_Start']);
+        $first_cut_end = mysqli_real_escape_string($conn, $_POST['first_End']);
+        $second_cut_start = mysqli_real_escape_string($conn, $_POST['second_Start']);
+        $second_cut_end = mysqli_real_escape_string($conn, $_POST['second_End']);
+
+        //update owners
+        $sql_SDOWNER = "UPDATE owners
+        SET
+        staff_id = '$ownerID',
+        owner_name = '$ownerName',
+        owner_email = '$sd_Code',
+        owner_department = '$depID'
+        WHERE id = '$updateId'
+        ";
+        mysqli_query($conn, $sql_SDOWNER);
+
+        //update owner sd details
+        $sql_SDOWNER_Details = "UPDATE salary_deduction
+        SET
+        sd_code = '$sd_Code',
+        sd_credits = '$maxSD',
+        owner_id = '$ownerID',
+        first_cut_start = '$first_cut_start',
+        first_cut_end = '$first_cut_end',
+        second_cut_start = '$second_cut_start',
+        second_cut_end = '$second_cut_end'
+        WHERE id = '$updateId'";
+        mysqli_query($conn, $sql_SDOWNER_Details);
+        $response = array(
+            'success' => true,
+            'message' => "Record has been Updated!",
+        );
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+}elseif(!empty($_POST['action']) && $_POST['action'] == 'deleteSDOwner'){
+    $deleteOwnerID = $_POST['recordID'];
+    $deleteRecord = "DELETE salary_deduction, owners
+    FROM salary_deduction
+    JOIN owners ON owners.staff_id = salary_deduction.owner_id
+    WHERE owners.id = '$deleteOwnerID'";
+    mysqli_query($conn, $deleteRecord);
+    $response = array(
+        'success' => true,
+        'message' => "Record has been deleted Successfully",
+    );
+    header('Content-Type: application/json');
+    echo json_encode($response);
+
 }elseif(!empty($_POST['action']) && $_POST['action'] == 'fetchClerk'){
     if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
         $fetchOwnerID = $_POST['recordID'];

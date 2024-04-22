@@ -73,7 +73,7 @@
         $.ajax({
             url: "../process/admin_action.php",
             method: "POST",
-            data: {recordID:recordID, action: "fetchOwner"},
+            data: {recordID:recordID, action: "fetchSDOwner"},
             dataType: "json",
             success: function(response) {
                 if(response.success==true){
@@ -84,8 +84,12 @@
                     $('#in_ownerId').val(response.data.staff_id);
                     $('#in_ownerName').val(response.data.owner_name);
                     $('#in_ownerEmail').val(response.data.owner_email);
-                    $('#couponCode').val(response.data.coupon_code);
-                    $('#couponValue').val(response.data.coupon_value);
+                    $('#sdCode').val(response.data.sd_code);
+                    $('#maxSD').val(response.data.sd_credits);
+                    $('#first_day_start').val(response.data.first_cut_start);
+                    $('#first_day_end').val(response.data.first_cut_end);
+                    $('#second_day_start').val(response.data.second_cut_start);
+                    $('#second_day_end').val(response.data.second_cut_end);
                     $("#updateOwner").attr("update-id", recordID);
                 }else{
                     toastr.error(response.message);
@@ -100,7 +104,7 @@
                 $.ajax({
                     url: "../process/admin_action.php",
                     method: "POST",
-                    data: {recordID:recordID,action: "deleteOwner"},
+                    data: {recordID:recordID,action: "deleteSDOwner"},
                     dataType: "json",
                     success: function(response) {
                         if(response.success==true){

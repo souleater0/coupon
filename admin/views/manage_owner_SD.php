@@ -20,7 +20,7 @@
       <th scope="col">Owner Name</th>
       <th scope="col">Department</th>
       <th scope="col">SD Code</th>
-      <th scope="col">Credits</th>
+      <th scope="col">Max SD Credits Per Cut-Off</th>
       <!-- <th scope="col" class="text-center">Time Shift</th> -->
       <th scope="col" class="text-center">Action</th>
     </tr>
@@ -73,33 +73,33 @@
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">SD Code*</label>
-              <input type="text" class="form-control" id="couponCode" name="ownerCoupon" placeholder="Ex. FNBSD1234"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="sdCode" name="sdCode" placeholder="Ex. FNBSD1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Max SD Credits Per Cut-off*</label>
-              <input type="text" class="form-control" id="couponValue" name="ownerCouponValue" placeholder="Ex. ₱1000"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="maxSD" name="maxSD" placeholder="Ex. ₱1000"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
-                <span class="fw-bold text-uppercase">1ST Cut-Off Day*</span>
+                <span class="fw-bold text-uppercase text-dark">1ST Cut-Off Day*</span>
               </div>
             <div class="my-2">
               <span class="fw-semibold">Day Start*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="first_day_start" name="first_Start" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
             <span class="fw-semibold">Day End*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="first_day_end" name="first_End" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
-              <span class="fw-bold text-uppercase">2nd Cut-Off Day*</span>
+              <span class="fw-bolder text-uppercase text-dark">2nd Cut-Off Day*</span>
             </div>
             <div class="my-2">
               <span class="fw-semibold">Day Start*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="second_day_start" name="second_Start" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
             <div class="my-2">
             <span class="fw-semibold">Day End*</span>
-              <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234"style="border:0.5px solid black;">
+              <input type="text" class="form-control" id="second_day_end" name="second_End" placeholder="Ex. 1234"style="border:0.5px solid black;">
             </div>
           </div>
           <div class="modal-footer">
@@ -183,7 +183,7 @@
                 $.ajax({
                     url: "../process/admin_action.php",
                     method: "POST",
-                    data: formData+"&action=addOwner",
+                    data: formData+"&action=addSDOwner",
                     dataType: "json",
                     success: function(response) {
                         if(response.success==true){
@@ -203,7 +203,7 @@
               $.ajax({
                     url: "../process/admin_action.php",
                     method: "POST",
-                    data: formData+"&action=updateOwner&updateId="+recordID,
+                    data: formData+"&action=updateSDOwner&updateId="+recordID,
                     dataType: "json",
                     success: function(response) {
                         if(response.success==true){
