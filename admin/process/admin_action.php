@@ -270,49 +270,43 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
             'message' => "Select a Department!",
         );
     }
-    else if(empty($_POST['ownerId']) && $_POST['ownerId']){
+    else if(empty($_POST['ownerId'])){
         $response = array(
             'success' => false,
             'message' => "Enter your Owner ID!",
         );
     }
-    else if(empty($_POST['ownerName']) && $_POST['ownerName']){
-        $response = array(
-            'success' => false,
-            'message' => "Enter your Full Name!",
-        );
-    }
-    else if(empty($_POST['sdCode']) && $_POST['sdCode']){
+    else if(empty($_POST['sdCode'])){
         $response = array(
             'success' => false,
             'message' => "Enter a unique SD Code!",
         );
     }
-    else if(empty($_POST['maxSD']) && $_POST['maxSD']){
+    else if(empty($_POST['maxSD'])){
         $response = array(
             'success' => false,
             'message' => "Enter Max Credits per Cut-Off!",
         );
     }
-    else if(empty($_POST['first_Start']) && $_POST['first_Start']){
+    else if(empty($_POST['first_Start'])){
         $response = array(
             'success' => false,
             'message' => "Enter the starting Day of 1st Cut-Off!",
         );
     }
-    else if(empty($_POST['first_End']) && $_POST['first_End']){
+    else if(empty($_POST['first_End'])){
         $response = array(
             'success' => false,
             'message' => "Enter the ending Day of 1st Cut-Off!",
         );
     }
-    else if(empty($_POST['second_Start']) && $_POST['second_Start']){
+    else if(empty($_POST['second_Start'])){
         $response = array(
             'success' => false,
             'message' => "Enter the starting Day of 2nd Cut-Off!",
         );
     }
-    else if(empty($_POST['second_End']) && $_POST['second_End']){
+    else if(empty($_POST['second_End'])){
         $response = array(
             'success' => false,
             'message' => "Enter the ending Day of 2nd Cut-Off!",
@@ -320,8 +314,6 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
     }else{
         $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
         $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
-        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
-        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
         $sd_Code = mysqli_real_escape_string($conn, $_POST['sdCode']);
         $maxSD = mysqli_real_escape_string($conn, $_POST['maxSD']);
         $first_cut_start = mysqli_real_escape_string($conn, $_POST['first_Start']);
@@ -345,7 +337,11 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
             );
         }else{
             //insert owner
-            $sql_owner = "INSERT INTO owners (staff_id,owner_name,owner_email,owner_department) VALUES ('$ownerID','$ownerName','$ownerEmail','$depID')";
+            $sql_owner = "UPDATE owners
+            SET
+            owner_department = '$depID'
+            WHERE staff_id = '$ownerID'
+            ";
             mysqli_query($conn, $sql_owner);
             //insert credits and cut off
             $sql_owner_sd_details = "INSERT INTO salary_deduction (sd_code,sd_credits,owner_id,first_cut_start,first_cut_end,second_cut_start,second_cut_end) VALUES ('$sd_Code','$maxSD','$ownerID','$first_cut_start','$first_cut_end','$second_cut_start','$second_cut_end')";

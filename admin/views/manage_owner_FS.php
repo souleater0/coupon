@@ -7,7 +7,7 @@
     </div>
  <div class="col align-self-end">
   <div class="float-right ">
-         <button type="button" id="addOwnerBtn" class="btn btn-primary float-end" data-toggle="modal" data-target="#ownerModal">Add Owner</button>
+         <button type="button" id="addOwnerBtn" class="btn btn-primary float-end" data-toggle="modal" data-target="#ownerModal">Add Food Stub</button>
   </div>
     </div>
   </div>
