@@ -82,7 +82,7 @@
                 $.ajax({
                     url: "../process/admin_action.php",
                     method: "POST",
-                    data: {recordID:recordID,action: "deleteOwner"},
+                    data: {recordID:recordID,action: "deleteEmployee"},
                     dataType: "json",
                     success: function(response) {
                         if(response.success==true){

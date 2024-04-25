@@ -10,13 +10,13 @@
         $searchCode = $_GET['search'];
         $sql = "SELECT a.id,a.email, a.display_name, a.location 
         FROM admins a
-        WHERE a.role_id !='2'
+        WHERE a.role_id ='1'
         ";
         $result = $conn->query($sql);
     }else{
         $sql = "SELECT a.id,a.email, a.display_name, a.location 
         FROM admins a
-        WHERE a.role_id !='2'
+        WHERE a.role_id ='1'
         ";
         $result = $conn->query($sql);
     }

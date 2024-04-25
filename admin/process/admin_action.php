@@ -922,13 +922,21 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateEmployee'){
     echo json_encode($response);
 }
 else if(!empty($_POST['action']) && $_POST['action'] == 'deleteEmployee'){
-    // if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
-    //     $deleteEmployeeID = mysqli_real_escape_string($conn, $_POST['recordID']);
-
-
-    // }
-    // header('Content-Type: application/json');
-    // echo json_encode($response);
+    if(!empty($_POST['recordID']) && isset($_POST['recordID'])){
+        $deleteEmployeeID = mysqli_real_escape_string($conn, $_POST['recordID']);
+        $delete_Emp = "DELETE owners, coupons, salary_deduction
+        FROM owners
+        JOIN coupons ON coupons.owner_id = owners.staff_id
+        JOIN salary_deduction ON salary_deduction.owner_id = owners.staff_id
+        WHERE owners.staff_id = '$deleteEmployeeID'";
+        mysqli_query($conn, $delete_Emp);
+        $response = array(
+            'success' => true,
+            'message' => "Employee has been Deleted Successfully! ".$deleteEmployeeID,
+        );
+    }
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
 else{
     $response = array(

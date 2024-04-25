@@ -23,7 +23,6 @@ switch ($route){
         require 'views/manage_owner.php';
         break;
     default:
-        // require 'home.php';
-        
+        // require 'home.php';        
 }
 ?>

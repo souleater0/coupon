@@ -9,7 +9,7 @@
     if(isset($_POST['search']) && !empty($_POST['search'])){
         $searchCode = $_POST['search'];
         $sql = "SELECT
-        a.id,
+        b.id,
         a.staff_id,
         a.owner_name,
         a.owner_email,
@@ -24,7 +24,7 @@
         AND a.owner_department = c.id
         WHERE a.staff_id LIKE '%{$searchCode}%' OR b.sd_code LIKE '%{$searchCode}%' OR a.owner_name LIKE '%{$searchCode}%'
     ORDER BY
-        a.id ASC
+        b.id ASC
         ";
         $result = $conn->query($sql);
     }else{
@@ -43,7 +43,7 @@
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id 
     ORDER BY
-        a.id ASC
+        b.id ASC
         ";
         $result = $conn->query($sql);
     }
