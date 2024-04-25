@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2024 at 03:44 PM
+-- Generation Time: Apr 25, 2024 at 03:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -124,8 +124,8 @@ CREATE TABLE `coupons` (
 --
 
 INSERT INTO `coupons` (`id`, `coupon_code`, `coupon_value`, `owner_id`, `created_at`, `updated_at`) VALUES
-(2, 'ECXFS2024003', 60, '22112303', '2024-04-22 13:17:42', NULL),
-(5, 'ECSTXFS2024', 60, '230629406', '2024-04-24 11:47:20', NULL);
+(1, 'ECXFS2024003', 60, '22112303', '2024-04-22 13:17:42', NULL),
+(2, 'ECSTXFS2024', 60, '230629406', '2024-04-24 11:47:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -147,11 +147,11 @@ CREATE TABLE `department` (
 
 INSERT INTO `department` (`id`, `department_name`, `department_prefix`, `from_time`, `to_time`) VALUES
 (1, 'MAT\'S DONUT', 'MATSFNB', '03:00:00', '02:00:00'),
-(2, 'EC CAFE', 'ECCFFS', '09:00:00', '23:59:59'),
-(3, 'EC SOLUTIONS', 'ECSFS', '09:00:00', '23:59:59'),
-(4, 'ECSTATICX', 'ECSTXFS', '09:00:00', '23:59:59'),
-(5, 'ESKINA', 'FNBFS', '05:00:00', '23:59:59'),
-(6, 'ECXPERIENCE', 'ECXFS', '21:00:00', '04:00:00');
+(2, 'EC CAFE', 'ECCF', '09:00:00', '23:59:59'),
+(3, 'EC SOLUTIONS', 'ECS', '09:00:00', '23:59:59'),
+(4, 'ECSTATICX', 'ECSTX', '09:00:00', '23:59:59'),
+(5, 'ESKINA', 'FNB', '05:00:00', '23:59:59'),
+(6, 'ECXPERIENCE', 'ECX', '21:00:00', '04:00:00');
 
 -- --------------------------------------------------------
 
@@ -216,6 +216,13 @@ CREATE TABLE `salary_deduction` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `salary_deduction`
+--
+
+INSERT INTO `salary_deduction` (`id`, `sd_code`, `sd_credits`, `owner_id`, `first_cut_start`, `first_cut_end`, `second_cut_start`, `second_cut_end`, `created_at`, `updated_at`) VALUES
+(1, 'ECSTXSD2024006', '60', '230629406', 1, 15, 16, 31, '2024-04-25 12:56:42', NULL);
 
 --
 -- Indexes for dumped tables
@@ -305,7 +312,7 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `coupons`
 --
 ALTER TABLE `coupons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -329,7 +336,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `salary_deduction`
 --
 ALTER TABLE `salary_deduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
