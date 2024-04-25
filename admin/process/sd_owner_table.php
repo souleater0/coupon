@@ -29,7 +29,7 @@
         $result = $conn->query($sql);
     }else{
         $sql = "SELECT
-        a.id,
+        b.id,
         a.staff_id,
         a.owner_name,
         a.owner_email,
@@ -39,7 +39,7 @@
         b.created_at
     FROM
         owners a
-        INNER JOIN salary_deduction B ON b.owner_id = a.staff_id
+        INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id 
     ORDER BY

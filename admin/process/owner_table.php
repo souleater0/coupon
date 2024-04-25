@@ -9,7 +9,7 @@
     if(isset($_POST['search']) && !empty($_POST['search'])){
         $searchCode = $_POST['search'];
         $sql = "SELECT
-        a.id,
+        b.id,
         a.staff_id,
         a.owner_name,
         a.owner_email,
