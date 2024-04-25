@@ -135,7 +135,7 @@
         url: "../process/coupon_generator.php",
         type: "GET",
         data: { id: selectedOptionValue },
-        success: function(response) {
+        success: function(response){
             $("#couponCode").val(response.value);
         },
         error: function(xhr, status, error) {

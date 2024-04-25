@@ -322,12 +322,11 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
         $second_cut_end = mysqli_real_escape_string($conn, $_POST['second_End']);
 
         $query_Owners = "SELECT 
-        a.owner_name,
         b.owner_id,
         b.sd_code
         FROM owners a
         INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
-        WHERE owner_id = '$ownerID' OR sd_code = '$sd_Code'";
+        WHERE b.owner_id = '$ownerID' OR b.sd_code = '$sd_Code'";
         $query_Owners = mysqli_query($conn, $query_Owners);
 
         if(mysqli_num_rows($query_Owners) > 0){

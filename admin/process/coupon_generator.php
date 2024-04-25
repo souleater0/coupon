@@ -19,7 +19,7 @@ if (isset($_GET['id'])) {
 
         $year = date("Y");
         // . sprintf("%03d", $increment);
-        $coupon_code = $department_prefix.$year; // Assuming you always want 5 digits for the incrementing value
+        $coupon_code = $department_prefix; // Assuming you always want 5 digits for the incrementing value
         $response = array(
             'success' => true,
             'value' => $coupon_code,
