@@ -10,10 +10,13 @@ require 'process/session_restrict.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-		
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">		
+		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="../../assetlibrary/css/fontawesome.min.css">
         <link rel="stylesheet" href="../../assetlibrary/css/style.css">
+        <link rel="stylesheet" href="../../assetlibrary/css/all.min.css">
+        <script src="../../assetlibrary/js/all.min.js"></script>
+        
         <script src="../../assets/jquery.min.js"></script>
         <script src="../../assetlibrary/js/bootstrap.min.js"></script>
     <script src="../../assetlibrary/js/main.js"></script>
@@ -69,7 +72,7 @@ require 'process/session_restrict.php';
         </div>
 	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
 	  			<div class="user-logo">
-	  				<div class="img" style="background-image: url(images/logo.jpg);"></div>
+	  				<div class="img" style="background-image: url(../../assetlibrary/img/eclogo.png);"></div>
 	  				<h3>EC SOLUTIONS</h3>
 	  			</div>
 	  		</div>
@@ -77,32 +80,35 @@ require 'process/session_restrict.php';
         $route = $_GET['route'] ?? 'home';
         ?>
         <ul class="list-unstyled components mb-5">
-          <li class="active">
-            <a href="index.php?route=dashboard" <?php echo ($route == 'dashboard') ? 'active' : ''; ?>><span class="fa fa-gift mr-3"></span> food stub reports</a>
+          <li class="<?php echo ($route == 'dashboard') ? 'active' : ''; ?>">
+            <a href="index.php?route=dashboard" <?php echo ($route == 'dashboard') ? 'active' : ''; ?>><i class="fa-solid fa-chart-pie-simple-circle-dollar mr-3"></i> food stub reports</a>
           </li>
-          <li>
-              <a href="index.php?route=report_SD"  <?php echo ($route == 'report_SD') ? 'active' : ''; ?>>Salary Deduction Reports</a>
+          <li class="<?php echo ($route == 'report_SD') ? 'active' : ''; ?>">
+              <a href="index.php?route=report_SD"  <?php echo ($route == 'report_SD') ? 'active' : ''; ?>><i class="fa-solid fa-chart-line mr-3"></i>Salary Deduction Reports</a>
           </li>
           <!-- sseision role -->
           <?php
         if($_SESSION['admin_session_role']==2 && !empty($_SESSION['admin_session_role'])){
         ?>
-          <li>
-            <a href="index.php?route=manage_owner_FS"  <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>>Food Stub Owner</a>
+          <li class="<?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>">
+            <a href="index.php?route=manage_owner_FS"  <?php echo ($route == 'manage_owner_FS') ? 'active' : ''; ?>><i class="fa-solid fa-pot-food mr-3"></i>Food Stub Owner</a>
           </li>
-          <li>
-            <a href="index.php?route=manage_owner_SD" <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>>Salary Deduct Owner</a>
+          <li class="<?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>">
+            <a href="index.php?route=manage_owner_SD" <?php echo ($route == 'manage_owner_SD') ? 'active' : ''; ?>><i class="fa-solid fa-hand-holding-circle-dollar mr-3"></i>Salary Deduct Owner</a>
           </li>
-          <li>
-            <a href="index.php?route=manage_department" <?php echo ($route == 'manage_department') ? 'active' : ''; ?>>Manage Department</a>
+          <li class="<?php echo ($route == 'manage_department') ? 'active' : ''; ?>">
+            <a href="index.php?route=manage_department" <?php echo ($route == 'manage_department') ? 'active' : ''; ?>><i class="fa-solid fa-apartment mr-3"></i>Manage Department</a>
           </li>
-          <li>
-           <a href="index.php?route=manage_owner" class="dropdown-item <?php echo ($route == 'manage_owner') ? 'active' : ''; ?>">Manage Employee</a>
+          <li class="<?php echo ($route == 'manage_owner') ? 'active' : ''; ?>">
+           <a href="index.php?route=manage_owner" class="dropdown-item <?php echo ($route == 'manage_owner') ? 'active' : ''; ?>"><i class="fa-solid fa-users-gear mr-3"></i>Manage Employee</a>
+          </li>
+          <li class="<?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>">
+           <a href="index.php?route=manage_clerk" class="dropdown-item <?php echo ($route == 'manage_clerk') ? 'active' : ''; ?>"><i class="fa-duotone fa-user-vneck-hair-long mr-3"></i>Manage Clerk</a>
           </li>
           <?php
         }?>
           <li>
-            <a class="nav-link" href="/coupon">back to dashboard <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/coupon"><i class="fa-regular fa-arrow-left-from-arc mr-3"></i>back to dashboard <span class="sr-only">(current)</span></a>
           </li>
         </ul>
 

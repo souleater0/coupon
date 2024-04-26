@@ -27,6 +27,11 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
             'success' => false,
             'message' => "Enter your Coupon Value!",
         );
+    }else if(empty($_POST['ownerTimeBase'])){
+        $response = array(
+            'success' => false,
+            'message' => "Select your Base Time!",
+        );
     }else{
         $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
         $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
@@ -195,6 +200,11 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
             'success' => false,
             'message' => "Enter your Coupon Value!",
         );
+    }else if(empty($_POST['ownerTimeBase'])){
+            $response = array(
+                'success' => false,
+                'message' => "Select your Base Time!",
+            );
     }else{
         $updateId = mysqli_real_escape_string($conn, $_POST['updateId']);
         $departmentID = mysqli_real_escape_string($conn, $_POST['departmentID']);
@@ -370,7 +380,7 @@ else if(!empty($_POST['action']) && $_POST['action'] == 'updateOwner')
         FROM owners a
         INNER JOIN salary_deduction b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
-        WHERE a.id = '$fetch_SDOwnerID'";
+        WHERE b.sd_code = '$fetch_SDOwnerID'";
         $result_SDOwner_data = mysqli_query($conn, $fetch_SDOwner_data);
         $row_SDOwner_data = mysqli_fetch_assoc($result_SDOwner_data);
         $response = array(
@@ -387,18 +397,6 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
         $response = array(
             'success' => false,
             'message' => "Select a Department!",
-        );
-    }
-    else if(empty($_POST['ownerId']) && $_POST['ownerId']){
-        $response = array(
-            'success' => false,
-            'message' => "Enter your Owner ID!",
-        );
-    }
-    else if(empty($_POST['ownerName']) && $_POST['ownerName']){
-        $response = array(
-            'success' => false,
-            'message' => "Enter your Full Name!",
         );
     }
     else if(empty($_POST['sdCode']) && $_POST['sdCode']){
@@ -441,8 +439,6 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
 
         $depID = mysqli_real_escape_string($conn, $_POST['departmentID']);
         $ownerID = mysqli_real_escape_string($conn, $_POST['ownerId']);
-        $ownerName = mysqli_real_escape_string($conn, $_POST['ownerName']);
-        $ownerEmail = mysqli_real_escape_string($conn, $_POST['ownerEmail']);
         $sd_Code = mysqli_real_escape_string($conn, $_POST['sdCode']);
         $maxSD = mysqli_real_escape_string($conn, $_POST['maxSD']);
         $first_cut_start = mysqli_real_escape_string($conn, $_POST['first_Start']);
@@ -453,11 +449,8 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
         //update owners
         $sql_SDOWNER = "UPDATE owners
         SET
-        staff_id = '$ownerID',
-        owner_name = '$ownerName',
-        owner_email = '$sd_Code',
         owner_department = '$depID'
-        WHERE id = '$updateId'
+        WHERE staff_id = '$ownerID'
         ";
         mysqli_query($conn, $sql_SDOWNER);
 
@@ -471,7 +464,7 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
         first_cut_end = '$first_cut_end',
         second_cut_start = '$second_cut_start',
         second_cut_end = '$second_cut_end'
-        WHERE id = '$updateId'";
+        WHERE sd_code = '$updateId'";
         mysqli_query($conn, $sql_SDOWNER_Details);
         $response = array(
             'success' => true,
@@ -483,9 +476,8 @@ elseif(!empty($_POST['action']) && $_POST['action'] == 'updateSDOwner'){
     echo json_encode($response);
 }elseif(!empty($_POST['action']) && $_POST['action'] == 'deleteSDOwner'){
     $deleteOwnerID = $_POST['recordID'];
-    $deleteRecord = "DELETE salary_deduction, owners
+    $deleteRecord = "DELETE salary_deduction
     FROM salary_deduction
-    JOIN owners ON owners.staff_id = salary_deduction.owner_id
     WHERE salary_deduction.sd_code = '$deleteOwnerID'";
     mysqli_query($conn, $deleteRecord);
     $response = array(

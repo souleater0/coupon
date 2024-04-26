@@ -1,12 +1,13 @@
-<div class="container">
+<h2 class="modal-title text-center text-uppercase ">list of clerk</h2><br><br>
+<div style="width: 100% !important;">
     <div class="row mb-2">
         <div class="col">
             <span class="" id="basic-addon1">Search</span>
             <input type="text" class="form-control search w-100" placeholder="Ex. Email or Name"
-                id="live_search" autocomplete="off">
+                id="live_search" autocomplete="off" style="border:0.5px solid black;">
         </div>
-        <div class="col">
-            <div class="float-end mb-2">
+        <div class="col align-self-end">
+            <div class="float-right">
                 <button type="button" id="addClerkBtn" class="btn btn-primary" data-toggle="modal"
                     data-target="#clerkModal">Add Clerk</button>
             </div>
@@ -40,29 +41,29 @@
           <div class="modal-body mx-2">
           <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Display Name</label>
-              <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Ex. juandelacruz" required>
+              <input type="text" class="form-control" id="ownerName" name="ownerName" placeholder="Ex. juandelacruz" style="border: 1px solid black;" required>
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Email</label>
-              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com" required>
+              <label for="exampleFormControlInput1" class="form-label">Username</label>
+              <input type="text" class="form-control" id="in_ownerEmail" name="ownerEmail" placeholder="Ex. juandelacruz@gmail.com" style="border: 1px solid black;" required>
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Password</label>
               <div class="d-flex">
-              <input type="password" class="form-control" id="in_Password" name="in_Password" placeholder="Ex. *******" required>
+              <input type="password" class="form-control" id="in_Password" name="in_Password" placeholder="Ex. *******" style="border: 1px solid black;" required>
               <button type="button" class="btn btn-info" id="show_Pass">SHOW</button>
               </div>
             </div>
             <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Confirm Password</label>
               <div class="d-flex">
-              <input type="password" class="form-control" id="in_ConPassword" name="in_ConPassword" placeholder="Ex. *******" required>
+              <input type="password" class="form-control" id="in_ConPassword" name="in_ConPassword" placeholder="Ex. *******" style="border: 1px solid black;" required>
               <button type="button" class="btn btn-info" id="show_ConPass">SHOW</button>
               </div>
             </div>
              <div class="my-2">
               <label for="exampleFormControlInput1" class="form-label">Location</label>
-              <input type="text" class="form-control" id="in_Location" name="in_Location" placeholder="Ex. ESKINA" required>
+              <input type="text" class="form-control" id="in_Location" name="in_Location" placeholder="Ex. ESKINA" style="border: 1px solid black;" required>
             </div>
           <div class="modal-footer">
             <button type="button" id="closeClerk" class="btn btn-secondary" data-dismiss="modal">Close</button>

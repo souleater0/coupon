@@ -33,9 +33,9 @@
             e.display_name
         FROM
             claims AS a
-            INNER JOIN coupons AS b ON a.coupon_id = b.id
-            INNER JOIN owners AS c ON a.owner_id = c.id 
-            AND b.owner_id = c.id
+            INNER JOIN coupons AS b ON a.coupon_id = b.coupon_code
+            INNER JOIN owners AS c ON a.owner_id = c.staff_id 
+            AND b.owner_id = c.staff_id
             INNER JOIN department AS d ON c.owner_department = d.id
             INNER JOIN admins AS e ON a.admin_id = e.id
         WHERE
@@ -79,9 +79,9 @@
             e.display_name
         FROM
             claims AS a
-            INNER JOIN coupons AS b ON a.coupon_id = b.id
-            INNER JOIN owners AS c ON a.owner_id = c.id 
-            AND b.owner_id = c.id
+            INNER JOIN coupons AS b ON a.coupon_id = b.coupon_code
+            INNER JOIN owners AS c ON a.owner_id = c.staff_id 
+            AND b.owner_id = c.staff_id
             INNER JOIN department AS d ON c.owner_department = d.id
             INNER JOIN admins AS e ON a.admin_id = e.id
         WHERE

@@ -3,7 +3,7 @@
     <div class="row mb-2">
         <div class="col">
             <span class="" id="basic-addon1">Search</span>
-            <input type="text" class="form-control search w-100" placeholder="Ex. Department or Prefix" id="live_search" autocomplete="off"style="border:0.5px solid black;">
+            <input type="text" class="form-control search w-100" placeholder="Ex. Department or Prefix" id="live_search" autocomplete="off" style="border:0.5px solid black;">
         </div>
         <div class="col align-self-end">
             <div class="float-right">
@@ -34,7 +34,7 @@
         <div class="modal-content">
         <form id="form_department">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Department Details</h1>
+            <h3 class="modal-title fs-5" id="exampleModalLabel">Department Details</h3>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-2">

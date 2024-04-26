@@ -59,7 +59,7 @@
       <td><?php echo $row["sd_code"];?></td>
       
       <td class="text-center"><?php echo $row["sd_credits"];?></td>
-      <td class="text-center"><button type="button" record-id="<?php echo $row["id"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["sd_code"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
+      <td class="text-center"><button type="button" record-id="<?php echo $row["sd_code"]?>" class="btn btn-primary editOwner me-2">EDIT</button>&nbsp;<button type="button" record-id="<?php echo $row["sd_code"]?>" class="btn btn-danger deleteOwner">DELETE</button></td>
     </tr>
     <br>
     <?php
@@ -68,6 +68,7 @@
     $('.editOwner').click(function(){
         $("#updateOwner").show();
         $("#addOwner").hide();
+        $('#in_ownerId').prop('readonly', true);
         var recordID = $(this).attr("record-id");
         // alert(recordID);
         $.ajax({

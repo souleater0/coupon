@@ -38,7 +38,7 @@
         $result = $conn->query($sql);
     }else{
         $sql = "SELECT
-        a.id,
+        b.id,
         a.staff_id,
         a.owner_name,
         a.owner_email,
@@ -97,6 +97,7 @@ else{
     $('.editOwner').click(function(){
         $("#updateOwner").show();
         $("#addOwner").hide();
+        $('#in_ownerId').prop('readonly', true);
         var recordID = $(this).attr("record-id");
         // alert(recordID);
         $.ajax({

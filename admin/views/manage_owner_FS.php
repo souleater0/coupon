@@ -39,8 +39,8 @@
         <div class="modal-content">
         <form id="form_owner">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Food Stub Owner Details</h1>
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+            <h3 class="modal-title fs-5" id="exampleModalLabel">Food Stub Owner Details</h3>
+            <button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark-large"></i></button>
           </div>
           <div class="modal-body mx-2">
             <div class="my-2">
@@ -248,12 +248,16 @@
             $('#addOwnerBtn').click(function(){
               $("#addOwner").show();
               $("#updateOwner").hide();
+              $('#in_ownerId').prop('readonly', false);
               $('#selectDepartment option:eq(0)').prop('selected', true);
               $('#in_ownerId').val("");
               $('#in_ownerName').val("");
               $('#in_ownerEmail').val("");
               $('#couponCode').val("");
               $('#couponValue').val("");
+              // $('#TimeBase').val(1);
+              $('#TimeBase option:eq(1)').prop('selected', true);
+              displayIndividualTime();
               $("#updateOwner").attr("update-id", "");
             });
 
@@ -283,6 +287,8 @@
                           $('#in_ownerId').val("");
                           $('#in_ownerName').val("");
                           $('#in_ownerEmail').val("");
+                          $('#TimeBase').val("");
+                          
                       }
                   }
               });

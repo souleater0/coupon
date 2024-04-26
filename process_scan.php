@@ -31,7 +31,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
     
     FROM
         owners a
-        INNER JOIN coupons b ON b.owner_id = a.id
+        INNER JOIN coupons b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id
 				WHERE b.coupon_code = '$coupon'
@@ -63,7 +63,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                     * 
                 FROM
                     claims AS a
-                    INNER JOIN owners AS b ON a.owner_id = b.id 
+                    INNER JOIN owners AS b ON b.staff_id = a.owner_id
                 WHERE
                     NOW() BETWEEN a.claim_date 
                     AND a.claim_end_date 
@@ -76,7 +76,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                             'message' => 'Food Stub already Claimed!',
                         );
                     }else{
-                        $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES (".$coupon_row['id'].",".$coupon_row['coupon_id'].",".$_SESSION['admin_session_id'].",'".$end_datetime."', 'claimed')";
+                        $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES ('$owner_id','$coupon','".$_SESSION['admin_session_id']."','".$end_datetime."', 'claimed')";
                         mysqli_query($conn, $claim_query);
                         $response = array(
                             'success' => true,
@@ -99,7 +99,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                         * 
                     FROM
                         claims AS a
-                        INNER JOIN owners AS b ON a.owner_id = b.id 
+                        INNER JOIN owners AS b ON a.owner_id = b.staff_id 
                     WHERE
                         NOW() BETWEEN a.claim_date 
                         AND a.claim_end_date 
@@ -147,7 +147,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                                 * 
                             FROM
                                 claims AS a
-                                INNER JOIN owners AS b ON a.owner_id = b.id 
+                                INNER JOIN owners AS b ON a.owner_id = b.staff_id 
                             WHERE
                                 NOW() BETWEEN a.claim_date 
                                 AND a.claim_end_date 
@@ -184,7 +184,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                                 * 
                             FROM
                                 claims AS a
-                                INNER JOIN owners AS b ON a.owner_id = b.id 
+                                INNER JOIN owners AS b ON a.owner_id = b.staff_id 
                             WHERE
                                 NOW() BETWEEN a.claim_date 
                                 AND a.claim_end_date 
@@ -309,8 +309,8 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
                     //check amount
                     $remaining_BALANCE = $owner_ROW["remaining_balance"];
                     if($amount<=$remaining_BALANCE){
-                        $insert_Deduction = "INSERT INTO balance_deducted (amount_sd,receipt_no,sd_code,owner_id)
-                        VALUES ('$amount','$receiptNo','$sd_Coupon','$ownerID')";
+                        $insert_Deduction = "INSERT INTO balance_deducted (amount_sd,receipt_no,sd_code,owner_id,admin_id)
+                        VALUES ('$amount','$receiptNo','$sd_Coupon','$ownerID','".$_SESSION['admin_session_id']."')";
                         mysqli_query($conn, $insert_Deduction);
                         $response = array(
                             'success' => true,

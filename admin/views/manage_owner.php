@@ -1,4 +1,4 @@
-<h2 class="modal-title text-center">List of Employee</h2><br><br>
+<h2 class="modal-title text-center text-uppercase">List of Employee</h2><br><br>
 <div  style="width: 100% !important;">
   <div class="row mb-2">
     <div class="col">
