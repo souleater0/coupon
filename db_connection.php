@@ -1,5 +1,5 @@
 <?php
-$servername = "localhost";
+$servername = "localhost:3309";
 $username = "root";
 $password = "";
 $database = "ecfoodstub_db";

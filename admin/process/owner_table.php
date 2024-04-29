@@ -33,7 +33,7 @@
         INNER JOIN department c ON c.id = a.owner_department
         WHERE a.staff_id LIKE '%{$searchCode}%' OR b.coupon_code LIKE '%{$searchCode}%' OR a.owner_name LIKE '%{$searchCode}%'
     ORDER BY
-        a.id ASC
+        b.id ASC
         ";
         $result = $conn->query($sql);
     }else{
@@ -61,8 +61,8 @@
         INNER JOIN coupons b ON b.owner_id = a.staff_id
         INNER JOIN department c ON c.id = a.owner_department
         AND a.owner_department = c.id 
-    ORDER BY
-        a.id ASC
+        ORDER BY
+        b.id ASC
         ";
         $result = $conn->query($sql);
     }
