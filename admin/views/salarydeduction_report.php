@@ -216,7 +216,42 @@ $(document).ready(function(){
     $('#generateReport').click(function(){
         var filter_opt = $("#select_Filter").val();
         if(filter_opt=="1"){
-
+            var start_date = $("#startDatePicker").val();
+            var end_date = $("#endDatePicker").val();
+            var time_In = $("#timeIn").val();
+            var time_Out = $("#timeOut").val();
+            var dep_ID = $("#selectDepartment").val();
+            var selectCutoff = $("#select_cutOFF").val();
+            var selectType = $("#select_TYPE").val();
+            var selectSD = $("#select_SD").val();
+            var clerk_ID = $("#selectPerson").val();
+            $.ajax({
+                url: "../process/sd_report_table.php",
+                type: "POST",
+                cache: false,
+                data:{
+                    start_date:start_date,
+                    end_date: end_date,
+                    time_In:time_In,
+                    time_Out:time_Out,
+                    filter_opt : filter_opt,
+                    dep_ID: dep_ID,
+                    selectCutoff: selectCutoff,
+                    selectType:selectType,
+                    selectSD: selectSD,
+                    clerk_ID:clerk_ID,
+                    action: 'reportGenerate'
+                    },
+                success:function(data){
+                    if (data.trim().startsWith("No Result Found")) {
+                        toastr.error("No Results Found!");
+                    }else{
+                        toastr.success("Report Generated Successfully");
+                        
+                    }
+                    $('#sdReport').html(data);
+                }
+            });
         }else{
             var MonthYear = $("#startMonth").val();
             var dep_ID = $("#selectDepartment").val();

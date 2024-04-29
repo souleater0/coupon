@@ -6,8 +6,86 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
     if(isset($_POST['filter_opt'])){
         $filter_opt = $_POST['filter_opt'];
         if($filter_opt = "1"){
+            if(
+               isset($_POST['start_date'])
+            && isset($_POST['end_date'])
+            && isset($_POST['time_In'])
+            && isset($_POST['time_Out'])
+            && isset($_POST['dep_ID'])
+            && isset($_POST['selectCutoff'])
+            && isset($_POST['selectType'])
+            && isset($_POST['selectSD']) 
+            && isset($_POST['clerk_ID'])){
+                $start_date = $_POST['start_date'];
+                $end_date = $_POST['end_date'];
+                $time_IN = $_POST['time_In'];
+                $time_OUT = $_POST['time_Out'];
+                $dep_ID = $_POST['dep_ID'];
+                $selectCutOFF = $_POST['selectCutoff'];
+                $selectedTYPE  = $_POST['selectType'];
+                $selectedSD  = $_POST['selectSD'];
+                $clerk_ID = $_POST['clerk_ID'];
+                //convert to military time
+                $m_time_IN = date("H:i:59", strtotime($time_IN));
+                $m_time_OUT = date("H:i:59", strtotime($time_OUT));
 
+                $startDateTime = $start_date. ' '.$m_time_IN;
+                $endDateTime = $end_date.' '.$m_time_OUT;
+
+                $breakdown_sd_range = "SELECT
+                a.owner_name AS full_name,
+                b.department_name AS department,
+                c.sd_code AS sd_code,
+                CASE
+                    WHEN d.amount_sd IS NOT NULL THEN d.amount_sd
+                    ELSE 'NO SD'
+                END AS amount_sd,
+                d.receipt_no AS receipt_no,
+                CASE 
+                    WHEN DAY(d.created_at) BETWEEN c.first_cut_start AND c.first_cut_end THEN CONCAT('1st Cut-Off: ', c.first_cut_start, ' to ', c.first_cut_end)
+                    WHEN DAY(d.created_at) BETWEEN c.second_cut_start AND c.second_cut_end THEN CONCAT('2nd Cut-Off: ', c.second_cut_start, ' to ', c.second_cut_end)
+                END AS cut_off,
+                DATE_FORMAT(d.created_at, '%Y-%m-%d %h:%i %p') AS date_created,
+                e.display_name AS clerk_name
+                FROM
+                    owners a
+                    INNER JOIN department b ON b.id = a.owner_department
+                    INNER JOIN salary_deduction c ON c.owner_id = a.staff_id
+                    INNER JOIN admins e
+                    LEFT JOIN balance_deducted d ON d.sd_code = c.sd_code AND d.admin_id = e.id AND c.owner_id = a.staff_id
+                WHERE
+                    d.void = '0'
+                    AND (DATE(d.created_at) BETWEEN '$start_date' AND '$end_date')
+                    ";
+                    if(!empty($_POST['time_In']) && !empty($_POST['time_Out']) ){
+                        $breakdown_sd_range .= "AND (TIME(d.created_at) BETWEEN '$m_time_IN' AND '$m_time_OUT')";
+                    }
+                    if(!empty($_POST['department'])){
+                        $breakdown_sd_range .= "AND b.id = '$dep_ID'";
+                    }
+                    if(!empty($_POST['clerk_ID'])){
+                        $breakdown_sd_range .= "AND d.admin_id = '$clerk_ID'";
+                    }
+                    $result_breakdown_range = mysqli_query($conn,$breakdown_sd_range);
+                    if($result_breakdown_range->num_rows > 0){
+                        while($row_breakdown_range = mysqli_fetch_assoc($result_breakdown_range)){
+                            ?>
+                                                     <tr>
+                        <td><?php echo $row_breakdown_range["full_name"];?></td>
+                        <td><?php echo $row_breakdown_range["department"];?></td>
+                        <td><?php echo $row_breakdown_range["sd_code"];?></td>
+                        <td><?php echo $row_breakdown_range["amount_sd"];?></td>
+                        <td><?php echo $row_breakdown_range["receipt_no"];?></td>
+                        <td><?php echo $row_breakdown_range["cut_off"];?></td>
+                        <td><?php echo $row_breakdown_range["date_created"];?></td>
+                        <td><?php echo $row_breakdown_range["clerk_name"];?></td>
+                         </tr>
+                            <?php
+                        }
+                    }
+            }
         }
+        
         if($filter_opt = "2"){
             if(isset($_POST['MonthYear']) && !empty($_POST['MonthYear'])
             && isset($_POST['dep_ID'])
