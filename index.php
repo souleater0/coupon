@@ -139,6 +139,10 @@ if (!isset($_SESSION['admin_session_id'])) {
         <tbody id="tableReport">
         </tbody>
 </table>
+<!-- <div class="m-auto text-center ">
+<h1 class="">CURRENTLY NOT AVAILABLE</h1>
+<img src="assetlibrary/img/magpakailanman.jpg" class="w-75" height="700">
+</div> -->
 
     </div> 
   </div>

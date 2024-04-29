@@ -1,6 +1,5 @@
 <?php
 include 'db_connection.php';
-include 'admin/time_zone.php';
 
 // Get current timestamp
 $current_time = time();

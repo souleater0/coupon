@@ -262,8 +262,8 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
         $amount = $_POST['amount_sd'];
         $receiptNo = $_POST['receipt_no'];
 
-
-        //check receipt if exist
+        if(strlen($receiptNo) >= 5){
+                    //check receipt if exist
         $check_receipt = "SELECT * FROM balance_deducted
         WHERE receipt_no = '$receiptNo'";
         $result_check_receipt = mysqli_query($conn, $check_receipt);
@@ -347,24 +347,13 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addDeduction') {
                 );
             }
         }
+        }else{
+            $response = array(
+                'success' => false,
+                'message' => 'Receipt No. must be 5 characters and above!',
+            );
+        }
     }
-    // $response = array(
-    //     'success' => true,
-    //     'message' => 'Balance has been deducted!',
-    // );
-    // $response = array(
-    //     'success' => false,
-    //     'message' => 'SD code does not exist!',
-    // );
-    // $response = array(
-    //     'success' => false,
-    //     'message' => 'Owner does not match!',
-    // );
-    // $response = array(
-    //     'success' => false,
-    //     'message' => 'Not enough balance to deduct',
-    // );
-
 header('Content-Type: application/json');
 echo json_encode($response);
 }

@@ -17,77 +17,103 @@
         background-color: white;
       }
 </style>
-<h2 class="modal-title text-center text-uppercase">salary deduction reports</h2><br><br>
+<h2 class="modal-title text-center text-uppercase">salary deduction reports</h2>
 <div style="width:100% !important;">
-<div class="input-daterange">
-      <div class="row">
-        <div class="col-9">
-            <div class="row">
-                <div class="col-3">
-                    <div>
-                    <label for="start">Month Year:</label>
-                        <div class="w-full">
-                        <input type="month" id="startMonth" name="start" min="2024-01" value="<?php echo $current_MONTH_YEAR?>"/>
-                        </div>
+<div class="input-daterange mt-3">
+    <div class="row">
+        <div class="col-auto">
+            <div>
+                <label for="select_Filter">Filter By:</label>
+                <select name="select_Filter" id="select_Filter">
+                <option value="1">Custom Range</option>
+                <option value="2">Month Year</option>
+           </select>
+            </div>
+           <div>
+           <label for="select_TYPE">Type</label><br>
+            <select id="select_TYPE">
+                <option value="s_type1">Summary</option>
+                <option value="s_type2">Break-Down</option>
+            </select>
+            <select id="select_SD">
+                <option value="1">SD Only</option>
+                <option value="2">With No SD</option>
+            </select>
+           </div>
+            <div class="d-none" id="clerkSELECT">
+            <label for="selectPerson">Clerk:</label><br>
+                <select class="form-select" id="selectPerson" name="selectPerson">
+                    <option value="" selected>All</option>
+                    <?php 
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                $sql = "SELECT * FROM admins where role_id = '1'";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row["id"];?>"><?php echo $row["display_name"].' - '.$row["location"];?></option>
+                <?php
+                }}?>
+                </select>
+            </div>
+            <div>
+            <label for="departmentID">Department:</label>
+            <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
+                <option value="" selected>All</option>
+                <?php 
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                $sql = "SELECT * FROM department";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $row["id"];?>"><?php echo $row["department_name"];?></option>
+                <?php
+                }}?>
+            </select>
+            </div>
+        </div>
+        <div id="filter_1" class="col-6">
+            <div class="col-auto">
+                <div class="row">
+                    <div class="col">
+                    From<input type="date" id="startDatePicker" name="fromDate" class="form-control" value="<?php echo $current_date ?>" style="border: 1px solid black;" />
                     </div>
-                    <div>
-                    <label for="departmentID">Department:</label>
-                        <div class="w-full">
-                            <select class="form-select" aria-label="Default select example" name="departmentID" id="selectDepartment" onchange="updateCouponPrefix()">
-                            <option value="" selected>All</option>
-                            <?php 
-                            // Check connection
-                            if ($conn->connect_error) {
-                                die("Connection failed: " . $conn->connect_error);
-                            }
-                            $sql = "SELECT * FROM department";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
-                            ?>
-                            <option value="<?php echo $row["id"];?>"><?php echo $row["department_name"];?></option>
-                            <?php
-                            }}?>
-                            </select>
-                        </div>
+                    <div class="col">
+                    To<input type="date" id="endDatePicker" name="toDate" class="form-control" value="<?php echo $current_date ?>" style="border: 1px solid black;"/>
                     </div>
                 </div>
-                <div class="col-6">
-                    <label for="departmentID">Cut-Off:</label>
-                    <div class="w-full">
-                    <select name="departmentID" id="select_cutOFF">
-                        <option value="1">1ST Cut-Off</option>
-                        <option value="2">2ND Cut-Off</option>
-                    </select>
-                    <select id="select_TYPE">
-                        <option value="s_type1">Summary</option>
-                        <option value="s_type2">Break-Down</option>
-                    </select>
-                    <select id="select_SD">
-                        <option value="1">SD Only</option>
-                        <option value="2">With No SD</option>
-                    </select>
+            </div>
+            <div class="col-auto">
+                <div class="row">
+                    <div class="col">
+                    From Time:<input type="time" id="timeIn" class="w-100 form-control" style="border: 1px solid black;">
+                    </div>
+                    <div class="col">
+                    To Time:<input type="time" id="timeOut" class="w-100 form-control" style="border: 1px solid black;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="filter_2" class="col-6 d-none">
+            <div class="row">
+                <div class="col-auto">
+                    <div>
+                        <label for="start">Month Year:</label>
+                        <input type="month" class="w-auto" id="startMonth" name="start" min="2024-01" value="<?php echo $current_MONTH_YEAR?>"/>
                     </div>
                     <div>
-                    <div class="w-full d-none" id="clerkSELECT">
-                    <label for="selectPerson">Clerk:</label><br>
-                    <select class="form-select" id="selectPerson" name="selectPerson">
-                        <option value="" selected>All</option>
-                        <?php 
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-                    $sql = "SELECT * FROM admins where role_id = '1'";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                    ?>
-                    <option value="<?php echo $row["id"];?>"><?php echo $row["display_name"].' - '.$row["location"];?></option>
-                    <?php
-                    }}?>
-                    </select>
-                    </div>
+                        <label for="select_cutOFF">Cut-Off:</label>
+                        <select name="select_cutOFF" id="select_cutOFF">
+                            <option value="1">1ST Cut-Off</option>
+                            <option value="2">2ND Cut-Off</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -98,7 +124,7 @@
                 <button type="button" id="generateCSV" class="btn btn-success px-2">Export CSV</button>
             </div>
         </div>
-      </div>
+    </div>
 </div>
 </br></br>
 <div class="report-container">
@@ -133,6 +159,19 @@
 </div>
 <script>
 $(document).ready(function(){
+        
+
+    $('#select_Filter').change(function(){
+        var filter_opt = $(this).val();
+        if(filter_opt== "1"){
+            $("#filter_1").removeClass("d-none");
+            $("#filter_2").addClass("d-none");
+        }else{
+            
+            $("#filter_2").removeClass("d-none");
+            $("#filter_1").addClass("d-none");
+        }
+    });
         $('#s_type2').hide();
             // Handle dropdown change event
         $('#select_cutOFF').change(function(){
@@ -174,19 +213,23 @@ $(document).ready(function(){
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-    $('#generateReport').click(function(){    
-        var MonthYear = $("#startMonth").val();
-        var dep_ID = $("#selectDepartment").val();
-        var selectCutoff = $("#select_cutOFF").val();
-        var selectType = $("#select_TYPE").val();
-        var selectSD = $("#select_SD").val();
-        var clerk_ID = $("#selectPerson").val();
+    $('#generateReport').click(function(){
+        var filter_opt = $("#select_Filter").val();
+        if(filter_opt=="1"){
 
-        $.ajax({
+        }else{
+            var MonthYear = $("#startMonth").val();
+            var dep_ID = $("#selectDepartment").val();
+            var selectCutoff = $("#select_cutOFF").val();
+            var selectType = $("#select_TYPE").val();
+            var selectSD = $("#select_SD").val();
+            var clerk_ID = $("#selectPerson").val();
+            $.ajax({
                 url: "../process/sd_report_table.php",
                 type: "POST",
                 cache: false,
                 data:{
+                    filter_opt : filter_opt,
                     MonthYear:MonthYear,
                     dep_ID: dep_ID,
                     selectCutoff: selectCutoff,
@@ -204,7 +247,8 @@ $(document).ready(function(){
                     }
                     $('#sdReport').html(data);
                 }
-        });
+            });
+        }
     });
     $('#generateReport').click();
     $('#generateCSV').click(function(){
