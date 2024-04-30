@@ -135,7 +135,7 @@
             <th scope="col" class="text-uppercase">Department</th>
             <th scope="col" class="text-uppercase">SD CODE</th>
             <th scope="col" class="text-uppercase">Total Deducted</th>
-            <th scope="col" class="text-uppercase">CUT-OFF</th>
+            <th scope="col" class="cut_off_th text-uppercase d-none">CUT-OFF</th>
             <th scope="col" class="text-uppercase">Date</th>
             </tr>
         </thead>
@@ -159,15 +159,15 @@
 </div>
 <script>
 $(document).ready(function(){
-        
 
     $('#select_Filter').change(function(){
         var filter_opt = $(this).val();
         if(filter_opt== "1"){
             $("#filter_1").removeClass("d-none");
             $("#filter_2").addClass("d-none");
+            $("#s_type1 .cut_off_th").addClass("d-none");
         }else{
-            
+            $("#s_type1 .cut_off_th").removeClass("d-none");
             $("#filter_2").removeClass("d-none");
             $("#filter_1").addClass("d-none");
         }
@@ -287,56 +287,116 @@ $(document).ready(function(){
     });
     $('#generateReport').click();
     $('#generateCSV').click(function(){
-        var MonthYear = $("#startMonth").val();
-        var dep_ID = $("#selectDepartment").val();
-        var selectCutoff = $("#select_cutOFF").val();
-        var selectType = $("#select_TYPE").val();
-        var selectSD = $("#select_SD").val();
-        var clerk_ID = $("#selectPerson").val();
-    
-    $.ajax({
-        url: "../process/sd_report_table.php",
-        type: "POST",
-        cache: false,
-        data:{
-            MonthYear:MonthYear,
-            dep_ID: dep_ID,
-            selectCutoff: selectCutoff,
-            selectType:selectType,
-            selectSD: selectSD,
-            clerk_ID:clerk_ID,
-            action: 'csvGenerate'
-            },
-        success: function(data){
-            if (data.trim().startsWith("No Result Found")) {
-                toastr.error("No data available for the selected criteria.");
-            } else {
-            // Parse the CSV data
-            var csvData = new Blob([data], { type: 'text/csv' });
-            var csvUrl = window.URL.createObjectURL(csvData);
+        var filter_opt = $("#select_Filter").val();
+        if(filter_opt=="1"){
+            var start_date = $("#startDatePicker").val();
+            var end_date = $("#endDatePicker").val();
+            var time_In = $("#timeIn").val();
+            var time_Out = $("#timeOut").val();
+            var dep_ID = $("#selectDepartment").val();
+            var selectCutoff = $("#select_cutOFF").val();
+            var selectType = $("#select_TYPE").val();
+            var selectSD = $("#select_SD").val();
+            var clerk_ID = $("#selectPerson").val();
+            $.ajax({
+                url: "../process/sd_report_table.php",
+                type: "POST",
+                cache: false,
+                data:{
+                    start_date:start_date,
+                    end_date: end_date,
+                    time_In:time_In,
+                    time_Out:time_Out,
+                    filter_opt : filter_opt,
+                    dep_ID: dep_ID,
+                    selectCutoff: selectCutoff,
+                    selectType:selectType,
+                    selectSD: selectSD,
+                    clerk_ID:clerk_ID,
+                    action: 'csvGenerate'
+                    },
+                success: function(data){
+                    if (data.trim().startsWith("No Result Found")) {
+                        toastr.error("No data available for the selected criteria.");
+                    } else {
+                    // Parse the CSV data
+                    var csvData = new Blob([data], { type: 'text/csv' });
+                    var csvUrl = window.URL.createObjectURL(csvData);
 
-            // Create a temporary link element
-            var link = document.createElement('a');
-            link.href = csvUrl;
-            link.setAttribute('download', 'ECS-SD_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
-            document.body.appendChild(link);
+                    // Create a temporary link element
+                    var link = document.createElement('a');
+                    link.href = csvUrl;
+                    link.setAttribute('download', 'ECS-SD_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
+                    document.body.appendChild(link);
 
-            // Trigger the download
-            link.click();
+                    // Trigger the download
+                    link.click();
 
-            // Cleanup
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(csvUrl);
+                    // Cleanup
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(csvUrl);
 
-            toastr.success("CSV has been Regenerated!");
-            }
+                    toastr.success("CSV has been Regenerated!");
+                    }
 
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            toastr.error("Failed to generate CSV!");
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    toastr.error("Failed to generate CSV!");
+                }
+            });
+        }else{
+            var MonthYear = $("#startMonth").val();
+            var dep_ID = $("#selectDepartment").val();
+            var selectCutoff = $("#select_cutOFF").val();
+            var selectType = $("#select_TYPE").val();
+            var selectSD = $("#select_SD").val();
+            var clerk_ID = $("#selectPerson").val();
+            $.ajax({
+                url: "../process/sd_report_table.php",
+                type: "POST",
+                cache: false,
+                data:{
+                    filter_opt : filter_opt,
+                    MonthYear:MonthYear,
+                    dep_ID: dep_ID,
+                    selectCutoff: selectCutoff,
+                    selectType:selectType,
+                    selectSD: selectSD,
+                    clerk_ID:clerk_ID,
+                    action: 'csvGenerate'
+                    },
+                success: function(data){
+                    if (data.trim().startsWith("No Result Found")) {
+                        toastr.error("No data available for the selected criteria.");
+                    } else {
+                    // Parse the CSV data
+                    var csvData = new Blob([data], { type: 'text/csv' });
+                    var csvUrl = window.URL.createObjectURL(csvData);
+
+                    // Create a temporary link element
+                    var link = document.createElement('a');
+                    link.href = csvUrl;
+                    link.setAttribute('download', 'ECS-SD_' + new Date().toISOString().slice(0, 10).replace(/:/g, '-') + '.csv');
+                    document.body.appendChild(link);
+
+                    // Trigger the download
+                    link.click();
+
+                    // Cleanup
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(csvUrl);
+
+                    toastr.success("CSV has been Regenerated!");
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    toastr.error("Failed to generate CSV!");
+                }
+            });
         }
-    });
 });
 
     

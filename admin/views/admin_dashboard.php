@@ -103,7 +103,7 @@
         </tbody>
 </table>
 </div>
-<div class="sticky-top top-0 ">
+<div class="sticky-bottom bottom-0 ">
     <span class="text-dark text-uppercase font-weight-bold">Record: </span><span class="text-dark text-uppercase font-weight-bold" id="recordCount">0</span>
     <span class="ml-5 text-dark text-uppercase font-weight-bold">Total Value: </span><span class="text-dark text-uppercase font-weight-bold" id="totalCouponValue">0</span>
 </div>
