@@ -94,7 +94,6 @@
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
 ?>
-
         <tr>
             <td><?php echo $row["coupon_code"]; ?></td>
             <td><?php echo $row["coupon_value"]; ?></td>

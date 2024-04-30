@@ -28,7 +28,6 @@
     </tr>
   </thead>
   <tbody id="manageTable">
-
   </tbody>
 </table>
 </div>

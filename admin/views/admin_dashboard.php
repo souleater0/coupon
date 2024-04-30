@@ -103,9 +103,23 @@
         </tbody>
 </table>
 </div>
+<div class="sticky-top top-0 ">
+    <span class="text-dark text-uppercase font-weight-bold">Record: </span><span class="text-dark text-uppercase font-weight-bold" id="recordCount">0</span>
+    <span class="ml-5 text-dark text-uppercase font-weight-bold">Total Value: </span><span class="text-dark text-uppercase font-weight-bold" id="totalCouponValue">0</span>
 </div>
+
 <script>
 $(document).ready(function(){
+    function calculateTotalCouponValue() {
+        var total = 0;
+        $('#tableReport tr').each(function() {
+            var couponValue = parseFloat($(this).find('td:eq(1)').text());
+            if (!isNaN(couponValue)) {
+                total += couponValue;
+            }
+        });
+        $('#totalCouponValue').text(total.toFixed(2)); // Assuming coupon value is a decimal
+    }
     toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -152,6 +166,11 @@ $(document).ready(function(){
                         toastr.success("Report Generated Successfully");
                     }
                     $('#tableReport').html(data);
+                    var tbody = document.getElementById('tableReport');
+                    var tdElements = tbody.querySelectorAll('tr');
+                    var numberOfTd = tdElements.length;
+                    $("#recordCount").text(numberOfTd);
+                    calculateTotalCouponValue();
                 }
         });
     });
