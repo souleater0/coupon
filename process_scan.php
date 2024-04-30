@@ -9,7 +9,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
         $owner_id = $_POST['id'];
         // Check if coupon exists 
         $coupon_query = "SELECT
-        a.id,
         a.staff_id,
         a.owner_name,
         a.owner_email,
@@ -112,7 +111,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                                 'message' => 'Food Stub already Claimed!',
                             );
                         }else{
-                            $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES (".$coupon_row['id'].",".$coupon_row['coupon_id'].",".$_SESSION['admin_session_id'].",'".$end_datetime_plus."', 'claimed')";
+                            $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES ('$owner_id','$coupon','".$_SESSION['admin_session_id']."','".$end_datetime_plus."', 'claimed')";
                             mysqli_query($conn, $claim_query);
                             $response = array(
                                 'success' => true,
@@ -160,7 +159,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                                         'message' => 'Food Stub already Claimed!',
                                     );
                                 }else{
-                                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES (".$coupon_row['id'].",".$coupon_row['coupon_id'].",".$_SESSION['admin_session_id'].",'".$end_datetime."', 'claimed')";
+                                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES ('$owner_id','$coupon','".$_SESSION['admin_session_id']."','".$end_datetime."', 'claimed')";
                                     mysqli_query($conn, $claim_query);
                                     $response = array(
                                         'success' => true,
@@ -172,7 +171,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                             $response = array(
                                 'success' => false,
                                 // 'message' => 'Food Stub is not yet available at this time!',
-                                // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                                'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         }
                     } else {
@@ -197,7 +196,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                                         'message' => 'Food Stub already Claimed!',
                                     );
                                 }else{
-                                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES (".$coupon_row['id'].",".$coupon_row['coupon_id'].",".$_SESSION['admin_session_id'].",'".$end_datetime_plus."', 'claimed')";
+                                    $claim_query = "INSERT INTO claims (owner_id, coupon_id,admin_id,claim_end_date,remarks) VALUES ('$owner_id','$coupon','".$_SESSION['admin_session_id']."','".$end_datetime_plus."', 'claimed')";
                                     mysqli_query($conn, $claim_query);
                                     $response = array(
                                         'success' => true,
@@ -209,7 +208,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addBarcode') {
                             $response = array(
                                 'success' => false,
                                 // 'message' => 'Food Stub is not yet available at this time!',
-                                // 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
+                                 'message' => 'Food Stub is not yet available at this time! From '.$start_time.' to '.$end_time.'.<br> Current time is '.$current_time,
                             );
                         }
                     }
