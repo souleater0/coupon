@@ -115,6 +115,10 @@
   
 <script>
   $(document).ready(function(){
+    $('#sdCode').on('input', function() {
+      // Convert the input value to uppercase
+      $(this).val($(this).val().toUpperCase());
+    });
             toastr.options = {
                 "closeButton": true,
                 "debug": false,

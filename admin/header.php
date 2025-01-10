@@ -18,6 +18,8 @@ require 'process/session_restrict.php';
         <script src="../../assetlibrary/js/all.min.js"></script>
         
         <script src="../../assets/jquery.min.js"></script>
+        <link rel="stylesheet" href="../../assets/datatables.min.css">
+        <script src="../../assets/datatables.min.js"></script>
         <script src="../../assetlibrary/js/bootstrap.min.js"></script>
     <script src="../../assetlibrary/js/main.js"></script>
     <link rel="stylesheet" href="../../assets/toastr.min.css">
@@ -70,7 +72,7 @@ require 'process/session_restrict.php';
 					<button type="button" id="sidebarCollapse" class="btn btn-primary">
 	        </button>
         </div>
-	  		<div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+	  		<div class="img bg-wrap text-center py-4">
 	  			<div class="user-logo">
 	  				<div class="img" style="background-image: url(../../assetlibrary/img/eclogo.png);"></div>
 	  				<h3>EC SOLUTIONS</h3>

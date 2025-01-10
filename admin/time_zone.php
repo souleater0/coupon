@@ -4,6 +4,8 @@ date_default_timezone_set('Asia/Manila');
 
 // Get local time, date, year, and day of the week
 $current_time = date("H:i:s"); // Time in 24-hour format
+$midnight_time = strtotime('today midnight');
+$next_midnight_time = strtotime('tomorrow midnight');
 $current_date = date("Y-m-d"); // Date in YYYY-MM-DD format
 $current_MONTH_YEAR  = date("Y-m");
 $current_datetime = date("Y-m-d H:i:s");

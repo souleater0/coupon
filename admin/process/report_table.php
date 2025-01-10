@@ -26,7 +26,9 @@
             $report = "SELECT
             b.coupon_code,
             b.coupon_value,
-            c.owner_name,
+            c.lname,
+            c.fname,
+            c.mname,
             d.department_name,
             a.claim_date,
             a.remarks,
@@ -72,7 +74,9 @@
             $report = "SELECT
             b.coupon_code,
             b.coupon_value,
-            c.owner_name,
+            c.lname,
+            c.fname,
+            c.mname,
             d.department_name,
             a.claim_date,
             a.remarks,
@@ -97,7 +101,9 @@
         <tr>
             <td><?php echo $row["coupon_code"]; ?></td>
             <td><?php echo $row["coupon_value"]; ?></td>
-            <td><?php echo $row["owner_name"]; ?></td>
+            <td><?php echo $row["lname"]; ?></td>
+            <td><?php echo $row["fname"]; ?></td>
+            <td><?php echo $row["mname"]; ?></td>
             <td><?php echo $row["department_name"]; ?></td>
             <!-- <td><?php echo $row["claim_date"]; ?></td> -->
             <td><?php echo date("F j, Y h:i A", strtotime($row["claim_date"])); ?></td>

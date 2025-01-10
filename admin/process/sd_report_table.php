@@ -36,7 +36,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                 //summary
                 if($selectedTYPE=="s_type1"){
                     $summary_sd_range = "SELECT
-                    a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name,
                     c.sd_code,
                     IFNULL( SUM( d.amount_sd ), 0 ) AS total_deducted_amount,
@@ -68,7 +70,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                     }
                     $summary_sd_range .="
                     GROUP BY
-                        a.owner_name,
                         b.department_name,
                         c.sd_code";
 
@@ -77,7 +78,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                         while($row_summary_sd_range = mysqli_fetch_assoc ($result_summary_sd_range)){
                             ?>
                             <tr>
-                            <td><?php echo $row_summary_sd_range["full_name"];?></td>
+                            <td><?php echo $row_summary_sd_range["lname"];?></td>
+                            <td><?php echo $row_summary_sd_range["fname"];?></td>
+                            <td><?php echo $row_summary_sd_range["mname"];?></td>
                             <td><?php echo $row_summary_sd_range["department_name"];?></td>
                             <td><?php echo $row_summary_sd_range["sd_code"];?></td>
                             <td><?php echo $row_summary_sd_range["total_deducted_amount"];?></td>
@@ -90,7 +93,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                 //break down
                 if($selectedTYPE=="s_type2"){
                     $breakdown_sd_range = "SELECT
-                    a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name AS department,
                     c.sd_code AS sd_code,
                     CASE
@@ -129,7 +134,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                             while($row_breakdown_range = mysqli_fetch_assoc($result_breakdown_range)){
                                 ?>
                              <tr>
-                            <td><?php echo $row_breakdown_range["full_name"];?></td>
+                            <td><?php echo $row_breakdown_range["lname"];?></td>
+                            <td><?php echo $row_breakdown_range["fname"];?></td>
+                            <td><?php echo $row_breakdown_range["mname"];?></td>
                             <td><?php echo $row_breakdown_range["department"];?></td>
                             <td><?php echo $row_breakdown_range["sd_code"];?></td>
                             <td><?php echo $row_breakdown_range["amount_sd"];?></td>
@@ -166,7 +173,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                 //summary
                 if($selectedTYPE=="s_type1"){
                     $query_summary ="SELECT
-                    a.owner_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name,
                     c.sd_code,
                     CONCAT(CASE '$selected_Month'
@@ -223,7 +232,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                     }
                     $query_summary.="
                     GROUP BY
-                        a.owner_name,
                         b.department_name,
                         c.sd_code
                     ";
@@ -233,7 +241,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                         while($row_summary = mysqli_fetch_assoc($result_summary)){
                         ?>
                          <tr>
-                        <td><?php echo $row_summary["owner_name"];?></td>
+                        <td><?php echo $row_summary["lname"];?></td>
+                        <td><?php echo $row_summary["fname"];?></td>
+                        <td><?php echo $row_summary["mname"];?></td>
                         <td><?php echo $row_summary["department_name"];?></td>
                         <td><?php echo $row_summary["sd_code"];?></td>
                         <td><?php echo $row_summary["total_deducted_amount"];?></td>
@@ -249,7 +259,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                 //break-down
                 if($selectedTYPE== "s_type2"){
                     $query_breakdown ="SELECT
-                    a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name AS department,
                     c.sd_code AS sd_code,
                     CASE
@@ -294,7 +306,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'reportGenerate'){
                     {
                     ?>
                          <tr>
-                        <td><?php echo $row_breakdown["full_name"];?></td>
+                        <td><?php echo $row_breakdown["lname"];?></td>
+                        <td><?php echo $row_breakdown["fname"];?></td>
+                        <td><?php echo $row_breakdown["mname"];?></td>
                         <td><?php echo $row_breakdown["department"];?></td>
                         <td><?php echo $row_breakdown["sd_code"];?></td>
                         <td><?php echo $row_breakdown["amount_sd"];?></td>
@@ -349,10 +363,12 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
 
                  //summary
                  if($selectedTYPE=="s_type1"){
-                    $fields = array('Full Name','Department','SD Code', 'Total Deducted','DATE');
+                    $fields = array('Last Name','First Name','Middle Name','Department','SD Code', 'Total Deducted','DATE');
                     fputcsv($f, $fields, $delimiter);
                      $summary_sd_range = "SELECT
-                     a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                      b.department_name,
                      c.sd_code,
                      IFNULL( SUM( d.amount_sd ), 0 ) AS total_deducted_amount,
@@ -384,14 +400,13 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                      }
                      $summary_sd_range .="
                      GROUP BY
-                         a.owner_name,
                          b.department_name,
                          c.sd_code";
  
                      $result_summary_sd_range = mysqli_query($conn, $summary_sd_range);
                      if($result_summary_sd_range->num_rows > 0){
                          while($row_summary_sd_range = mysqli_fetch_assoc ($result_summary_sd_range)){
-                            $lineData = array($row_summary_sd_range["full_name"],$row_summary_sd_range["department_name"],$row_summary_sd_range["sd_code"],$row_summary_sd_range["total_deducted_amount"],$row_summary_sd_range["date_created"]);
+                            $lineData = array($row_summary_sd_range["lname"],$row_summary_sd_range["fname"],$row_summary_sd_range["mname"],$row_summary_sd_range["department_name"],$row_summary_sd_range["sd_code"],$row_summary_sd_range["total_deducted_amount"],$row_summary_sd_range["date_created"]);
                             fputcsv($f, $lineData, $delimiter);
                         }
                         fseek($f,0);
@@ -405,10 +420,12 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                  }
                  //break down
                  if($selectedTYPE=="s_type2"){
-                    $fields = array('Full Name','Department','SD Code', 'SD Amount','Receipt No.','Cut-Off','Date','Clerk');
+                    $fields = array('Last Name','First Name','Middle Name','Department','SD Code', 'SD Amount','Receipt No.','Cut-Off','Date','Clerk');
                     fputcsv($f, $fields, $delimiter);
                      $breakdown_sd_range = "SELECT
-                     a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                      b.department_name AS department,
                      c.sd_code AS sd_code,
                      CASE
@@ -445,7 +462,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                          $result_breakdown_range = mysqli_query($conn,$breakdown_sd_range);
                          if($result_breakdown_range->num_rows > 0){
                              while($row_breakdown_range = mysqli_fetch_assoc($result_breakdown_range)){
-                            $lineData = array($row_breakdown_range["full_name"],$row_breakdown_range["department"],$row_breakdown_range["sd_code"],$row_breakdown_range["amount_sd"],$row_breakdown_range["receipt_no"],$row_breakdown_range["cut_off"],$row_breakdown_range["date_created"],$row_breakdown_range["clerk_name"]);
+                            $lineData = array($row_breakdown_range["lname"],$row_breakdown_range["fname"],$row_breakdown_range["mname"],$row_breakdown_range["department"],$row_breakdown_range["sd_code"],$row_breakdown_range["amount_sd"],$row_breakdown_range["receipt_no"],$row_breakdown_range["cut_off"],$row_breakdown_range["date_created"],$row_breakdown_range["clerk_name"]);
                             fputcsv($f, $lineData, $delimiter);
                             }
                             fseek($f,0);
@@ -482,10 +499,12 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                 $f = fopen('php://memory','w');
         
                 if($selectedTYPE=="s_type1"){
-                    $fields = array('Full Name','Department','SD Code', 'Total Deducted','CUT-OFF','DATE');
+                    $fields = array('Last Name','First Name','Middle Name','Department','SD Code', 'Total Deducted','CUT-OFF','DATE');
                     fputcsv($f, $fields, $delimiter);
                     $query_summary ="SELECT
-                    a.owner_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name,
                     c.sd_code,
                     CONCAT(CASE '$selected_Month'
@@ -542,7 +561,6 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                     }
                     $query_summary.="
                     GROUP BY
-                        a.owner_name,
                         b.department_name,
                         c.sd_code
                     ";
@@ -550,7 +568,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
         
                     if($result_summary->num_rows > 0){
                         while($row_summary = mysqli_fetch_assoc($result_summary)){
-                            $lineData = array($row_summary["owner_name"],$row_summary["department_name"],$row_summary["sd_code"],$row_summary["total_deducted_amount"],$row_summary["cut_off"],$row_summary["cut_off_month_year"]);
+                            $lineData = array($row_summary["lname"],$row_summary["fname"],$row_summary["mname"],$row_summary["department_name"],$row_summary["sd_code"],$row_summary["total_deducted_amount"],$row_summary["cut_off"],$row_summary["cut_off_month_year"]);
                             fputcsv($f, $lineData, $delimiter);
                         }
                         fseek($f,0);
@@ -563,10 +581,12 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                     }
                 }
                 if($selectedTYPE== "s_type2"){
-                    $fields = array('Full Name','Department','SD Code', 'SD Amount','Receipt No.','Cut-Off','Date','Clerk');
+                    $fields = array('Last Name','First Name','Middle Name','Department','SD Code', 'SD Amount','Receipt No.','Cut-Off','Date','Clerk');
                     fputcsv($f, $fields, $delimiter);
                     $query_breakdown ="SELECT
-                    a.owner_name AS full_name,
+                    a.lname,
+                    a.fname,
+                    a.mname,
                     b.department_name AS department,
                     c.sd_code AS sd_code,
                     CASE
@@ -609,7 +629,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
                 if($result_breakdown->num_rows>0){
                     while ($row_breakdown = mysqli_fetch_assoc($result_breakdown))
                     {
-                        $lineData = array($row_breakdown["full_name"],$row_breakdown["department"],$row_breakdown["sd_code"],$row_breakdown["amount_sd"],$row_breakdown["receipt_no"],$row_breakdown["cut_off"],$row_breakdown["DATE"],$row_breakdown["clerk_id"]);
+                        $lineData = array($row_breakdown["lname"],$row_breakdown["fname"],$row_breakdown["mname"],$row_breakdown["department"],$row_breakdown["sd_code"],$row_breakdown["amount_sd"],$row_breakdown["receipt_no"],$row_breakdown["cut_off"],$row_breakdown["DATE"],$row_breakdown["clerk_id"]);
                         fputcsv($f, $lineData, $delimiter);
                     }
                     fseek($f,0);

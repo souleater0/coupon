@@ -65,7 +65,15 @@
               <input type="text" class="form-control" id="in_ownerId" name="ownerId" placeholder="Ex. 1234" style="border:0.5px solid black;">
             </div>
             <div class="my-2">
-              <label for="exampleFormControlInput1" class="form-label">Full Name*</label>
+              <label for="exampleFormControlInput1" class="form-label">Last Name*</label>
+              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;" readonly>
+            </div>
+            <div class="my-2">
+              <label for="exampleFormControlInput1" class="form-label">First Name*</label>
+              <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;" readonly>
+            </div>
+            <div class="my-2">
+              <label for="exampleFormControlInput1" class="form-label">Middle Name</label>
               <input type="text" class="form-control" id="in_ownerName" name="ownerName" placeholder="Ex. Juan dela cruz"style="border:0.5px solid black;" readonly>
             </div>
             <div class="my-2">
@@ -143,6 +151,10 @@
     });
   }
   $(document).ready(function(){
+    $('#couponCode').on('input', function() {
+      // Convert the input value to uppercase
+      $(this).val($(this).val().toUpperCase());
+    });
             toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -223,6 +235,7 @@
                         }
                     }
                 });
+                console.log(formData);
             });
             $('#updateOwner').click(function(){
               var recordID = $(this).attr("update-id");

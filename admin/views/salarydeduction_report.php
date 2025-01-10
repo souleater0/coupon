@@ -131,7 +131,9 @@
 <table class="table table-hover" id="SD_Table">
         <thead id="s_type1">
             <tr> 
-            <th scope="col" class="text-uppercase">Full Name</th>
+            <th scope="col" class="text-uppercase">Last Name</th>
+            <th scope="col" class="text-uppercase">First Name</th>
+            <th scope="col" class="text-uppercase">Middle Name</th>
             <th scope="col" class="text-uppercase">Department</th>
             <th scope="col" class="text-uppercase">SD CODE</th>
             <th scope="col" class="text-uppercase">Total Deducted</th>
@@ -141,7 +143,9 @@
         </thead>
         <thead id="s_type2">
             <tr> 
-            <th scope="col" class="text-uppercase">Full Name</th>
+            <th scope="col" class="text-uppercase">Last Name</th>
+            <th scope="col" class="text-uppercase">First Name</th>
+            <th scope="col" class="text-uppercase">Middle Name</th>
             <th scope="col" class="text-uppercase">Department</th>
             <th scope="col" class="text-uppercase">SD CODE</th>
             <th scope="col" class="text-uppercase">SD Amount</th>

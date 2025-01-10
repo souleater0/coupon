@@ -91,7 +91,9 @@
             <tr> 
             <th scope="col">Coupon Code</th>
             <th scope="col">Coupon Value</th>
-            <th scope="col">Full Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Middle Name</th>
             <th scope="col">Department Name</th>
             <th scope="col">Claimed Date</th>
             <th scope="col">Remarks</th>

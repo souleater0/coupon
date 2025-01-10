@@ -27,16 +27,31 @@ if ($conn->connect_error) {
 
 if(isset($_POST['search']) && !empty($_POST['search'])){
     $searchCode = $_POST['search'];
-    $sql = "SELECT a.id, b.owner_name, d.department_name, c.coupon_code, c.coupon_value, a.claim_date,e.display_name, a.remarks
-    FROM claims a
-    INNER JOIN owners b ON b.staff_id = a.owner_id
-    INNER JOIN coupons c ON c.coupon_code = a.coupon_id
-    INNER JOIN department d ON b.owner_department = d.id
-    INNER JOIN admins e ON a.admin_id = e.id
-    WHERE DATE(a.claim_date) = '$current_date' 
-    AND c.coupon_code LIKE '%{$searchCode}%' 
-    OR DATE(a.claim_date) = '$current_date' AND b.owner_name LIKE '%{$searchCode}%'  
-    ORDER BY a.claim_date DESC";
+    $sql = "SELECT 
+    a.id, 
+    b.owner_name, 
+    d.department_name, 
+    c.coupon_code, 
+    c.coupon_value, 
+    DATE_FORMAT(a.claim_date, '%Y-%m-%d %h:%i %p') AS formatted_claim_date,
+    e.display_name, 
+    a.remarks
+	FROM 
+		claims a
+	INNER JOIN 
+		owners b ON b.staff_id = a.owner_id
+	INNER JOIN 
+		coupons c ON c.coupon_code = a.coupon_id
+	INNER JOIN 
+		department d ON b.owner_department = d.id
+	INNER JOIN 
+		admins e ON a.admin_id = e.id
+	WHERE 
+		a.claim_date BETWEEN '$start_time_formatted' AND '$end_time_formatted'
+		AND (c.coupon_code LIKE '%{$searchCode}%'
+		OR b.owner_name LIKE '%{$searchCode}%')
+	ORDER BY 
+		a.claim_date DESC";
 
     $result = $conn->query($sql);
 }else{

@@ -94,7 +94,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'addOwner') {
                     owner_department = '$departmentID',
                     from_time = '$timebaseFROM_TIME',
                     to_time = '$timebaseTO_TIME'
-                    ";
+                    WHERE staff_id = '$ownerID'";
                     mysqli_query($conn, $sql_updateOwner);
                     // INSERT COUPOn
                     $sql_coupon = "INSERT INTO coupons (coupon_code, coupon_value,owner_id) 

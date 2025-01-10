@@ -82,6 +82,10 @@
 
   <script>
 $(document).ready(function(){
+    $('#ownerName, #ownerEmail').on('input', function() {
+      // Convert the input value to uppercase
+      $(this).val($(this).val().toUpperCase());
+    });
     toastr.options = {
         "closeButton": true,
         "debug": false,

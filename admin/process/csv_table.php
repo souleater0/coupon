@@ -6,7 +6,7 @@
     $filename = "FoodStab_".$current_date.".csv";
     $delimiter = ",";
     $f = fopen('php://memory','w');
-    $fields = array('Coupon Code','Coupon Value','Full Name', 'Department Name','Claimed Date','Remarks','Clerk Name');
+    $fields = array('Coupon Code','Coupon Value','Last Name','First Name','Middle Name', 'Department Name','Claimed Date','Remarks','Clerk Name');
     fputcsv($f, $fields, $delimiter);
 
     if(!empty($_POST['action']) && $_POST['action'] == 'csvGenerate'){
@@ -33,7 +33,9 @@
             $report = "SELECT
             b.coupon_code,
             b.coupon_value,
-            c.owner_name,
+            c.lname,
+            c.fname,
+            c.mname,
             d.department_name,
             a.claim_date,
             a.remarks,
@@ -79,7 +81,9 @@
             $report = "SELECT
             b.coupon_code,
             b.coupon_value,
-            c.owner_name,
+            c.lname,
+            c.fname,
+            c.mname,
             d.department_name,
             a.claim_date,
             a.remarks,
@@ -100,7 +104,7 @@
     }
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $lineData = array($row["coupon_code"],$row["coupon_value"],$row["owner_name"],$row["department_name"],$row["claim_date"],$row["remarks"],$row["display_name"]);
+            $lineData = array($row["coupon_code"],$row["coupon_value"],$row["lname"],$row["fname"],$row["mname"],$row["department_name"],$row["claim_date"],$row["remarks"],$row["display_name"]);
             fputcsv($f, $lineData, $delimiter);
         }
         fseek($f,0);
